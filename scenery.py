@@ -24,6 +24,7 @@ Usage:
 """
 
 import argparse
+import importlib
 import json
 import math
 import os
@@ -81,6 +82,19 @@ TILE_W, TILE_H = 20, 6
 BASE_TILE_W = 10
 WALL_ROWS = 8                       # the cripta's wallHeightCells = tileCellsW * 4/10
 ART = TILE_W / float(BASE_TILE_W)   # the scale every prop box is authored against
+
+# The prop catalogue lives in two places on purpose: the routines that came first are here,
+# and the ones written later live in their own modules under props/ (interior, povoado,
+# natureza, forja). Each of those ships a NEW_PROPS table in exactly the format the loop
+# here consumes, and each borrows its drawing kit from props/kit.py so a line width keeps
+# following the tile.
+PROPS_MODULES = ("interior", "povoado", "natureza", "forja")
+
+
+def art_scale():
+    """The scale of the current build, for the prop modules: their line widths have to
+    follow the tile the same way this module's do."""
+    return ART
 
 
 def period_rows(h, n=2):
@@ -808,7 +822,13 @@ def build_set(seed):
         add(pid, label, "block", "bloco", built["rows"], TILE_W, h_cells,
             {"x": TILE_W // 2, "y": h_cells - 1}, built["levels"],
             {"tile": [TILE_W, TILE_H], "wall": WALL_ROWS, "aspect": 2.0})
-    for entry in PROPS:
+    extra = []
+    for name in PROPS_MODULES:
+        try:
+            extra.extend(importlib.import_module("props." + name).NEW_PROPS)
+        except ImportError as err:                      # a missing group is not fatal
+            print("  (grupo de props ausente: %s -- %s)" % (name, err))
+    for entry in PROPS + extra:
         (pid, label, species, box, routine, shadow_r, material, foot) = entry
         standing(pid, label, "prop", "prop", box, routine, shadow_r, material, foot,
                  scale=ART)
@@ -931,7 +951,8 @@ SCENES = {
                  [("bloco.cave", 10, j) for j in range(7)],
         "standing": [("prop.torch", 1, 4), ("prop.torch", 6, 1), ("prop.barrel", 6, 2),
                      ("prop.crate", 9, 4), ("prop.boulder", 0, 2), ("prop.reeds", 3, 0),
-                     ("prop.flowers", 1, 1), ("prop.column", 5, 5), ("prop.stump", 9, 0)],
+                     ("prop.flowers", 1, 1), ("prop.column", 5, 5), ("prop.stump", 9, 0),
+                     ("prop.well", 8, 6), ("prop.campfire", 4, 1)],
     },
     "cripta": {
         "label": "Uma cripta, à moda Diablo",
@@ -948,7 +969,8 @@ SCENES = {
                  [("bloco.brick", 8, j) for j in range(7)],
         "standing": [("prop.torch", 0, 6), ("prop.torch", 8, 2), ("prop.brazier", 6, 4),
                      ("prop.column", 1, 1), ("prop.column", 7, 0), ("prop.barrel", 5, 1),
-                     ("prop.crate", 4, 6), ("prop.bones", 0, 3),
+                     ("prop.crate", 4, 6), ("prop.bones", 0, 3), ("prop.cauldron", 6, 5),
+                     ("prop.anvil", 2, 0), ("prop.table", 8, 5),
                      ("ator.heroi", 3, 5), ("ator.esqueleto", 5, 3),
                      ("ator.esqueleto", 1, 4), ("ator.ghoul", 6, 2)],
     },

@@ -230,15 +230,25 @@ nada** para isso: o contrato dele já é o certo (ele sabe a ORDEM e o CULLING, 
 
 ## O cenário: piso, bloco, prop, ator e mancha
 
-`scenery.py` gera o outro conjunto: o que compõe ambiente, interno ou externo. Quatro slots, que são
+`scenery.py` gera o outro conjunto: o que compõe ambiente, interno ou externo. Cinco slots, que são
 exatamente os que o motor desenha — **piso** (`tile`), **bloco** (`block`, com altura), **prop** (o que
-pisa numa tile) e **mancha** (`decal`, desenhada junto com o piso e que nunca oclui). 35 peças nesta
-primeira rodada: 9 pisos, 6 blocos, 15 props, 5 manchas.
+pisa numa tile), **ator** (o que anda) e **mancha** (`decal`, desenhada junto com o piso e que nunca
+oclui). 58 peças: 9 pisos, 6 blocos, **31 props**, 3 atores e 9 manchas (7 manchas de piso e 2 discos de
+contato).
 
-A tile é **12 × 4 células** (79,4 × 44,0 px — 2:1 na tela, a proporção da isometria), então o piso de um
-ambiente se monta com nada além dele mesmo. O bloco tem a altura da parede do motor (4 células) sobre a
-face de cima. O prop ancora no pé, como uma árvore. A mancha carrega o próprio desenho (moita, musgo,
-poça, neve) e é pintada com o piso, antes de qualquer coisa pisar nele.
+Os 16 props do fim da lista (mesa, banquinho, cama, estante, poço, fogueira, placa, cerca, cacto,
+cristal, estalagmite, ossada, bigorna, caldeirão, saco, estandarte) foram escritos em módulos próprios
+sob **`props/`** — `interior.py`, `povoado.py`, `natureza.py`, `forja.py` — e cada um entrega uma tabela
+`NEW_PROPS` no formato que o laço daqui consome. Eles pegam o kit de desenho em `props/kit.py`, e não em
+`weapons.py` direto, por um motivo medido: **largura de traço está em células** e um traço desenhado para
+uma tile de 10 células fica com metade da espessura numa de 20, que é uma espessura que a média de área
+come (mato seco, juncos, tocha e escada caíram para 19–22% de tinta antes disso; 33–56% depois).
+
+A tile é **20 × 6 células** — o `tileCellsW`/`tileCellsH` da cripta —, e a altura segue a proporção
+do motor, `h = w × 3/10`, que é o que faz o losango sair 2:1 na tela. O bloco tem a altura da parede do
+motor (8 células) sobre a face de cima. O prop ancora no pé, como uma árvore. O ator também, e é
+desenhado de frente para a direita porque `facing = −1` é o espelho. A mancha carrega o próprio desenho
+(moita, musgo, poça, neve, sangue, ossos) e é pintada com o piso, antes de qualquer coisa pisar nele.
 
 ### Regras que custaram iteração (cenário)
 
@@ -278,21 +288,21 @@ poça, neve) e é pintada com o piso, antes de qualquer coisa pisar nele.
 
 | medida | resultado |
 |---|---|
-| conjunto | 41 peças (9 piso, 6 bloco, 15 prop, 3 atores, 8 manchas), semente 20261014 |
+| conjunto | 58 peças (9 piso, 6 bloco, 31 prop, 3 atores, 9 manchas), semente 20261014 |
 | resolução | **20 × 6 células com parede de 8** — o `tileCellsW: 20 / tileCellsH: 6 / wallHeightCells: 8` da cripta |
 | determinismo | duas corridas frescas → **bytes idênticos** |
 | emenda do piso | deslocar o piso composto de uma tile muda **0 de 270** células no pior piso |
 | piso na rampa | nenhum glifo acima de 55% da rampa em 9/9 pisos |
 | bloco | losango da face de cima com a largura máxima no meio e paredes de largura constante, 6/6; altura 20×**14** = tile (6) + parede (8) |
-| pé | âncora tinta e centrada em **18/18** props e atores; tinta entre 19,5% e 85% |
+| pé | âncora tinta e centrada em **34/34** props e atores; tinta entre 19,5% e 85% |
 | ator | herói com **12 linhas de tinta** (o `A(6)` da cripta com `A()=2`); 3 atores com `facing ±1` declarado |
 | sombra | todos os discos resolvem: emprestados do conjunto das árvores ou **feitos aqui** (o raio da base dobrada passa do maior disco das árvores) |
 | disco próprio | o único disco novo confere em 2:1 e com o centro na âncora |
 | mancha | 7 manchas de piso na grade da tile; sangue é respingo, ossos são ossos — a primeira versão desenhou os dois como mancha e o banco acusou **arte repetida** |
-| arte repetida | 41 peças distintas |
+| arte repetida | 58 peças distintas |
 | composição | duas cenas (externa 180×71, cripta 160×76, 85% e 76% de tinta), sem borda rasgada, e **toda âncora de prop/ator confere** (o que ficou coberto, ficou por peça desenhada depois) |
-| banco | ingest ok, 41/41 no índice, slots certos com `ator`, `bank.py check` passa |
-| página | arquivo único, 712 KB, **sem `<script>`**, 11 quadros, sem overflow a 1440×900 e 390×844 |
+| banco | ingest ok, 58/58 no índice, slots certos com `ator`, `bank.py check` passa |
+| página | arquivo único, 796 KB, **sem `<script>`**, 11 quadros, sem overflow a 1440×900 e 390×844 |
 
 ## A peça (contrato)
 

@@ -75,6 +75,29 @@ TAG_RULES = {
     "chest": ["armadura", "torso"],
     "breastplate": ["armadura", "torso"],
     "ring": ["adorno", "dedo"],
+    # scenery: the props that arrived in their own modules, so another game can ask
+    # for "a working anvil" and not for "a prop"
+    "table": ["movel", "madeira"],
+    "stool": ["movel", "madeira"],
+    "bed": ["movel", "madeira"],
+    "shelf": ["movel", "madeira"],
+    "well": ["construcao", "pedra"],
+    "campfire": ["fogueira", "luz"],
+    "signpost": ["construcao", "madeira"],
+    "fence": ["construcao", "madeira"],
+    "cactus": ["planta", "deserto"],
+    "crystal": ["mineral", "brilho"],
+    "stalagmite": ["caverna", "pedra"],
+    "bones": ["ossada", "cripta"],
+    "anvil": ["forja", "ferro"],
+    "cauldron": ["forja", "ferro"],
+    "sack": ["volume", "pano"],
+    "banner": ["estandarte", "pano"],
+    # scenery: the actors
+    "hero": ["ator", "jogador"],
+    "skeleton": ["ator", "morto"],
+    "ghoul": ["ator", "morto"],
+    "sombra": ["contato", "disco"],
 }
 
 SLOT_OF_KIND = {"prop": "prop", "decal": "mancha", "tile": "piso", "block": "bloco",
