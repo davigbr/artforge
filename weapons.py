@@ -59,9 +59,12 @@ SS = af.SS
 UX, UY = af.UX, af.UY
 RAMP = af.RAMP
 
-# One inventory slot, in cells. 5 x 6.62 = 33.1 px and 3 x 11 = 33 px: the slot is
-# SQUARE on screen, which is what makes a footprint read as a footprint.
-SLOT_COLS, SLOT_ROWS = 5, 3
+# No slot grid: this set is not an inventory of square slots any more, so there is no
+# footprint for the small size to answer to -- the box is chosen for LEGIBILITY. It
+# has to hold the feature that makes the item that item (a sword its crossguard, a
+# helm its vision slit), and that is what fixed the two pieces the slot used to
+# squeeze: the small sword, which read as "some bladed weapon", and the small helm,
+# which arrived as a solid block.
 
 # 1x / 1.5x / 2x: the ends are exactly a factor of two apart, so shrink(large, 2)
 # lands on the small grid and the two can be compared cell by cell.
@@ -114,6 +117,7 @@ MAT = {
     "gold": pal(metal=(214, 176, 92), metal_light=(248, 224, 150), metal_dark=(126, 98, 40)),
     "wood": pal(metal=(112, 78, 46), metal_light=(154, 114, 66), metal_dark=(60, 40, 24)),
     "leather": pal(metal=(104, 72, 48), metal_light=(146, 106, 66), metal_dark=(56, 38, 26)),
+    "cloth": pal(metal=(74, 84, 132), metal_light=(118, 130, 186), metal_dark=(38, 44, 76)),
 }
 
 
@@ -350,47 +354,130 @@ def w_staff(d, w, h, detail, wood, metal, gem):
                   head_y - orb_r * 1.7, metal["metal_light"], 1.0)
 
 
-def w_shield(d, w, h, detail, body, metal, boss, emblem=None):
-    """A shield is a wide silhouette, so its small size is the easiest of the set --
-    but only if the box is a little larger than the shield: filling the box edge to
-    edge turns it into a solid rectangle with no shape to read."""
+def w_shield(d, w, h, detail, style, body, metal, boss, emblem=None):
+    """A shield reads by its OUTLINE, so the shape is the style: round, kite (the
+    teardrop) and tower (a tall rectangle with a curved top)."""
     cx = w / 2.0
     top, bot = 1.0, h - 1.0
     half = w * 0.40
-    cpoly(d, [(cx - half, top), (cx + half, top), (cx + half, bot - h * 0.16),
-              (cx, bot), (cx - half, bot - h * 0.16)], body["metal"])
-    cpoly(d, [(cx - half * 0.92, top + 0.5), (cx + half * 0.92, top + 0.5),
-              (cx + half * 0.92, bot - h * 0.20), (cx, bot - 1.0),
-              (cx - half * 0.92, bot - h * 0.20)], body["metal_light"])
-    cpoly(d, [(cx + half * 0.45, top + 0.5), (cx + half * 0.92, top + 0.5),
-              (cx + half * 0.92, bot - h * 0.20), (cx, bot - 1.0),
-              (cx + half * 0.10, bot - 0.6)], body["metal_dark"])
+
+    if style == "round":
+        cy = (top + bot) / 2.0
+        ry = min((bot - top) / 2.0, half * 0.95)
+        cellipse(d, cx, cy, half, ry, body["metal"])
+        cellipse(d, cx - half * 0.20, cy - ry * 0.20, half * 0.66, ry * 0.66, body["metal_light"])
+        cellipse(d, cx + half * 0.34, cy + ry * 0.30, half * 0.52, ry * 0.52, body["metal_dark"])
+        cellipse(d, cx, cy, half * 0.30, ry * 0.34, boss["metal"])
+        cellipse(d, cx - half * 0.08, cy - ry * 0.10, half * 0.13, ry * 0.15,
+                 shade(boss["metal"], 1.35))
+        if detail:
+            for k in range(8):
+                a = math.radians(k * 45)
+                cellipse(d, cx + math.cos(a) * half * 0.84, cy + math.sin(a) * ry * 0.84,
+                         0.5, 0.5, metal["metal"])
+        return
+
+    if style == "tower":
+        cpoly(d, [(cx - half, top + h * 0.10), (cx - half * 0.62, top), (cx + half * 0.62, top),
+                  (cx + half, top + h * 0.10), (cx + half, bot - 1.4), (cx, bot),
+                  (cx - half, bot - 1.4)], body["metal"])
+        cpoly(d, [(cx - half * 0.84, top + h * 0.16), (cx - half * 0.52, top + 0.8),
+                  (cx - half * 0.16, bot - 1.6), (cx - half * 0.74, bot - 1.4)],
+              body["metal_light"])
+        cpoly(d, [(cx + half * 0.30, top + 0.8), (cx + half * 0.84, top + h * 0.16),
+                  (cx + half * 0.84, bot - 1.5), (cx + half * 0.34, bot - 0.9)],
+              body["metal_dark"])
+        boss_y = top + h * 0.42
+    else:
+        cpoly(d, [(cx - half, top), (cx + half, top), (cx + half, bot - h * 0.22),
+                  (cx, bot), (cx - half, bot - h * 0.22)], body["metal"])
+        cpoly(d, [(cx - half * 0.90, top + 0.6), (cx + half * 0.90, top + 0.6),
+                  (cx + half * 0.90, bot - h * 0.26), (cx, bot - 1.2),
+                  (cx - half * 0.90, bot - h * 0.26)], body["metal_light"])
+        cpoly(d, [(cx + half * 0.44, top + 0.6), (cx + half * 0.90, top + 0.6),
+                  (cx + half * 0.90, bot - h * 0.26), (cx, bot - 1.2),
+                  (cx + half * 0.10, bot - 0.8)], body["metal_dark"])
+        boss_y = top + h * 0.34
+
     crect(d, cx - half, top, cx + half, top + 1.0, metal["metal"])
     crect(d, cx - half, top, cx + half, top + 0.4, metal["metal_light"])
     if emblem:
-        crect(d, cx - 0.5, top + 1.4, cx + 0.5, bot - 1.6, emblem["metal"])
-        crect(d, cx - half * 0.5, top + h * 0.30, cx + half * 0.5, top + h * 0.30 + 1.0,
-              emblem["metal"])
-    cellipse(d, cx, top + h * 0.34, max(0.8, w * 0.13), max(0.7, h * 0.09), boss["metal"])
-    cellipse(d, cx - w * 0.05, top + h * 0.30, max(0.4, w * 0.05), max(0.35, h * 0.04),
+        crect(d, cx - 0.5, top + 1.2, cx + 0.5, boss_y - 0.4, emblem["metal"])
+        crect(d, cx - half * 0.5, boss_y + 0.9, cx + half * 0.5, boss_y + 1.9, emblem["metal"])
+    cellipse(d, cx, boss_y, max(0.8, w * 0.13), max(0.7, h * 0.08), boss["metal"])
+    cellipse(d, cx - w * 0.05, boss_y - h * 0.03, max(0.4, w * 0.05), max(0.35, h * 0.04),
              shade(boss["metal"], 1.35))
     if detail:
         for i in (-1, 1):
             for j in range(3):
-                y = top + 1.6 + j * (h - 3.0) / 2.4
-                cellipse(d, cx + i * half * 0.78, y, 0.6, 0.7, metal["metal"])
-        cline(d, cx - half, bot - h * 0.14, cx, bot, metal["metal_dark"], 1.0)
-        cline(d, cx + half, bot - h * 0.14, cx, bot, metal["metal_dark"], 1.0)
+                y = top + 2.0 + j * (h - 4.5) / 2.4
+                cellipse(d, cx + i * half * 0.76, y, 0.6, 0.7, metal["metal"])
+        cline(d, cx - half, bot - h * 0.20, cx, bot, metal["metal_dark"], 1.0)
+        cline(d, cx + half, bot - h * 0.20, cx, bot, metal["metal_dark"], 1.0)
 
 
-def w_helm(d, w, h, detail, metal, leather, fitting):
-    """A dome with a visor slit: the slit is what makes it a helm and not a rock.
-    A little margin in the box, or the helm arrives as a solid block (measured at 91%
-    ink before the margin -- no silhouette left to read)."""
+def w_helm(d, w, h, detail, style, metal, leather, fitting, gem=None):
+    """Six helms, one routine: cap (leather), iron (dome + nasal), great (a closed
+    barrel with a full slit), horned, hood (cloth) and crown.
+
+    The rule from the slot era outlives the slot: a helm needs room for the BREAK --
+    the vision slit is what makes it a helm and not a rock. With the footprint gone
+    the small box is chosen for legibility instead, which is what fixes the helmet
+    that used to arrive as a solid block.
+    """
     cx = w / 2.0
     half = w * 0.40
-    top = 1.0
-    bot = h - 1.2
+    top, bot = 1.0, h - 1.2
+
+    if style == "crown":
+        band = h * 0.44
+        crect(d, cx - half, band, cx + half, bot, metal["metal"])
+        crect(d, cx - half, band, cx + half, band + 0.8, metal["metal_light"])
+        crect(d, cx - half, bot - 1.0, cx + half, bot, fitting["metal"])
+        count = 3 if w < 14 else 5
+        for k in range(count):
+            x = cx - half * 0.74 + k * (half * 1.48 / (count - 1))
+            cpoly(d, [(x - 0.7, band), (x + 0.7, band), (x, band - h * 0.26)], metal["metal"])
+            cpoly(d, [(x - 0.4, band - 0.1), (x + 0.4, band - 0.1), (x, band - h * 0.18)],
+                  metal["metal_light"])
+            if gem:
+                cellipse(d, x, band + 0.5, 0.5, 0.5, gem["metal"])
+        return
+
+    if style == "hood":
+        cpoly(d, [(cx, top), (cx + half * 0.62, top + h * 0.26), (cx + half * 0.92, h * 0.60),
+                  (cx + half * 1.0, bot), (cx - half * 1.0, bot), (cx - half * 0.92, h * 0.60),
+                  (cx - half * 0.62, top + h * 0.26)], metal["metal"])
+        cpoly(d, [(cx, top + 0.7), (cx + half * 0.46, top + h * 0.28),
+                  (cx + half * 0.64, h * 0.58), (cx, h * 0.64), (cx - half * 0.64, h * 0.58),
+                  (cx - half * 0.46, top + h * 0.28)], metal["metal_light"])
+        cpoly(d, [(cx + half * 0.26, top + h * 0.30), (cx + half * 0.80, h * 0.56),
+                  (cx + half * 0.90, bot), (cx + half * 0.30, bot)], metal["metal_dark"])
+        cellipse(d, cx, h * 0.50, half * 0.42, h * 0.15, shade(metal["metal_dark"], 0.35))
+        if detail:
+            cline(d, cx - half * 0.84, h * 0.72, cx + half * 0.84, h * 0.72,
+                  fitting["metal"], 1.0)
+        return
+
+    if style == "great":
+        dome_top = top + 0.4
+        cpoly(d, [(cx - half * 0.92, dome_top + h * 0.06), (cx - half * 0.60, dome_top),
+                  (cx + half * 0.60, dome_top), (cx + half * 0.92, dome_top + h * 0.06),
+                  (cx + half, h * 0.70), (cx + half * 0.78, bot), (cx - half * 0.78, bot),
+                  (cx - half, h * 0.70)], metal["metal"])
+        crect(d, cx - half * 0.86, dome_top + h * 0.06, cx + half * 0.86,
+              dome_top + h * 0.06 + 0.9, metal["metal_light"])
+        crect(d, cx - 0.6, dome_top, cx + 0.6, bot - 0.2, metal["metal_light"])      # the ridge
+        slit = shade(metal["metal_dark"], 0.42)
+        crect(d, cx - half * 0.84, h * 0.44, cx + half * 0.84, h * 0.44 + 1.4, slit)
+        crect(d, cx - 0.7, h * 0.52, cx + 0.7, bot - 0.5, shade(metal["metal_dark"], 0.5))
+        if detail:
+            for k in range(3):
+                cline(d, cx - half * 0.5, h * 0.64 + k * 0.9, cx + half * 0.5,
+                      h * 0.64 + k * 0.9, metal["metal_dark"], 0.9)
+            crect(d, cx - half, h * 0.22, cx + half, h * 0.22 + 0.8, fitting["metal"])
+        return
+
     dome_bot = h * 0.56
     cpoly(d, [(cx - half, dome_bot), (cx - half, dome_bot - h * 0.16),
               (cx - half * 0.5, top + 0.3), (cx, top), (cx + half * 0.5, top + 0.3),
@@ -400,13 +487,35 @@ def w_helm(d, w, h, detail, metal, leather, fitting):
     cpoly(d, [(cx + half * 0.30, top + 0.9), (cx + half * 0.86, top + 1.6),
               (cx + half * 0.86, dome_bot - h * 0.02), (cx + half * 0.30, dome_bot - h * 0.02)],
           metal["metal_dark"])
-    # cheeks and the visor slit
+
+    if style == "cap":
+        crect(d, cx - half, dome_bot - 0.9, cx + half, dome_bot + 0.3, metal["metal_dark"])
+        crect(d, cx - half, dome_bot - 0.9, cx + half, dome_bot - 0.3, metal["metal_light"])
+        for i in (-1, 1):
+            crect(d, cx + i * half * 0.74, dome_bot, cx + i * half * 0.94, bot,
+                  leather["metal"])
+        if detail:
+            crect(d, cx - half, top + h * 0.16, cx + half, top + h * 0.16 + 0.9,
+                  fitting["metal"])
+        return
+
+    if style == "horned":
+        for i in (-1, 1):
+            bx = cx + i * half * 0.76
+            by = dome_bot - h * 0.16
+            cpoly(d, [(bx, by + 1.2), (bx + i * half * 0.34, by - h * 0.06),
+                      (bx + i * half * 0.66, by - h * 0.34), (bx + i * half * 0.44, by - h * 0.30),
+                      (bx + i * half * 0.16, by - h * 0.04), (bx, by - 0.3)],
+                  fitting["metal_light"])
+            cpoly(d, [(bx, by + 1.2), (bx + i * half * 0.20, by - h * 0.02),
+                      (bx + i * half * 0.40, by - h * 0.20), (bx, by - 0.3)],
+                  fitting["metal_dark"])
+
+    # cheeks and the vision slit -- the slit is the BREAK, the dark line the eye needs
     cpoly(d, [(cx - half, dome_bot), (cx + half, dome_bot), (cx + half * 0.86, bot),
               (cx - half * 0.86, bot)], metal["metal_dark"])
-    crect(d, cx - half * 0.70, dome_bot + 0.4, cx + half * 0.70, dome_bot + 1.5,
-          leather["metal_dark"])
-    crect(d, cx - half * 0.62, dome_bot + 0.5, cx + half * 0.62, dome_bot + 1.0,
-          shade(leather["metal"], 0.5))
+    crect(d, cx - half * 0.70, dome_bot + 0.2, cx + half * 0.70, dome_bot + 1.8,
+          shade(metal["metal_dark"], 0.42))
     crect(d, cx - 0.7, dome_bot - h * 0.20, cx + 0.7, bot - 0.1, metal["metal_dark"])   # nasal
     crect(d, cx - 0.4, dome_bot - h * 0.20, cx + 0.4, bot - 0.1, metal["metal"])
     if detail:
@@ -414,13 +523,35 @@ def w_helm(d, w, h, detail, metal, leather, fitting):
         cline(d, cx - half * 0.9, bot - 0.6, cx + half * 0.9, bot - 0.6, fitting["metal"], 1.0)
 
 
-def w_armor(d, w, h, detail, metal, leather, fitting):
-    """A breastplate with pauldrons. The widest silhouette of the set, which is why
-    the small size survives better than the sword's."""
+def w_armor(d, w, h, detail, style, metal, leather, fitting, gem=None):
+    """Six chests, one routine. The trade is the surface: leather lacing, chain rings,
+    plate (a sternum ridge and two round bosses), scale rows, a cloth robe with a
+    collar and a sash, and a gilded plate with trim and a gem."""
     cx = w / 2.0
-    half = w / 2 - 0.3
-    top = 0.8
-    waist = h * 0.74
+    half = w * 0.44
+    top, waist = 0.8, h * 0.74
+
+    if style == "robe":
+        cpoly(d, [(cx - half * 0.52, top + h * 0.06), (cx - half * 0.16, top),
+                  (cx + half * 0.16, top), (cx + half * 0.52, top + h * 0.06),
+                  (cx + half * 1.00, h - 0.9), (cx + half * 0.92, h - 0.4),
+                  (cx - half * 0.92, h - 0.4), (cx - half * 1.00, h - 0.9)], metal["metal"])
+        cpoly(d, [(cx - half * 0.42, top + h * 0.10), (cx - half * 0.06, top + h * 0.04),
+                  (cx - half * 0.30, h - 0.7), (cx - half * 0.72, h - 0.7)],
+              metal["metal_light"])
+        cpoly(d, [(cx + half * 0.20, top + h * 0.04), (cx + half * 0.46, top + h * 0.10),
+                  (cx + half * 0.86, h - 0.7), (cx + half * 0.40, h - 0.7)],
+              metal["metal_dark"])
+        crect(d, cx - half * 0.34, top, cx + half * 0.34, top + 1.0, fitting["metal"])
+        crect(d, cx - half * 0.70, waist, cx + half * 0.70, waist + 1.1, fitting["metal"])
+        crect(d, cx - half * 0.70, waist, cx + half * 0.70, waist + 0.4,
+              fitting["metal_light"])
+        if detail:
+            for k in range(3):
+                cline(d, cx - half * 0.60, h - 1.6 - k * 1.1, cx + half * 0.60,
+                      h - 1.6 - k * 1.1, metal["metal_dark"], 0.9)
+        return
+
     cpoly(d, [(cx - half * 0.92, top + h * 0.10), (cx - half * 0.30, top),
               (cx + half * 0.30, top), (cx + half * 0.92, top + h * 0.10),
               (cx + half * 0.62, waist), (cx + half * 0.34, h - 0.6),
@@ -431,23 +562,82 @@ def w_armor(d, w, h, detail, metal, leather, fitting):
     cpoly(d, [(cx + half * 0.30, top + h * 0.04), (cx + half * 0.86, top + h * 0.14),
               (cx + half * 0.56, waist), (cx + half * 0.30, h - 0.8),
               (cx + half * 0.16, waist - 0.8)], metal["metal_dark"])
-    # pauldrons
+
+    if style == "chain":
+        step = max(1.0, w * 0.11)
+        y, row = top + h * 0.20, 0
+        while y < waist + 0.4:
+            x = cx - half * 0.60 + (step * 0.5 if row % 2 else 0.0)
+            while x < cx + half * 0.60:
+                cellipse(d, x, y, step * 0.36, step * 0.30, metal["metal_dark"])
+                cellipse(d, x, y, step * 0.20, step * 0.17, metal["metal_light"])
+                x += step
+            y += step * 0.82
+            row += 1
+    elif style == "scale":
+        step = max(1.1, w * 0.14)
+        y, row = top + h * 0.18, 0
+        while y < waist + 0.3:
+            x = cx - half * 0.66 + (step * 0.5 if row % 2 else 0.0)
+            while x < cx + half * 0.66:
+                cpoly(d, [(x - step * 0.50, y), (x + step * 0.50, y), (x, y + step * 0.66)],
+                      metal["metal_dark"])
+                cpoly(d, [(x - step * 0.38, y + 0.25), (x + step * 0.38, y + 0.25),
+                          (x, y + step * 0.50)], metal["metal_light"])
+                x += step
+            y += step * 0.58
+            row += 1
+    elif style in ("plate", "gilded"):
+        crect(d, cx - half * 0.30, top + h * 0.26, cx + half * 0.30, waist - 1.0,
+              metal["metal_dark"])
+        crect(d, cx - half * 0.24, top + h * 0.28, cx + half * 0.24, waist - 1.2,
+              metal["metal"])
+        for i in (-1, 1):
+            cellipse(d, cx + i * half * 0.60, top + h * 0.48, half * 0.28, h * 0.15,
+                     metal["metal"])
+            cellipse(d, cx + i * half * 0.60, top + h * 0.44, half * 0.22, h * 0.09,
+                     metal["metal_light"])
+        if style == "gilded":
+            # The gilded plate has to differ from the plain one at EVERY size -- if the
+            # gold only appears on the large, the two are the same art small and the
+            # bank's hash check calls that a duplicate (it did).
+            for i in (-1, 1):
+                crect(d, cx + i * half * 0.30, top + h * 0.22, cx + i * half * 0.88,
+                      waist - 1.2, fitting["metal"])
+                crect(d, cx + i * half * 0.30, top + h * 0.22, cx + i * half * 0.60,
+                      waist - 1.2, fitting["metal_light"])
+            cellipse(d, cx, top + h * 0.30, max(0.6, w * 0.08), max(0.5, h * 0.05),
+                     gem["metal"] if gem else fitting["metal"])
+    elif style == "leather":
+        crect(d, cx - 0.6, top + h * 0.10, cx + 0.6, h - 0.9, leather["metal_dark"])
+        for k in range(4 if detail else 3):
+            y = top + h * (0.20 + 0.16 * k)
+            cline(d, cx - 0.6, y, cx + 0.6, y + 0.7, leather["metal_light"], 1.0)
+        for i in (-1, 1):
+            cline(d, cx + i * half * 0.34, top + h * 0.10, cx + i * half * 0.60, waist,
+                  leather["metal_dark"], 1.0)
+
     for side in (-1, 1):
         cellipse(d, cx + side * half * 0.86, top + h * 0.10, half * 0.22, h * 0.11,
                  metal["metal"])
         cellipse(d, cx + side * half * 0.86, top + h * 0.06, half * 0.16, h * 0.06,
                  metal["metal_light"])
-    crect(d, cx - half * 0.30, top + h * 0.26, cx + half * 0.30, waist - 1.0,
-          metal["metal_dark"])
-    crect(d, cx - half * 0.24, top + h * 0.28, cx + half * 0.24, waist - 1.2, metal["metal"])
     crect(d, cx - half * 0.70, waist - 0.8, cx + half * 0.70, h - 0.8, leather["metal"])
-    crect(d, cx - half * 0.70, waist - 0.8, cx + half * 0.70, waist - 0.2, leather["metal_light"])
+    crect(d, cx - half * 0.70, waist - 0.8, cx + half * 0.70, waist - 0.2,
+          leather["metal_light"])
     if detail:
-        for i in range(3):
-            y = top + h * (0.40 + 0.12 * i)
-            crect(d, cx - half * 0.34, y, cx + half * 0.34, y + 0.7, fitting["metal"])
+        if style in ("plate", "gilded", "leather"):
+            for i in range(3):
+                y = top + h * (0.40 + 0.12 * i)
+                crect(d, cx - half * 0.34, y, cx + half * 0.34, y + 0.7, fitting["metal"])
         cellipse(d, cx, top + h * 0.30, 0.7, 0.7, fitting["metal"])
-        cellipse(d, cx + half * 0.86, top + h * 0.10, half * 0.08, h * 0.04, fitting["metal"])
+        if style == "gilded":
+            for k in range(3):
+                y = top + h * (0.30 + 0.14 * k)
+                crect(d, cx + half * 0.30, y, cx + half * 0.88, y + 1.0, fitting["metal"])
+                crect(d, cx - half * 0.88, y, cx - half * 0.30, y + 1.0, fitting["metal"])
+            if gem:
+                cellipse(d, cx, top + h * 0.44, 0.9, 0.9, gem["metal"])
 
 
 def w_ring(d, w, h, detail, metal, gem):
@@ -469,41 +659,67 @@ def w_ring(d, w, h, detail, metal, gem):
 
 
 # --- the set --------------------------------------------------------------------
-# id, label, category, footprint in slots, small box in cells, routine, materials
-# The small box FITS THE FOOTPRINT: a slot is 5x3 cells, so a 1x3 item gets at most
-# 5x9 cells. The footprint answers the game, and the resolution answers the footprint.
+# id, label, category, style, small box in cells, routine, materials
 ITEMS = [
-    ("weapon.dagger", "Adaga", "weapon", (1, 2), (4, 5), w_blade,
+    ("weapon.dagger", "Adaga", "weapon", None, (5, 7), w_blade,
      dict(metal="steel", fitting="gold", grip="leather", kind="dagger")),
-    ("weapon.sword.short", "Espada curta", "weapon", (1, 3), (4, 8), w_blade,
+    ("weapon.sword.short", "Espada curta", "weapon", None, (6, 11), w_blade,
      dict(metal="steel", fitting="steel", grip="leather", kind="sword")),
-    ("weapon.sword.long", "Espada longa", "weapon", (1, 3), (4, 9), w_blade,
+    ("weapon.sword.long", "Espada longa", "weapon", None, (6, 13), w_blade,
      dict(metal="steel", fitting="gold", grip="leather", kind="sword")),
-    ("weapon.sword.great", "Montante", "weapon", (2, 4), (9, 11), w_blade,
+    ("weapon.sword.great", "Montante", "weapon", None, (8, 15), w_blade,
      dict(metal="steel", fitting="gold", grip="leather", kind="great")),
-    ("weapon.mace", "Maça", "weapon", (1, 3), (5, 9), w_mace,
+    ("weapon.mace", "Maça", "weapon", None, (6, 11), w_mace,
      dict(metal="iron", haft="wood", fitting="iron")),
-    ("weapon.warhammer", "Marreta", "weapon", (2, 3), (9, 8), w_hammer,
+    ("weapon.warhammer", "Marreta", "weapon", None, (8, 10), w_hammer,
      dict(metal="steel", haft="wood", fitting="iron")),
-    ("weapon.axe", "Machado", "weapon", (2, 3), (9, 8), w_axe,
+    ("weapon.axe", "Machado", "weapon", None, (8, 10), w_axe,
      dict(metal="steel", haft="wood", fitting="iron")),
-    ("weapon.battleaxe", "Machado de guerra", "weapon", (2, 4), (9, 11), w_axe,
+    ("weapon.battleaxe", "Machado de guerra", "weapon", None, (9, 13), w_axe,
      dict(metal="steel", haft="wood", fitting="gold", double=True)),
-    ("weapon.spear", "Lança", "weapon", (1, 4), (4, 11), w_polearm,
+    ("weapon.spear", "Lança", "weapon", None, (5, 13), w_polearm,
      dict(metal="steel", haft="wood", fitting="iron")),
-    ("weapon.halberd", "Alabarda", "weapon", (1, 4), (5, 11), w_polearm,
+    ("weapon.halberd", "Alabarda", "weapon", None, (6, 14), w_polearm,
      dict(metal="steel", haft="wood", fitting="gold", halberd=True)),
-    ("weapon.bow", "Arco", "weapon", (2, 4), (9, 11), w_bow,
+    ("weapon.bow", "Arco", "weapon", None, (9, 13), w_bow,
      dict(wood="wood", string="leather", fitting="iron")),
-    ("weapon.staff", "Cajado", "weapon", (1, 4), (5, 11), w_staff,
+    ("weapon.staff", "Cajado", "weapon", None, (6, 14), w_staff,
      dict(wood="wood", metal="gold", gem_color=(92, 96, 214))),
-    ("armor.shield", "Escudo", "armor", (2, 2), (9, 5), w_shield,
+    # six helms, one routine -- the style is the silhouette, and each has to survive
+    # in its own small box
+    ("armor.helm.cap", "Barrete de couro", "armor", "cap", (9, 7), w_helm,
+     dict(metal="leather", leather="leather", fitting="iron")),
+    ("armor.helm.iron", "Elmo de ferro", "armor", "iron", (9, 8), w_helm,
+     dict(metal="iron", leather="leather", fitting="iron")),
+    ("armor.helm.great", "Elmo fechado", "armor", "great", (9, 9), w_helm,
+     dict(metal="steel", leather="leather", fitting="gold")),
+    ("armor.helm.horned", "Elmo com chifres", "armor", "horned", (10, 8), w_helm,
+     dict(metal="bronze", leather="leather", fitting="gold")),
+    ("armor.helm.hood", "Capuz", "armor", "hood", (9, 9), w_helm,
+     dict(metal="cloth", leather="cloth", fitting="gold")),
+    ("armor.helm.crown", "Coroa", "armor", "crown", (9, 7), w_helm,
+     dict(metal="gold", leather="leather", fitting="gold", gem_color=(180, 40, 48))),
+    # six chests
+    ("armor.chest.leather", "Gibão de couro", "armor", "leather", (10, 10), w_armor,
+     dict(metal="leather", leather="leather", fitting="iron")),
+    ("armor.chest.chain", "Cota de malha", "armor", "chain", (10, 10), w_armor,
+     dict(metal="iron", leather="leather", fitting="iron")),
+    ("armor.chest.plate", "Peitoral de placas", "armor", "plate", (10, 10), w_armor,
+     dict(metal="steel", leather="leather", fitting="gold")),
+    ("armor.chest.scale", "Armadura de escamas", "armor", "scale", (10, 10), w_armor,
+     dict(metal="bronze", leather="leather", fitting="gold")),
+    ("armor.chest.robe", "Túnica", "armor", "robe", (10, 11), w_armor,
+     dict(metal="cloth", leather="cloth", fitting="gold")),
+    ("armor.chest.gilded", "Peitoral dourado", "armor", "gilded", (10, 10), w_armor,
+     dict(metal="steel", leather="leather", fitting="gold", gem_color=(180, 40, 48))),
+    # three shield shapes
+    ("armor.shield.round", "Escudo redondo", "armor", "round", (9, 9), w_shield,
      dict(body="wood", metal="iron", boss="gold", emblem_color=(150, 44, 44))),
-    ("armor.helm", "Elmo", "armor", (2, 2), (9, 6), w_helm,
-     dict(metal="steel", leather="leather", fitting="gold")),
-    ("armor.breastplate", "Peitoral", "armor", (2, 3), (9, 8), w_armor,
-     dict(metal="steel", leather="leather", fitting="gold")),
-    ("jewelry.ring", "Anel", "jewelry", (1, 1), (4, 3), w_ring,
+    ("armor.shield.kite", "Escudo em gota", "armor", "kite", (9, 11), w_shield,
+     dict(body="wood", metal="iron", boss="gold", emblem_color=(150, 44, 44))),
+    ("armor.shield.tower", "Escudo torre", "armor", "tower", (8, 12), w_shield,
+     dict(body="wood", metal="iron", boss="steel", emblem_color=(60, 90, 150))),
+    ("jewelry.ring", "Anel", "jewelry", None, (5, 5), w_ring,
      dict(metal="gold", gem_color=(180, 40, 48))),
 ]
 
@@ -516,13 +732,15 @@ def tone(c):
 
 
 def build_item(item, size_id, scale, seed):
-    (item_id, label, category, footprint, box, routine, mats) = item
+    (item_id, label, category, style, box, routine, mats) = item
     w = max(4, int(round(box[0] * scale)))
     h = max(3, int(round(box[1] * scale)))
     detail = size_id == "large" or (size_id == "medium" and scale >= 1.5)
     img = Image.new("RGB", (int(round(w * UX)), int(round(h * UY))), (0, 0, 0))
     d = ImageDraw.Draw(img)
     kw = {}
+    if style:
+        kw["style"] = style
     for key, value in mats.items():
         if key.endswith("_color"):
             kw[key[:-6]] = tone(value)             # a raw colour becomes a 3-shade material
@@ -580,13 +798,17 @@ def to_cells(img, w, h):
     # An item has no ground to stand on: it is centred on its anchor, so shift the
     # sampled grid until the ink's bounding box sits in the middle of the box. Done
     # AFTER sampling on purpose -- the box stays exactly the declared resolution.
-    cols = [x for x in range(w) if any(rows[y]["g"][x] != " " for y in range(h))]
-    rws = [y for y in range(h) if any(g != " " for g in rows[y]["g"])]
-    if cols and rws:
+    # Two passes: the shift is whole cells, and one pass can still land a cell off.
+    for _ in range(2):
+        cols = [x for x in range(w) if any(rows[y]["g"][x] != " " for y in range(h))]
+        rws = [y for y in range(h) if any(g != " " for g in rows[y]["g"])]
+        if not cols or not rws:
+            break
         dx = w // 2 - (min(cols) + max(cols)) // 2
         dy = h // 2 - (min(rws) + max(rws)) // 2
-        if dx or dy:
-            rows = shift_grid(rows, w, h, dx, dy)
+        if not dx and not dy:
+            break
+        rows = shift_grid(rows, w, h, dx, dy)
     return {"rows": rows, "levels": [round(lo, 1), round(hi, 1)]}
 
 
@@ -633,7 +855,7 @@ def shrink(piece, factor=2):
 def build_set(seed):
     pieces = []
     for item in ITEMS:
-        (item_id, label, category, footprint, box, _routine, _mats) = item
+        (item_id, label, category, style, box, _routine, _mats) = item
         for (size_id, size_label, scale) in SIZES:
             img, w, h, detail = build_item(item, size_id, scale, seed)
             built = to_cells(img, w, h)
@@ -650,7 +872,7 @@ def build_set(seed):
                 "category": parts[0],
                 "species": parts[1],
                 "family": ".".join(parts[:2]),
-                "footprint": list(footprint),
+                "style": style,
                 "size": size_id,
                 "size_label": size_label,
                 "box": [w, h],
@@ -679,7 +901,6 @@ def write_json(pieces, seed):
         "kinds": ["item"],
         "seed": seed,
         "cell": {"w": af.CELL_W, "h": af.CELL_H, "aspect": round(af.CELL_ASPECT, 4)},
-        "slotCells": [SLOT_COLS, SLOT_ROWS],
         "sizes": [{"id": s, "label": l, "scale": k} for (s, l, k) in SIZES],
         "ramp": RAMP,
         "glyphGamma": af.GLYPH_GAMMA,
@@ -739,9 +960,9 @@ PAGE_HEAD = """<!DOCTYPE html>
 </style></head><body><div class="wrap">
 <h1>artforge — armas e armaduras</h1>
 <p class="lede">__LEDE__</p>
-<h2>O inventário</h2>
+<h2>Os ícones no tamanho de jogo</h2>
 <p class="lede">__SLOTNOTE__</p>
-<div class="card"><div class="gridbox"><div class="slots"><pre>__INVENTORY__</pre></div></div></div>
+__SHOWCASE__
 <h2>As três resoluções</h2>
 <p class="lede">__RATENOTE__</p>
 __CARDS__
@@ -770,53 +991,47 @@ def panel_html(cells):
     return body, inked
 
 
-def build_inventory(pieces, by_id):
-    """A Diablo-shaped inventory: 10 x 4 slots, the items laid in at their small size.
-    The small size is the inventory size -- that is the point of the footprint."""
-    cols, rows = 10, 4
-    width = cols * SLOT_COLS + (cols + 1)
-    height = rows * SLOT_ROWS + (rows + 1)
-    canvas = [[" "] * width for _ in range(height)]
-    colors = [[""] * width for _ in range(height)]
-    axes = [["-"] * width for _ in range(height)]
+def build_showcase(pieces, by_id):
+    """Every item at its small size, in a flat row per category -- no slots, no grid.
 
-    placement = [
-        ("weapon.sword.great", 1, 0), ("weapon.battleaxe", 3, 0), ("weapon.bow", 5, 0),
-        ("armor.breastplate", 7, 0), ("weapon.sword.long", 1, 1), ("weapon.halberd", 3, 1),
-        ("armor.shield", 5, 2), ("armor.helm", 7, 2), ("weapon.mace", 1, 3),
-        ("weapon.staff", 2, 3), ("jewelry.ring", 9, 3), ("weapon.dagger", 8, 3),
-    ]
-    for (item_id, sx, sy) in placement:
-        piece = by_id.get(item_id + ".small")
-        if not piece:
+    Dropping the slot inventory leaves no footprint for the small size to answer to,
+    and leaves one question the page has to answer: does this read at the size the
+    game will draw it? The rows share a vertical CENTRE, which is where an icon lives
+    (it has no ground to stand on).
+    """
+    cats = [("weapon", "armas"), ("armor", "armaduras e escudos"), ("jewelry", "adornos")]
+    out = []
+    for (cat, cat_label) in cats:
+        group = [p for p in pieces if p["category"] == cat and p["size"] == "small"]
+        if not group:
             continue
-        ox = 1 + sx * (SLOT_COLS + 1) + (SLOT_COLS * piece["footprint"][0] - piece["w"]) // 2
-        oy = 1 + sy * (SLOT_ROWS + 1) + (SLOT_ROWS * piece["footprint"][1] - piece["h"]) // 2
-        for y, row in enumerate(piece["cells"]):
-            for x in range(piece["w"]):
-                wx, wy = ox + x, oy + y
-                if row["g"][x] == " " or not (0 <= wx < width and 0 <= wy < height):
-                    continue
-                canvas[wy][wx] = row["g"][x]
-                colors[wy][wx] = row["c"][x]
-
-    # the slot lattice, drawn around whatever the items did not cover
-    for r in range(rows):
-        for c in range(cols):
-            x0 = 1 + c * (SLOT_COLS + 1)
-            y0 = 1 + r * (SLOT_ROWS + 1)
-            for x in range(x0 - 1, x0 + SLOT_COLS + 1):
-                for y in (y0 - 1, y0 + SLOT_ROWS):
-                    if 0 <= x < width and 0 <= y < height and canvas[y][x] == " ":
-                        canvas[y][x] = "░"
-                        colors[y][x] = "#2b3340"
-            for y in range(y0 - 1, y0 + SLOT_ROWS + 1):
-                for x in (x0 - 1, x0 + SLOT_COLS):
-                    if 0 <= x < width and 0 <= y < height and canvas[y][x] == " ":
-                        canvas[y][x] = "░"
-                        colors[y][x] = "#2b3340"
-    rows_out = [{"g": "".join(r), "c": colors[y]} for y, r in enumerate(canvas)]
-    return panel_html(rows_out)
+        colw = max(p["w"] for p in group) + 4
+        rowh = max(p["h"] for p in group)
+        width, height = colw * len(group), rowh + 3
+        canvas = [[" "] * width for _ in range(height)]
+        colors = [[""] * width for _ in range(height)]
+        for i, piece in enumerate(group):
+            ox = i * colw + (colw - piece["w"]) // 2
+            oy = (rowh - piece["h"]) // 2
+            for y, row in enumerate(piece["cells"]):
+                for x in range(piece["w"]):
+                    if row["g"][x] == " ":
+                        continue
+                    canvas[oy + y][ox + x] = row["g"][x]
+                    colors[oy + y][ox + x] = row["c"][x]
+        for i, piece in enumerate(group):
+            text = piece["label"][:colw - 2]
+            start = i * colw + max(0, (colw - len(text)) // 2)
+            for k, ch in enumerate(text):
+                canvas[rowh + 1][start + k] = ch
+                colors[rowh + 1][start + k] = "#8b8f92"
+        rows_out = [{"g": "".join(r), "c": colors[y]} for y, r in enumerate(canvas)]
+        body, _inked = panel_html(rows_out)
+        out.append('<div class="card"><div class="cap"><span><b>%s</b></span>'
+                   '<span>%d itens no tamanho pequeno · mesma escala de fonte</span></div>'
+                   '<div class="gridbox"><pre>%s</pre></div></div>'
+                   % (cat_label, len(group), body))
+    return "\n".join(out)
 
 
 def build_html(payload, pieces):
@@ -832,18 +1047,18 @@ def build_html(payload, pieces):
     widest = max(sum(p["w"] for p in g) + 8 * (len(g) - 1) for _i, _l, g in fams)
     fs = max(5.0, min(15.0, (1240 * 0.90) / (widest * 0.62)))
 
-    inventory, _inked = build_inventory(pieces, by_id)
+    showcase = build_showcase(pieces, by_id)
     lede = ("<b>%d itens</b> — %d armas e %d peças de armadura/adorno — cada um em <b>três resoluções</b> "
-            "(pequena, média, grande), semente <b>%d</b>. Um item de inventário não tem pé no chão: "
-            "ele é <b>centralizado</b> no slot, então a âncora é o centro da caixa e o que tem de "
-            "sobreviver é a <b>silhueta</b>."
+            "(pequena, média, grande), semente <b>%d</b>. Um item não tem pé no chão: ele é "
+            "<b>centralizado</b>, então a âncora é o centro da caixa e o que tem de sobreviver é a "
+            "<b>silhueta</b>."
             % (len(fams), sum(1 for f in fams if f[0].startswith("weapon")),
                sum(1 for f in fams if not f[0].startswith("weapon")), payload["seed"]))
-    slotnote = ("Um slot é um bloco quadrado de <b>%d × %d células</b> (%.0f × %.0f px — o slot sai "
-                "quadrado na tela). O <b>footprint</b> diz quantos slots o item ocupa, e é ele que "
-                "manda no tamanho pequeno: a espada longa é 1×3, o peitoral 2×3. Cada item está "
-                "desenhado no seu tamanho de inventário."
-                % (SLOT_COLS, SLOT_ROWS, SLOT_COLS * af.CELL_W, SLOT_ROWS * af.CELL_H))
+    slotnote = ("Não há grade de slots: o tamanho pequeno <b>não responde a footprint nenhum</b>, "
+                "responde à legibilidade — a caixa tem de caber o traço que faz o item ser o que é "
+                "(na espada a guarda, no elmo a fenda da viseira). Foi isso que consertou as duas "
+                "peças que o slot apertava. Cada peça diz suas dimensões em células; a âncora é o "
+                "centro.")
     ratenote = ("As três na <b>mesma escala de fonte</b>: a grande é literalmente o dobro da pequena. "
                 "A cadeia é 1× / 1,5× / 2× de propósito — assim a grande reduzida por 2 cai "
                 "<b>exatamente</b> na grade da pequena, e as duas podem ser comparadas célula a célula.")
@@ -868,10 +1083,11 @@ def build_html(payload, pieces):
                                                   p["anchor"]["x"], p["anchor"]["y"], body))
             caps.append("%s %d×%d" % (p["size_label"], p["w"], p["h"]))
         cards.append('<section class="card" id="%s">\n  <div class="cap"><span><b>%s</b> · %s</span>'
-                     '<span>footprint %d×%d slots</span><span>%s</span></div>\n'
+                     '<span>%s</span><span>%s</span></div>\n'
                      '  <div class="arts">%s</div>\n</section>'
                      % (item_id.replace(".", "-"), label, item_id,
-                        group[0]["footprint"][0], group[0]["footprint"][1],
+                        group[0]["category"] + (" · " + group[0]["style"]
+                                                if group[0].get("style") else ""),
                         " · ".join(caps), "".join(panes)))
 
     shrink_rows = []
@@ -913,7 +1129,7 @@ def build_html(payload, pieces):
     page = PAGE_HEAD
     for marker, value in (
             ("__FS__", ("%.2f" % fs).rstrip("0").rstrip(".")),
-            ("__LEDE__", lede), ("__SLOTNOTE__", slotnote), ("__INVENTORY__", inventory),
+            ("__LEDE__", lede), ("__SLOTNOTE__", slotnote), ("__SHOWCASE__", showcase),
             ("__RATENOTE__", ratenote), ("__CARDS__", "\n".join(cards)),
             ("__SHRINKNOTE__", shrinknote),
             ("__SHRINK__", "\n".join(shrink_rows) + '\n<div class="gridbox">'
@@ -922,7 +1138,7 @@ def build_html(payload, pieces):
             ("__LABDATA__", json.dumps(lab, ensure_ascii=False)),
             ("__SHRINKJS__", shrink_js)):
         page = page.replace(marker, value)
-    for marker in ("__FS__", "__LEDE__", "__SLOTNOTE__", "__INVENTORY__", "__RATENOTE__",
+    for marker in ("__FS__", "__LEDE__", "__SLOTNOTE__", "__SHOWCASE__", "__RATENOTE__",
                    "__CARDS__", "__SHRINKNOTE__", "__SHRINK__", "__LIVENOTE__", "__FOOTER__",
                    "__LABDATA__", "__SHRINKJS__"):
         if marker in page:
@@ -948,11 +1164,11 @@ def main():
     print("  html : %s (%.0f KB, font %.2f px)" % (os.path.relpath(OUT_HTML, HERE),
                                                    os.path.getsize(OUT_HTML) / 1024.0, fs))
     print()
-    print("  %-30s %-8s %-9s %-7s %s" % ("id", "box", "footprint", "ink%", "detail"))
+    print("  %-30s %-8s %-11s %-7s %s" % ("id", "box", "species", "ink%", "detail"))
     for p in pieces:
         s = p["stats"]
-        print("  %-30s %2dx%-5d %dx%-6d %5.0f%%  %s"
-              % (p["id"], p["w"], p["h"], p["footprint"][0], p["footprint"][1],
+        print("  %-30s %2dx%-5d %-11s %5.0f%%  %s"
+              % (p["id"], p["w"], p["h"], p["species"],
                  100.0 * s["inkedCells"] / s["cellCount"], "sim" if p["detail"] else "-"))
 
 

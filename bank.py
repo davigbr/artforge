@@ -72,6 +72,7 @@ TAG_RULES = {
     "staff": ["arma", "magica", "haste"],
     "shield": ["armadura", "defesa", "offhand"],
     "helm": ["armadura", "cabeca"],
+    "chest": ["armadura", "torso"],
     "breastplate": ["armadura", "torso"],
     "ring": ["adorno", "dedo"],
 }
@@ -108,6 +109,8 @@ def tags_for(piece, set_payload):
     rules = (set_payload.get("pieceTags") or {}).get(piece.get("species"))
     tags = list(rules) if rules else list(TAG_RULES.get(piece.get("species"), []))
     tags.insert(0, SLOT_OF_KIND.get(piece.get("kind"), piece.get("kind")))
+    if piece.get("style"):
+        tags.append(piece["style"])             # the style is a filter worth having: chain, hood
     if piece.get("size"):
         tags.append(piece["size"])
     return sorted(set(tags))

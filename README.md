@@ -7,9 +7,9 @@ uma **âncora** — a célula que vai para o centro do tile.
 Primeiro conjunto: **árvores estáticas** — 8 espécies × 3 tamanhos = **24 props** + **18 discos** de
 contato (a sombra, que é uma peça separada).
 
-Segundo conjunto: **armas e armaduras** — 16 itens × 3 resoluções = **48 ícones** de inventário
-(adaga, espada curta/longa/montante, maça, marreta, machado, machado de guerra, lança, alabarda, arco,
-cajado, escudo, elmo, peitoral, anel).
+Segundo conjunto: **armas e armaduras** — 28 itens × 3 resoluções = **84 ícones** (12 armas; 6 elmos —
+barrete, elmo de ferro, fechado, com chifres, capuz, coroa; 6 peças de torso — gibão, cota de malha,
+peitoral, escamas, túnica, peitoral dourado; 3 escudos — redondo, em gota, torre; 1 anel).
 
 ```bash
 PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 artforge.py            # gera as árvores
@@ -88,28 +88,40 @@ o anel de cima sombreia o de baixo. O contrário (ponta escura, base clara) é u
 oclui** — é a ordem de desenho do motor (piso → sombra → entidades). A âncora dela é o **centro** do
 disco: o disco apoia em volta do ponto que vai para o centro do tile, metade para perto, metade para longe.
 
-## Ícones de inventário: o item não tem chão
+## Ícones de item: o item não tem chão
 
-Um item de inventário é o **problema inverso** de uma árvore. A árvore é um `prop`: pisa num tile, a âncora
-é o **pé**, e a sombra vai junto com o piso. O item é um `icone`: não toca chão nenhum, é **centralizado no
-slot**, e o que tem de sobreviver é a **silhueta** — em 5 células de largura uma espada lê pelo contorno ou
-não lê.
+Um item é o **problema inverso** de uma árvore. A árvore é um `prop`: pisa num tile, a âncora é o **pé**, e
+a sombra vai junto com o piso. O item é um `icone`: não toca chão nenhum, é **centralizado**, e o que tem
+de sobreviver é a **silhueta** — em 5 células de largura uma espada lê pelo contorno ou não lê.
 
 Consequências no código, todas em `weapons.py`:
 
 1. **A âncora é o centro da caixa**, não a última linha. E o desenho é **deslocado depois da amostragem**
    até a caixa da silhueta cair no meio da caixa da peça (`shift_grid`) — o eixo em que a peça se centra é o
-   da silhueta, que é o que o olho lê como "centrado no slot".
+   da silhueta, que é o que o olho lê como "centrado". O deslocamento é em células inteiras, então ele
+   **itera duas vezes**: uma passada só pode parar a uma célula do alvo (foi assim que a alabarda grande
+   ficou 1 célula fora).
 2. **A caixa nunca é cortada.** Numa árvore o `bbox` justo é a regra (o tamanho da caixa de desenho só
    controla o detalhe). Num ícone a caixa **declara a resolução** — cortar jogaria fora exatamente o que a
    caixa foi escolhida para ser.
-3. **O slot é quadrado na tela: 5 × 3 células** (5 × 6,62 = 33,1 px por 3 × 11 = 33 px). O **footprint**
-   diz quantos slots o item ocupa, e é ele que manda no tamanho pequeno: a espada longa é 1×3 → no máximo
-   5×9 células. A resolução responde ao footprint, não ao gosto.
-4. **Margem de 1 célula em peça de silhueta cheia.** Escudo e elmo desenhados até a borda da caixa saíam
-   com **91–95 % de tinta** — um retângulo sólido, sem forma para ler. Com margem, 50–67 %.
-5. **Nada de contorno escuro.** O contorno é para fundo claro; o painel do inventário é escuro, e a peça
-   brilha por si.
+3. **Silhueta cheia precisa de margem de 1 célula na caixa.** Escudo e elmo desenhados até a borda da caixa
+   saíam com **91–95 % de tinta** — um retângulo sólido, sem forma para ler.
+4. **Nada de contorno escuro.** O contorno é para fundo claro; o painel é escuro, e a peça brilha por si.
+
+## O tamanho responde à legibilidade, não a um footprint
+
+A primeira versão deste conjunto era um **inventário de grade quadrada** (estilo Diablo): cada item ocupava
+N×M slots e o tamanho pequeno era o que cabia no footprint. Isso foi **abandonado**, e a consequência é
+direta: sem grade não há footprint, e o tamanho pequeno passa a responder a uma pergunta só — **cabe o
+traço que faz o item ser o que é?** (na espada a guarda, no elmo a fenda da viseira).
+
+Foi o que consertou os dois defeitos que o slot apertava, e os dois estão no código, não no olho:
+
+- a espada pequena saiu de 4×9 para **6×13** e a guarda passou a ser uma barra de 5 células contra uma
+  lâmina de 2 — antes ela lia como "arma de lâmina" (adaga, espada ou estaca);
+- a caixa pequena tem um **piso de legibilidade** (≥ 5 células no lado curto), checado na auditoria, e a
+  espada **mantém a guarda mais larga que a própria lâmina em todos os três tamanhos** (medido, não
+  conferido no olho).
 
 ## As três resoluções, e a redução em tempo real
 
@@ -117,12 +129,12 @@ Consequências no código, todas em `weapons.py`:
 
 | | o que é | o que custa |
 |---|---|---|
-| **reduzir** (`shrink`) | média de blocos 2×2 da grade maior → uma célula, glifo pela luminância média | **a assinatura primeiro**: uma guarda de 1 célula somada na lâmina deixa de ser guarda |
+| **reduzir** (`shrink`) | média de blocos 2×2 da grade maior → uma célula, glifo pela luminância média | **o contraste interno**: a guarda de 1 célula e o miolo claro da lâmina param de ser diferentes dos vizinhos |
 | **desenhar menor** | a caixa é parâmetro e o que se desenha também | trabalho: um desenho por tamanho |
 
 O conjunto faz as duas: cada item tem **pequena, média e grande desenhadas** (a grande ganha detalhe — o
 vão da lâmina, o gume da guarda, as voltas do punho — porque há células para isso), e a página traz o
-`shrink` **rodando ao vivo no navegador** para o slot que não casa com tamanho nenhum.
+`shrink` **rodando ao vivo no navegador** para o tamanho que não casa com nenhuma das três.
 
 A cadeia é **1× / 1,5× / 2×** de propósito: a grande é exatamente o dobro da pequena nos dois eixos, então
 `shrink(grande, 2)` cai **na grade da pequena** e as duas se comparam célula a célula. O `tools/shrink.js`
@@ -130,17 +142,23 @@ decide glifo e cor com as **mesmas regras** do `weapons.shrink` do Python (mesma
 mesma quantização — inclusive o `round` meio-para-par do Python), e a auditoria cobra isso: as duas grades
 têm de sair **glifo por glifo iguais**.
 
-O que a medição diz (16 itens, pequena desenhada × grande reduzida na mesma grade):
+O que a medição diz (28 itens, pequena desenhada × grande reduzida na mesma grade):
 
 | medida | resultado |
 |---|---|
-| contraste interno (desvio-padrão da luminância das células) | **69,0 desenhada · 53,2 reduzida** — a redução fica com **74%** do contraste nas peças finas (69,9 → 51,6) e 93% nas maciças (64,8 → 60,3) |
-| tinta | 54% desenhada · 51% reduzida |
-| onde a redução ganha | 4 dos 16 itens, **todos maciços** (escudo, elmo, peitoral) |
+| contraste interno (desvio-padrão da luminância das células) | **65,6 desenhada · 56,9 reduzida**; nas peças de traço fino 63,2 → 55,4, nas maciças 69,4 → 59,2 |
+| tinta | 55 % desenhada · 62 % reduzida — a redução **ganha** tinta em 21 dos 28 |
+| onde a redução ganha em contraste | 4 dos 28, todas maciças |
 
-Ou seja: **a redução não substitui a pequena desenhada, e não é lixo** — o que ela custa é proporcional
-ao detalhe fino que a peça tem. Num peitoral a média de blocos não perde nada; numa espada perde a guarda.
-(Medição anterior usava o quartil claro e dizia outra coisa — brilho **não** é o eixo; o eixo é contraste.)
+**Duas explicações para o ganho de tinta foram medidas e derrubadas**, e o registro fica para ninguém
+repetir a suposição: não é preencher buracos internos (só **1** peça do conjunto tem um, e ela não ganha
+tinta ao ser reduzida) e não é dilatação uniforme (só **16** das 28 crescem em silhueta, **7** encolhem).
+O que se sustenta é o **contraste**, e é ele que a auditoria afirma. (Uma terceira tentativa, medir a
+"quebra entre linhas", também foi descartada: dá **155** no elmo apertado que era o defeito e **85** no
+conserto — mede o contrário do que eu queria.)
+
+O eixo que sobrou, e que vale para qualquer redução: **o que a redução come é contraste interno**, e a
+redução não substitui a pequena desenhada.
 
 ## A peça (contrato)
 
@@ -214,13 +232,13 @@ de altura, e uma célula de texto só sabe ser inteira — meio-bloco existe par
 | tinta | p10 28 · p25 51 · **p50 94**; quartil claro ≥ 60 em 24/24 |
 | paleta | p90 **206**; 8 paletas distintas; outono 42° contra carvalho 96° **na tela** |
 | linha de base | as três árvores param na mesma linha: **3 px** de espalhamento, medido nos pixels |
-| ícones: resoluções | 16 itens × 3 = 48 peças; grande = **exatamente 2× a pequena** nos dois eixos (16/16) |
-| ícones: footprint | a pequena cabe no footprint em 16/16 e o preenche ≥ 45% |
-| ícones: centragem | caixa da silhueta no centro da caixa e da âncora em **48/48 exato** |
-| ícones: tinta | 20–85% em 48/48 (o piso é 20 porque **um arco é curvo**: 25% de tinta é a forma honesta de um arco) |
-| ícones: redução | `shrink(grande, 2)` cai na grade da pequena em 16/16; o `shrink` do navegador dá **a mesma grade glifo a glifo** que o do Python |
+| ícones: resoluções | 28 itens × 3 = 84 peças; grande = **exatamente 2× a pequena** nos dois eixos (28/28) |
+| ícones: legibilidade | nenhuma caixa pequena abaixo de 5 células no lado curto (28/28); nas 6 lâminas a **guarda é mais larga que a lâmina** em todos os três tamanhos |
+| ícones: centragem | caixa da silhueta no centro da âncora em **84/84 exato** |
+| ícones: tinta | 20–85% em 84/84 (o piso é 20 porque **um arco é curvo**: 25% de tinta é a forma honesta de um arco) |
+| ícones: redução | `shrink(grande, 2)` cai na grade da pequena em 28/28; o `shrink` do navegador dá **a mesma grade glifo a glifo** que o do Python; o contraste desenhado (65,6) ganha do reduzido (56,9) com a margem de 5 |
 | página | sem canvas, sem imagem, sem requisição externa; sem overflow em 1440×900 e 390×844 |
-| banco | `bank.py check`: 90 peças em 2 conjuntos, 31 tags, **zero arte repetida**; `tools/bank_audit.py`: **12/12**, com cada filtro contado contra o índice (conifer → 3, mancha → 18, "palm" → 3, icone → 48) |
+| banco | `bank.py check`: 126 peças em 2 conjuntos, 46 tags, **zero arte repetida**; `tools/bank_audit.py`: **12/12**, com cada filtro contado contra o índice (conifer → 3, mancha → 18, "palm" → 3, icone → 84, chain → 3) |
 
 Checagem que nunca falhou não prova nada: cada limiar aqui tem o valor da regressão ao lado (o boost fraco
 medido em 17 / 35 / 73). E duas métricas foram escolhidas justamente por não medirem o que pareciam medir —
@@ -235,17 +253,19 @@ silhueta), **piso** (apaga o chão) e **linha de base**.
 
 ## Falta
 
-- **Armas: a pequena da espada é ambígua sozinha.** Em 4×9 a guarda existe (uma barra de 4 células contra
-  uma lâmina de 1), mas ela encosta no punho e o olho lê "arma de lâmina" — adaga, espada, estaca. Quem
-  estabelece a identidade é a **média**; a grande é inequívoca. É o limite honesto de 4×9 células, e a
-  saída não é afrouxar a arte: é dar à espada longa um footprint maior (1×3 slots = 5×9 é o teto hoje).
-- **Armas: o elmo pequeno é maciço.** Em 9×6 o elmo é um bloco arredondado: a fenda da viseira precisa de 8
-  linhas e a caixa pequena tem 6. Na média ele lê (domo, fenda, nasal). Um footprint de 2×3 para o elmo
-  resolveria, e custa uma linha no inventário.
 - **Armas: não há variante de material.** A mesma espada em ferro, aço e ouro é o que dá variedade a um
-  inventário de verdade (é assim que o Diablo faz), e a paleta já é parâmetro no gerador
-  (`dict(metal=...)`) — falta só multiplicar o conjunto.
+  inventário de verdade (é como o Diablo faz), e a paleta já é parâmetro no gerador
+  (`dict(metal=...)`) — falta só multiplicar o conjunto. Hoje a variedade vem do **estilo** (6 elmos, 6
+  peças de torso, 3 escudos, cada um com o seu), não do material.
 - **Armas: sem dano/estado.** Uma peça por item, sem a versão quebrada ou enferrujada.
+- **Elmo pequeno: melhora por construção, não por medida.** A caixa grande (9×8 em vez de 9×6) dá à fenda
+  da viseira uma linha própria, em vez de ela disputar a borda do domo com a aba. Isso é **olho, não
+  número**: três métricas tentaram separar o elmo apertado do conserto e nenhuma separou (a quebra entre
+  linhas mede 155 no defeito e 85 no conserto). Fica registrado como decisão de desenho, não como
+  invariante.
+- **Peças de torso muito parecidas na pequena.** Em 10×10, gibão, cota, placas e escamas leem como
+  "armadura de torso" e o material é o que distingue; a 5 células de largura não há como o padrão de
+  escama aparecer. É o próximo item a atacar se o jogo precisar distinguir as quatro na pequena.
 - **No cartão do banco, a mancha sozinha continua um borrão.** A elipse é legível na escala maior do
   cartão, mas a *geometria* dela (onde cai a âncora, quanto mede em células) só se lê nos números ao
   lado. Marcar a célula da âncora dentro do cartão é o que falta — um borrão escuro num piso de pedra

@@ -63,6 +63,23 @@ def contrast(piece):
     return (sum((v - mean) ** 2 for v in vals) / (len(vals) - 1)) ** 0.5
 
 
+def has_hole(piece):
+    """A cell of background fully enclosed by ink on all four sides: a helm's face
+    opening, a shield's plate rim, a chest's waist. This is what a block average fills
+    in, and filling it is losing shape, not gaining density."""
+    g, w, h = piece["cells"], piece["w"], piece["h"]
+    for y in range(1, h - 1):
+        for x in range(1, w - 1):
+            if g[y]["g"][x] != " ":
+                continue
+            if any(g[y]["g"][k] != " " for k in range(x)) \
+                    and any(g[y]["g"][k] != " " for k in range(x + 1, w)) \
+                    and any(g[k]["g"][x] != " " for k in range(y)) \
+                    and any(g[k]["g"][x] != " " for k in range(y + 1, h)):
+                return True
+    return False
+
+
 def ink_bbox(piece):
     cols = [x for x in range(piece["w"]) if any(piece["cells"][y]["g"][x] != " "
                                                  for y in range(piece["h"]))]
@@ -78,7 +95,7 @@ def section_a(payload):
     for p in pieces:
         items.setdefault(p["id"].rsplit(".", 1)[0], {})[p["size"]] = p
 
-    check("item count", len(items) == 16 and len(pieces) == 48,
+    check("item count", len(items) == 28 and len(pieces) == 84,
           "%d items, %d pieces" % (len(items), len(pieces)))
 
     missing = [i for i, g in items.items() if set(g) != {"small", "medium", "large"}]
@@ -92,21 +109,36 @@ def section_a(payload):
         if not (s["w"] < m["w"] < g["w"] and s["h"] < m["h"] < g["h"]):
             bad_mid.append(item_id)
     check("sizes are a 1x/1.5x/2x chain (large = exactly 2x small)",
-          not bad_chain, ", ".join(bad_chain[:3]) or "16/16, so shrink(large, 2) lands on small")
+          not bad_chain, ", ".join(bad_chain[:3]) or "28/28, so shrink(large, 2) lands on small")
     check("sizes are strictly ordered", not bad_mid, ", ".join(bad_mid[:3]))
 
-    overflow, wasted = [], []
-    for item_id, group in items.items():
-        s = group["small"]
-        (cols, rows) = s["footprint"]
-        limit = (cols * wp.SLOT_COLS, rows * wp.SLOT_ROWS)
-        if s["w"] > limit[0] or s["h"] > limit[1]:
-            overflow.append("%s %dx%d > %dx%d" % (item_id, s["w"], s["h"], limit[0], limit[1]))
-        fill = (s["w"] * s["h"]) / float(limit[0] * limit[1])
-        if fill < 0.45:
-            wasted.append("%s fills %.0f%%" % (item_id, fill * 100))
-    check("the small icon fits its inventory footprint", not overflow, ", ".join(overflow[:3]))
-    check("the small icon fills its footprint (>=45%)", not wasted, ", ".join(wasted[:3]))
+    # With the slot grid gone the small box answers to legibility, so the floor is the
+    # rule to hold: a feature has to fit in at least 5 cells, or it is squeezed again.
+    squeezed = ["%s %dx%d" % (i, g["small"]["w"], g["small"]["h"])
+                for i, g in items.items() if min(g["small"]["w"], g["small"]["h"]) < 5]
+    check("no small box is squeezed below the legibility floor (5 cells)",
+          not squeezed, ", ".join(squeezed[:3]) or
+          "28/28: every small box is at least 5 cells on its short side")
+
+    # The crossguard is the feature that makes a blade a blade: at EVERY size the widest
+    # row has to be a real crossbar, not the blade again.
+    blades = {i: g for i, g in items.items() if g["small"]["species"] in
+              ("sword", "dagger", "spear", "halberd")}
+    flat = []
+    for item_id, group in blades.items():
+        for size in ("small", "medium", "large"):
+            p = group[size]
+            widths = [sum(1 for g in r["g"] if g != " ") for r in p["cells"]]
+            widths = [w for w in widths if w]
+            if not widths:
+                continue
+            widths.sort()
+            blade = widths[len(widths) // 2]          # the median row is the blade
+            if widths[-1] < blade + 2:
+                flat.append("%s.%s guard %d vs blade %d"
+                            % (item_id, size, widths[-1], blade))
+    check("a blade keeps its crossguard wider than itself at every size",
+          not flat, ", ".join(flat[:3]) or "%d blades x 3 sizes" % len(blades))
 
     off_centre, worst_mass = [], 0.0
     for p in pieces:
@@ -204,22 +236,25 @@ def section_a(payload):
           mean_authored > mean_shrunk + 5.0,
           "mean contrast %.1f authored vs %.1f shrunk (%d of %d items the shrink matches "
           "or wins, all solid)" % (mean_authored, mean_shrunk, len(lost), len(rows)))
-    t_contrast = sum(r[5] - r[6] for r in thin) / max(1, len(thin))
-    s_contrast = sum(r[5] - r[6] for r in solid) / max(1, len(solid))
-    check("and the loss lands where the thin detail is (thin pieces pay more)",
-          t_contrast >= s_contrast,
-          "thin %+.1f vs solid %+.1f contrast" % (t_contrast, s_contrast))
-    print("      the shrink is %.0f%% of the authored contrast on the thin pieces "
-          "(%.1f -> %.1f) and %.0f%% on the solid ones (%.1f -> %.1f)"
-          % (100 * sum(r[6] for r in thin) / max(1e-6, sum(r[5] for r in thin)),
-             sum(r[5] for r in thin) / max(1, len(thin)), sum(r[6] for r in thin) / max(1, len(thin)),
-             100 * sum(r[6] for r in solid) / max(1e-6, sum(r[5] for r in solid)),
+
+    # Two plausible explanations for "the shrink gains ink" were measured and REJECTED, so
+    # neither is shipped as a check: (1) filling enclosed holes -- only one piece in the
+    # set has one and it does not gain; (2) uniform dilation -- only 16 of 28 grow in
+    # silhouette and 7 get smaller. The ink change has no single cause; what holds up is
+    # the contrast, which is what is asserted above. Recorded so it is not re-guessed.
+    gained = len([r for r in rows if r[2] > r[1] + 1])
+    shrank = len([r for r in rows if r[2] < r[1] - 1])
+    holes = len([r for r in rows if has_hole(items[r[0]]["small"])])
+    print("      ink: %.0f%% authored vs %.0f%% shrunk · the shrink gains ink on %d of %d; "
+          "contrast on the thin pieces %.1f -> %.1f, on the rest %.1f -> %.1f"
+          % (sum(r[1] for r in rows) / len(rows), sum(r[2] for r in rows) / len(rows),
+             len(worse_ink), len(rows),
+             sum(r[5] for r in thin) / max(1, len(thin)),
+             sum(r[6] for r in thin) / max(1, len(thin)),
              sum(r[5] for r in solid) / max(1, len(solid)),
              sum(r[6] for r in solid) / max(1, len(solid))))
-    print("      ink: %.0f%% authored vs %.0f%% shrunk on average · the shrink beats the "
-          "authored small on %d of %d items (all of them solid)"
-          % (sum(r[1] for r in rows) / len(rows), sum(r[2] for r in rows) / len(rows),
-             len(worse_ink), len(rows)))
+    print("      ink has no single cause (holes: %d piece; dilation: %d gain, %d lose) -- "
+          "the contrast is what holds" % (holes, gained, shrank))
     return payload, items
 
 
