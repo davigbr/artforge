@@ -281,20 +281,23 @@ PAGE_HEAD = """<!DOCTYPE html>
   .field { font: inherit; font-size: 12px; color: var(--ink); background: #101721;
            border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; min-width: 190px; }
   .count { color: var(--dim); font-size: 11.5px; margin: 6px 0 14px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
-  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
-  /* A disc-only card is a small dark smudge at prop scale, and it reads as a broken
-     card: it gets its own scale and a badge, or it looks like missing art. */
+  /* A gallery of FIXED cells: the tracks do not resize with the content, and every art
+     area is one height, so the cards line up and the piece sits centred inside it. */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, 300px);
+          grid-auto-rows: 1fr; gap: 14px; justify-content: center; }
+  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
+          overflow: hidden; display: flex; flex-direction: column; }
   .card.decal { border-color: #2d3a4a; }
-  .card.decal .art pre { font-size: 20px; }
-  .card.decal .art { padding: 16px 12px 12px; }
   .badge { display: inline-block; border: 1px solid var(--accent); color: var(--accent);
            border-radius: 4px; padding: 0 5px; font-size: 10px; margin-right: 6px; }
-  .art { padding: 12px 12px 8px; overflow-x: auto; }
-  pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.1;
-        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+  .art { flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+         height: var(--framh, 240px); padding: 8px; overflow: hidden; }
+  pre { margin: 0; font-family: var(--mono); font-size: __FS__px; line-height: 1.1;
+        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased;
+        text-align: center; }
   pre i { font-style: normal; }
-  .meta { padding: 8px 12px 11px; border-top: 1px solid var(--line); font-size: 11px; color: var(--dim); }
+  .meta { flex: 1; padding: 8px 12px 11px; border-top: 1px solid var(--line);
+          font-size: 11px; color: var(--dim); }
   .meta b { color: var(--accent); font-weight: 600; }
   .meta .id { color: var(--ink); display: block; margin-bottom: 3px; }
   .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
@@ -445,7 +448,12 @@ __CARDS__
 
 
 def render_res(e, by_id):
-    """One resolution of one piece: the art, its metadata and its copy button."""
+    """One resolution of one piece: the art plus its metadata.
+
+    Returns the markup AND the size of the art in cells, because the card's art area is
+    a FIXED box: without knowing the biggest piece in the section there is nothing to
+    size it against, and a box that hugs its content makes a ragged gallery.
+    """
     piece, payload = by_id[e["id"]]
     if e["slot"] == "prop":
         shadow = by_id.get(e["shadow"], (None, None))[0]
@@ -468,7 +476,7 @@ def render_res(e, by_id):
                           "h": e["h"], "anchor": e["anchor"], "shadow": e.get("shadow"),
                           "file": e["file"], "hash": e["hash"]},
                          ensure_ascii=False, separators=(",", ":")).replace('"', "&quot;")
-    return (
+    html = (
         '<div class="res" data-id="%s">\n'
         '  <div class="art" style="background:%s"><pre>%s</pre></div>\n'
         '  <div class="meta"><b class="id">%s</b>%s<br>hash <code>%s</code>'
@@ -483,6 +491,7 @@ def render_res(e, by_id):
            "".join('<span class="tag%s">%s</span>'
                    % (" slot" if t == e["slot"] else "", t) for t in e["tags"]),
            snippet))
+    return html, len(rows), max(len(r["g"]) for r in rows)
 
 
 def build_page(index):
@@ -500,13 +509,18 @@ def build_page(index):
     for e in index["pieces"]:
         groups.setdefault((section_of(e["slot"]), family_of(e["id"])), []).append(e)
 
-    cards_by_section, counts = {}, {}
+    cards_by_section, counts, frames = {}, {}, {}
     for (section, _fam), entries in groups.items():
         entries.sort(key=lambda e: SIZE_ORDER.get(e.get("size"), 3))    # small..large
         # Displayed biggest first: the small art is a different drawing, not a thumbnail,
         # but the big one is the one worth the space, so it is the one that shows.
         order = list(reversed(entries))
-        blocks = [render_res(e, by_id) for e in order]
+        blocks = []
+        for e in order:
+            html, rh, rw = render_res(e, by_id)
+            blocks.append(html)
+            (fh, fw) = frames.get(section, (0, 0))
+            frames[section] = (max(fh, rh), max(fw, rw))
         blocks[0] = blocks[0].replace('class="res"', 'class="res on"', 1)
         header = ""
         if len(order) > 1:
@@ -526,34 +540,48 @@ def build_page(index):
         cards_by_section.setdefault(section, []).append(card)
         counts[section] = counts.get(section, 0) + len(entries)
 
+    # The art area is a fixed box, sized once for the whole page so every piece is at the
+    # SAME scale (a 16-cell sword is 16 cells in the game) and centred inside the card.
+    # The font shrinks until the tallest piece fits: a box that hugs its content gives a
+    # ragged gallery, and scaling the font per card would make the pieces incomparable --
+    # which is the one thing a catalogue of pieces cannot afford.
+    tallest = max([h for (h, _w) in frames.values()] or [8])
+    fs = round(max(6.5, min(13.0, 330.0 / (tallest * 1.1))), 2)
+
     body = []
     for (key, label, _slots) in SECTIONS:
         cards = cards_by_section.get(key)
         if not cards:
             continue
-        body.append('<section class="sec" data-section="%s">\n'
+        frame_h = int(round(frames[key][0] * 1.1 * fs + 8))
+        body.append('<section class="sec" data-section="%s" style="--framh:%dpx">\n'
                     '<h2>%s <span class="n">%d peças em %d cartões</span></h2>\n'
                     '<div class="grid">\n%s\n</div>\n</section>'
-                    % (key, label, counts[key], len(cards), "\n".join(cards)))
+                    % (key, frame_h, label, counts[key], len(cards), "\n".join(cards)))
 
-    total = len(index["pieces"])
     lede = ("<b>%d conjuntos</b>, <b>%d peças</b> em <b>%d cartões</b>, separadas em "
             "<b>duas metades que não se misturam</b>: a <b>cena</b> (paisagem e natureza — "
             "piso, bloco, prop, ator, mancha) e os <b>itens</b> (o slot <code>icone</code>). "
             "Cada cartão abre na <b>maior resolução</b> e as outras ficam nos botões ao "
-            "lado. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que "
-            "vai para o centro do tile — ou do centro da caixa, num item) e um "
-            "<b>hash de conteúdo</b>. Os filtros são CSS + JS: sem JavaScript a página "
-            "mostra o banco inteiro, com todas as resoluções."
-            % (len(index["sets"]), total, len(groups)))
+            "lado. A grade é de <b>célula fixa</b> e a peça fica <b>centrada</b> nela, todas "
+            "na mesma escala de fonte (<b>%.1f px</b>) — escalar a fonte por cartão deixaria "
+            "as peças incomparáveis. Cada peça carrega o tamanho em células, a "
+            "<b>âncora</b> (a célula que vai para o centro do tile — ou do centro da caixa, "
+            "num item) e um <b>hash de conteúdo</b>. Sem JavaScript a página mostra o banco "
+            "inteiro, com todas as resoluções."
+            % (len(index["sets"]), len(index["pieces"]), len(groups), fs))
     footer = ("Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · "
               "gerado por <code>bank.py</code> · para levar uma fatia para outro jogo: "
               "<code>bank.py export --section itens --out itens.json</code>")
     html = (PAGE_HEAD.replace("__LEDE__", lede)
+            .replace("__FS__", ("%.2f" % fs).rstrip("0").rstrip("."))
             .replace("__CARDS__", "\n".join(body))
             .replace("__FOOTER__", footer)
             .replace("__DATA__", json.dumps(
                 {"slots": index["slots"], "tags": index["tags"]}, ensure_ascii=False)))
+    for marker in ("__LEDE__", "__FS__", "__CARDS__", "__FOOTER__", "__DATA__"):
+        if marker in html:
+            raise SystemExit("marker survived the bank build: %s" % marker)
     with open(PAGE, "w", encoding="utf-8") as fh:
         fh.write(html)
     return sum(len(v) for v in cards_by_section.values())

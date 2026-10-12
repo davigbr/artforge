@@ -23,20 +23,23 @@
   .field { font: inherit; font-size: 12px; color: var(--ink); background: #101721;
            border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; min-width: 190px; }
   .count { color: var(--dim); font-size: 11.5px; margin: 6px 0 14px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
-  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
-  /* A disc-only card is a small dark smudge at prop scale, and it reads as a broken
-     card: it gets its own scale and a badge, or it looks like missing art. */
+  /* A gallery of FIXED cells: the tracks do not resize with the content, and every art
+     area is one height, so the cards line up and the piece sits centred inside it. */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, 300px);
+          grid-auto-rows: 1fr; gap: 14px; justify-content: center; }
+  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
+          overflow: hidden; display: flex; flex-direction: column; }
   .card.decal { border-color: #2d3a4a; }
-  .card.decal .art pre { font-size: 20px; }
-  .card.decal .art { padding: 16px 12px 12px; }
   .badge { display: inline-block; border: 1px solid var(--accent); color: var(--accent);
            border-radius: 4px; padding: 0 5px; font-size: 10px; margin-right: 6px; }
-  .art { padding: 12px 12px 8px; overflow-x: auto; }
-  pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.1;
-        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+  .art { flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+         height: var(--framh, 240px); padding: 8px; overflow: hidden; }
+  pre { margin: 0; font-family: var(--mono); font-size: 10px; line-height: 1.1;
+        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased;
+        text-align: center; }
   pre i { font-style: normal; }
-  .meta { padding: 8px 12px 11px; border-top: 1px solid var(--line); font-size: 11px; color: var(--dim); }
+  .meta { flex: 1; padding: 8px 12px 11px; border-top: 1px solid var(--line);
+          font-size: 11px; color: var(--dim); }
   .meta b { color: var(--accent); font-weight: 600; }
   .meta .id { color: var(--ink); display: block; margin-bottom: 3px; }
   .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
@@ -69,12 +72,12 @@
 <script>document.documentElement.className = "js";</script>
 </head><body><div class="wrap">
 <h1>artforge — banco de peças</h1>
-<p class="lede"><b>2 conjuntos</b>, <b>126 peças</b> em <b>54 cartões</b>, separadas em <b>duas metades que não se misturam</b>: a <b>cena</b> (paisagem e natureza — piso, bloco, prop, ator, mancha) e os <b>itens</b> (o slot <code>icone</code>). Cada cartão abre na <b>maior resolução</b> e as outras ficam nos botões ao lado. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile — ou do centro da caixa, num item) e um <b>hash de conteúdo</b>. Os filtros são CSS + JS: sem JavaScript a página mostra o banco inteiro, com todas as resoluções.</p>
+<p class="lede"><b>2 conjuntos</b>, <b>126 peças</b> em <b>54 cartões</b>, separadas em <b>duas metades que não se misturam</b>: a <b>cena</b> (paisagem e natureza — piso, bloco, prop, ator, mancha) e os <b>itens</b> (o slot <code>icone</code>). Cada cartão abre na <b>maior resolução</b> e as outras ficam nos botões ao lado. A grade é de <b>célula fixa</b> e a peça fica <b>centrada</b> nela, todas na mesma escala de fonte (<b>10.0 px</b>) — escalar a fonte por cartão deixaria as peças incomparáveis. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile — ou do centro da caixa, num item) e um <b>hash de conteúdo</b>. Sem JavaScript a página mostra o banco inteiro, com todas as resoluções.</p>
 <div class="bar" id="slots"></div>
 <div class="bar" id="tags"></div>
 <div class="bar"><input class="field" id="q" placeholder="filtrar por id, espécie, tag…" aria-label="filtro"></div>
 <p class="count" id="count"></p>
-<section class="sec" data-section="cena">
+<section class="sec" data-section="cena" style="--framh:250px">
 <h2>Cena: paisagem e natureza <span class="n">42 peças em 26 cartões</span></h2>
 <div class="grid">
 <article class="card prop" data-meta="{&quot;ids&quot;: [&quot;tree.oak.small&quot;, &quot;tree.oak.medium&quot;, &quot;tree.oak.large&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;oak&quot;], &quot;tags&quot;: [&quot;foliage&quot;, &quot;large&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
@@ -661,7 +664,7 @@
 </article>
 </div>
 </section>
-<section class="sec" data-section="itens">
+<section class="sec" data-section="itens" style="--framh:338px">
 <h2>Itens de inventário <span class="n">84 peças em 28 cartões</span></h2>
 <div class="grid">
 <article class="card icone" data-meta="{&quot;ids&quot;: [&quot;weapon.dagger.small&quot;, &quot;weapon.dagger.medium&quot;, &quot;weapon.dagger.large&quot;], &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: [&quot;dagger&quot;], &quot;tags&quot;: [&quot;arma&quot;, &quot;curta&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;, &quot;medium&quot;, &quot;small&quot;]}">

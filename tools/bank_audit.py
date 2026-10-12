@@ -117,6 +117,37 @@ def main():
                                 % (l["section"], l["cards"], l["columns"], l["secWidth"])
                                 for l in layout))
 
+                # A FIXED cell with the piece centred in it: every card in a section the
+                # same width AND the same height, and the art's centre within a few px of
+                # its box's centre. Measuring the box is the only way to tell "centred"
+                # from "happens to look centred on a piece that fills the card".
+                centred = page.evaluate("""() => Array.from(document.querySelectorAll('.sec'))
+                  .map(sec => {
+                    const rs = Array.from(sec.querySelectorAll('.card'))
+                      .map(c => c.getBoundingClientRect());
+                    const ws = new Set(rs.map(r => Math.round(r.width)));
+                    const hs = new Set(rs.map(r => Math.round(r.height)));
+                    let worst = 0;
+                    sec.querySelectorAll('.res.on .art').forEach(a => {
+                      const ar = a.getBoundingClientRect();
+                      const pre = a.querySelector('pre').getBoundingClientRect();
+                      worst = Math.max(worst,
+                        Math.abs((pre.x + pre.width / 2) - (ar.x + ar.width / 2)),
+                        Math.abs((pre.y + pre.height / 2) - (ar.y + ar.height / 2)));
+                    });
+                    return {section: sec.dataset.section, cards: rs.length,
+                            widths: ws.size, heights: hs.size, worst: Math.round(worst)};
+                  })""")
+                check("the cell is fixed: same width and height across a section",
+                      all(c["widths"] == 1 and c["heights"] == 1 for c in centred),
+                      "; ".join("%s: %d larguras, %d alturas em %d cartões"
+                                % (c["section"], c["widths"], c["heights"], c["cards"])
+                                for c in centred))
+                check("the piece is centred in its art box",
+                      all(c["worst"] <= 12 for c in centred),
+                      "; ".join("%s: pior desvio %d px" % (c["section"], c["worst"])
+                                for c in centred))
+
                 # Each card opens on its biggest piece, and the switch works.
                 opens = page.evaluate("""() => Array.from(document.querySelectorAll('.card'))
                   .map(c => { const on = c.querySelector('.res.on');
