@@ -80,7 +80,35 @@ TAG_RULES = {
 SLOT_OF_KIND = {"prop": "prop", "decal": "mancha", "tile": "piso", "block": "bloco",
                 "actor": "ator", "fx": "efeito", "item": "icone"}
 
+# The bank has two halves and they are nothing alike: a piece of the WORLD is placed on
+# a tile and has to compose with its neighbours (a floor must tile with itself, a prop
+# stands on the ground), while an inventory ITEM is a picture that sits in a list. The
+# split lives in the index -- so it can be filtered and exported -- and on the page.
+SECTIONS = [
+    ("cena", "Cena: paisagem e natureza",
+     ("piso", "bloco", "prop", "ator", "mancha", "efeito", "panorama")),
+    ("itens", "Itens de inventário", ("icone",)),
+    ("outros", "Outros slots", ()),
+]
+
 SIZE_ORDER = {"small": 0, "medium": 1, "large": 2, None: 3}
+SIZE_LABEL = {"small": "P", "medium": "M", "large": "G"}
+
+
+def section_of(slot):
+    for (key, _label, slots) in SECTIONS:
+        if slot in slots:
+            return key
+    return "outros"
+
+
+def family_of(piece_id):
+    """One THING, however many resolutions it has: an item at three resolutions is three
+    rows in the index but one entry to a person browsing the bank."""
+    for suffix in (".small", ".medium", ".large"):
+        if piece_id.endswith(suffix):
+            return piece_id[:-len(suffix)]
+    return piece_id
 
 
 def read_json(path):
@@ -123,6 +151,7 @@ def entry_for(piece, set_id, set_payload, file_name):
         "file": file_name,
         "kind": piece["kind"],
         "slot": SLOT_OF_KIND.get(piece["kind"], piece["kind"]),
+        "section": section_of(SLOT_OF_KIND.get(piece["kind"], piece["kind"])),
         "species": piece.get("species"),
         "size": piece.get("size"),
         "w": piece["w"],
@@ -174,10 +203,12 @@ def build_index():
     return index
 
 
-def select(index, slot=None, tag=None, set_id=None, species=None):
+def select(index, slot=None, tag=None, set_id=None, species=None, section=None):
     out = []
     for e in index["pieces"]:
         if slot and e["slot"] != slot:
+            continue
+        if section and e.get("section") != section:
             continue
         if tag and tag not in e["tags"]:
             continue
@@ -272,9 +303,29 @@ PAGE_HEAD = """<!DOCTYPE html>
   .copy { font: inherit; font-size: 10.5px; color: var(--ink); background: #101721;
           border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; cursor: pointer; margin-top: 8px; }
   .hidden { display: none; }
+  /* One card per THING, and the resolutions behind a button. The rule is gated on a
+     class the script sets on <html>, so with JavaScript off every resolution is on the
+     page and the bank is complete -- same deal as the filters. */
+  .js .res { display: none; }
+  .js .res.on { display: block; }
+  .cap { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center;
+         padding: 8px 12px 7px; border-bottom: 1px solid var(--line);
+         font-size: 11px; color: var(--dim); }
+  .cap b { color: var(--accent); font-weight: 600; }
+  .rbar { display: flex; flex-wrap: wrap; gap: 5px; margin-left: auto; }
+  button.r { font: inherit; font-size: 10.5px; color: var(--dim); background: #101721;
+             border: 1px solid var(--line); border-radius: 5px; padding: 1px 7px; cursor: pointer; }
+  button.r[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  /* The two halves of the bank, as sections: the world's art and the inventory's art are
+     different problems and reading them mixed together is how you pick the wrong piece. */
+  .sec h2 { font-size: 14px; margin: 28px 0 10px; color: var(--ink); font-weight: 600; }
+  .sec:first-of-type h2 { margin-top: 8px; }
+  .sec h2 .n { color: var(--dim); font-size: 11.5px; font-weight: 400; margin-left: 8px; }
   footer { color: var(--dim); font-size: 11.5px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 18px; }
   code { color: var(--accent); }
-</style></head><body><div class="wrap">
+</style>
+<script>document.documentElement.className = "js";</script>
+</head><body><div class="wrap">
 <h1>artforge — banco de peças</h1>
 <p class="lede">__LEDE__</p>
 <div class="bar" id="slots"></div>
@@ -316,27 +367,55 @@ __CARDS__
     if (state.slot && meta.slot !== state.slot) return false;
     if (state.tag && meta.tags.indexOf(state.tag) === -1) return false;
     if (state.q) {
-      var hay = (meta.id + " " + (meta.species || "") + " " + meta.tags.join(" ")).toLowerCase();
+      var hay = (meta.ids.join(" ") + " " + meta.species.join(" ") + " "
+                 + meta.tags.join(" ")).toLowerCase();
       if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
     }
     return true;
   }
 
+  // The count is PIECES, not cards: one card can carry three resolutions, and counting
+  // cards would report a filter as having lost pieces it is still showing.
   function sync() {
     document.querySelectorAll("button.f").forEach(function (b) {
       var on = state[b.dataset.kind] === (b.dataset.value || null);
       b.setAttribute("aria-pressed", on ? "true" : "false");
     });
-    var shown = 0;
+    var shown = 0, total = 0;
     cards.forEach(function (card) {
       var meta = JSON.parse(card.dataset.meta);
       var ok = matches(meta);
       card.classList.toggle("hidden", !ok);
-      if (ok) shown++;
+      total += meta.ids.length;
+      if (ok) shown += meta.ids.length;
+    });
+    // A section with nothing visible is a heading over an empty space: hide it too.
+    document.querySelectorAll(".sec").forEach(function (sec) {
+      var any = false;
+      sec.querySelectorAll(".card").forEach(function (c) {
+        if (!c.classList.contains("hidden")) any = true;
+      });
+      sec.classList.toggle("hidden", !any);
     });
     document.getElementById("count").textContent =
-      shown + " de " + cards.length + " peças no banco";
+      shown + " de " + total + " peças em " + cards.length + " cartões";
   }
+
+  // Resolution switch. Each card opens on the biggest piece; the buttons swap which
+  // resolution block is showing, and the copy button goes with it.
+  function showRes(card, id) {
+    card.querySelectorAll(".res").forEach(function (r) {
+      r.classList.toggle("on", r.dataset.id === id);
+    });
+    card.querySelectorAll("button.r").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.dataset.target === id ? "true" : "false");
+    });
+  }
+  document.querySelectorAll("button.r").forEach(function (b) {
+    b.addEventListener("click", function () {
+      showRes(this.closest(".card"), this.dataset.target);
+    });
+  });
 
   document.getElementById("q").addEventListener("input", function () {
     state.q = this.value;
@@ -367,79 +446,119 @@ __CARDS__
 """
 
 
+def render_res(e, by_id):
+    """One resolution of one piece: the art, its metadata and its copy button."""
+    piece, payload = by_id[e["id"]]
+    if e["slot"] == "prop":
+        shadow = by_id.get(e["shadow"], (None, None))[0]
+        rows, _ground = compose(piece, shadow, payload.get("floorTone"))
+        detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>" % (
+            e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-")
+    elif e["slot"] == "mancha":
+        rows, _ground = compose_decal(piece)
+        detail = ("%s &times; %s células · âncora %d,%d<br>disco rx %.2f × ry %.2f células "
+                  "(2:1 na tela)" % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
+                                     piece["disc"]["rx"], piece["disc"]["ry"]))
+    else:
+        rows = [{"g": row["g"], "c": row["c"]} for row in piece["cells"]]
+        detail = ("%s &times; %s células · âncora %d,%d (centro)<br>resolução <b>%s</b>%s"
+                  % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
+                     SIZE_LABEL.get(e.get("size"), "única"),
+                     " · estilo <b>%s</b>" % piece["style"] if piece.get("style") else ""))
+    body, _inked = af.run_length_html(rows)
+    snippet = json.dumps({"id": e["id"], "kind": e["kind"], "slot": e["slot"], "w": e["w"],
+                          "h": e["h"], "anchor": e["anchor"], "shadow": e.get("shadow"),
+                          "file": e["file"], "hash": e["hash"]},
+                         ensure_ascii=False, separators=(",", ":")).replace('"', "&quot;")
+    return (
+        '<div class="res" data-id="%s">\n'
+        '  <div class="art" style="background:%s"><pre>%s</pre></div>\n'
+        '  <div class="meta"><b class="id">%s</b>%s<br>hash <code>%s</code>'
+        '<div class="tags">%s</div>'
+        '<button class="copy" data-json="%s">copiar peça</button></div>\n'
+        '</div>'
+        % (e["id"],
+           payload.get("floorTone", "#2a231c" if e["slot"] == "icone" else "#3a352c"), body,
+           ('<span class="badge">só a mancha</span>' if e["slot"] == "mancha" else "")
+           + e["id"],
+           detail, e["hash"][:12],
+           "".join('<span class="tag%s">%s</span>'
+                   % (" slot" if t == e["slot"] else "", t) for t in e["tags"]),
+           snippet))
+
+
 def build_page(index):
     by_id = {}
     for setinfo in index["sets"]:
         payload = read_json(os.path.join(BANK, setinfo["file"]))
         for p in payload["pieces"]:
             by_id[p["id"]] = (p, payload)
-    cards = []
-    for e in index["pieces"]:
-        piece, payload = by_id[e["id"]]
-        if e["slot"] == "prop":
-            shadow = by_id.get(e["shadow"], (None, None))[0]
-            rows, ground = compose(piece, shadow, payload.get("floorTone"))
-            detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>" % (
-                e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-")
-        elif e["slot"] == "mancha":
-            rows, ground = compose_decal(piece)
-            detail = ("%s &times; %s células · âncora %d,%d<br>disco rx %.2f × ry %.2f células "
-                      "(2:1 na tela)" % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
-                                         piece["disc"]["rx"], piece["disc"]["ry"]))
-        else:
-            # An icon has no floor under it and no shadow: it is centred in a slot, so
-            # it is drawn exactly as it is stored.
-            rows, ground = [{"g": row["g"], "c": row["c"]} for row in piece["cells"]], None
-            detail = ("%s &times; %s células · âncora %d,%d (centro)<br>ocupa %d&times;%d slot%s "
-                      "de %d&times;%d células"
-                      % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
-                         piece.get("footprint", [0, 0])[0], piece.get("footprint", [0, 0])[1],
-                         "" if piece.get("footprint", [0, 0])[0] * piece.get("footprint", [0, 0])[1] == 1 else "s",
-                         piece.get("footprint", [0, 0])[0] * 5, piece.get("footprint", [0, 0])[1] * 3))
-        body, _inked = af.run_length_html(rows)
-        meta = json.dumps({"id": e["id"], "slot": e["slot"], "species": e["species"],
-                           "tags": e["tags"]}, ensure_ascii=False).replace('"', "&quot;")
-        snippet = json.dumps({"id": e["id"], "kind": e["kind"], "slot": e["slot"], "w": e["w"],
-                              "h": e["h"], "anchor": e["anchor"], "shadow": e.get("shadow"),
-                              "file": e["file"], "hash": e["hash"]},
-                             ensure_ascii=False, separators=(",", ":")).replace('"', "&quot;")
-        cards.append(
-            '<article class="card %s" data-meta="%s">\n'
-            '  <div class="art" style="background:%s"><pre>%s</pre></div>\n'
-            '  <div class="meta"><b class="id">%s</b>%s<br>hash <code>%s</code>'
-            '<div class="tags">%s</div>'
-            '<button class="copy" data-json="%s">copiar peça</button></div>\n'
-            '</article>'
-            % (e["slot"], meta,
-               payload.get("floorTone", "#2a231c" if e["slot"] == "icone" else "#3a352c"), body,
-               ('<span class="badge">só a mancha</span>' if e["slot"] == "mancha" else "") + e["id"],
-               detail, e["hash"][:12],
-               "".join('<span class="tag%s">%s</span>'
-                       % (" slot" if t == e["slot"] else "", t) for t in e["tags"]),
-               snippet))
 
-    total_props = sum(1 for e in index["pieces"] if e["slot"] == "prop")
-    total_shadows = sum(1 for e in index["pieces"] if e["slot"] == "mancha")
-    total_icons = sum(1 for e in index["pieces"] if e["slot"] == "icone")
-    lede = ("<b>%d conjuntos</b>, <b>%d peças</b> (%d props, %d manchas, %d ícones), indexadas por "
-            "<b>slot</b> — o vocabulário por que o motor desenha: piso, bloco, prop, ator, "
-            "mancha, efeito, ícone. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula "
-            "que vai para o centro do tile — ou do slot, num ícone de inventário) e um "
-            "<b>hash de conteúdo</b>, "
-            "para a mesma peça chegando de dois conjuntos ser reconhecida como uma só. "
-            "Os filtros são só CSS + JS: sem JavaScript a página mostra o banco inteiro."
-            % (len(index["sets"]), len(index["pieces"]), total_props, total_shadows, total_icons))
+    # One card per THING -- its resolutions live behind a button -- and the cards are
+    # grouped into the two halves of the bank, which are nothing alike: a piece of the
+    # world is placed on a tile and has to compose with its neighbours, an inventory item
+    # is a picture that sits in a list.
+    groups = {}
+    for e in index["pieces"]:
+        groups.setdefault((section_of(e["slot"]), family_of(e["id"])), []).append(e)
+
+    cards_by_section, counts = {}, {}
+    for (section, _fam), entries in groups.items():
+        entries.sort(key=lambda e: SIZE_ORDER.get(e.get("size"), 3))    # small..large
+        # Displayed biggest first: the small art is a different drawing, not a thumbnail,
+        # but the big one is the one worth the space, so it is the one that shows.
+        order = list(reversed(entries))
+        blocks = [render_res(e, by_id) for e in order]
+        blocks[0] = blocks[0].replace('class="res"', 'class="res on"', 1)
+        header = ""
+        if len(order) > 1:
+            btns = "".join('<button class="r" data-target="%s">%s <small>%d×%d</small></button>'
+                           % (e["id"], SIZE_LABEL.get(e.get("size"), "?"), e["w"], e["h"])
+                           for e in order)
+            header = ('<div class="cap"><b>%s</b><span>%d resoluções</span>'
+                      '<span class="rbar">%s</span></div>'
+                      % (_fam, len(order), btns))
+        meta = json.dumps({"ids": [x["id"] for x in entries], "slot": entries[0]["slot"],
+                           "species": sorted({x["species"] for x in entries
+                                              if x.get("species")}),
+                           "tags": sorted({t for x in entries for t in x["tags"]})},
+                          ensure_ascii=False).replace('"', "&quot;")
+        card = ('<article class="card %s" data-meta="%s">\n%s\n%s\n</article>'
+                % (entries[0]["slot"], meta, header, "\n".join(blocks)))
+        cards_by_section.setdefault(section, []).append(card)
+        counts[section] = counts.get(section, 0) + len(entries)
+
+    body = []
+    for (key, label, _slots) in SECTIONS:
+        cards = cards_by_section.get(key)
+        if not cards:
+            continue
+        body.append('<section class="sec" data-section="%s">\n'
+                    '<h2>%s <span class="n">%d peças em %d cartões</span></h2>\n'
+                    '<div class="grid">\n%s\n</div>\n</section>'
+                    % (key, label, counts[key], len(cards), "\n".join(cards)))
+
+    total = len(index["pieces"])
+    lede = ("<b>%d conjuntos</b>, <b>%d peças</b> em <b>%d cartões</b>, separadas em "
+            "<b>duas metades que não se misturam</b>: a <b>cena</b> (paisagem e natureza — "
+            "piso, bloco, prop, ator, mancha) e os <b>itens</b> (o slot <code>icone</code>). "
+            "Cada cartão abre na <b>maior resolução</b> e as outras ficam nos botões ao "
+            "lado. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que "
+            "vai para o centro do tile — ou do centro da caixa, num item) e um "
+            "<b>hash de conteúdo</b>. Os filtros são CSS + JS: sem JavaScript a página "
+            "mostra o banco inteiro, com todas as resoluções."
+            % (len(index["sets"]), total, len(groups)))
     footer = ("Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · "
-              "gerado por <code>bank.py</code> · para levar uma peça para outro jogo: "
-              "<code>bank.py export --tag conifer --out game.json</code>")
+              "gerado por <code>bank.py</code> · para levar uma fatia para outro jogo: "
+              "<code>bank.py export --section itens --out itens.json</code>")
     html = (PAGE_HEAD.replace("__LEDE__", lede)
-            .replace("__CARDS__", "\n".join(cards))
+            .replace("__CARDS__", "\n".join(body))
             .replace("__FOOTER__", footer)
             .replace("__DATA__", json.dumps(
                 {"slots": index["slots"], "tags": index["tags"]}, ensure_ascii=False)))
     with open(PAGE, "w", encoding="utf-8") as fh:
         fh.write(html)
-    return len(cards)
+    return len(index["pieces"])
 
 
 # --- commands -----------------------------------------------------------------
@@ -465,21 +584,23 @@ def cmd_build():
     print("  page  : %s" % os.path.relpath(PAGE, HERE))
 
 
-def cmd_list(slot=None, tag=None, set_id=None, species=None):
+def cmd_list(slot=None, tag=None, set_id=None, species=None, section=None):
     index = read_json(INDEX)
-    chosen = select(index, slot, tag, set_id, species)
-    print("%-26s %-8s %-8s %6s %-12s %s" % ("id", "slot", "species", "cells", "anchor", "tags"))
+    chosen = select(index, slot, tag, set_id, species, section)
+    print("%-26s %-8s %-7s %-8s %6s %-12s %s"
+          % ("id", "section", "slot", "species", "cells", "anchor", "tags"))
     for e in chosen:
-        print("%-26s %-8s %-8s %2dx%-3d %-12s %s"
-              % (e["id"], e["slot"], e["species"] or "-", e["w"], e["h"],
+        print("%-26s %-8s %-7s %-8s %2dx%-3d %-12s %s"
+              % (e["id"], e.get("section", "-"), e["slot"], e["species"] or "-",
+                 e["w"], e["h"],
                  "%d,%d" % (e["anchor"]["x"], e["anchor"]["y"]), " ".join(e["tags"])))
     print("\n%d pieces%s" % (len(chosen),
                              " of %d" % len(index["pieces"]) if len(chosen) != len(index["pieces"]) else ""))
 
 
-def cmd_export(out, slot=None, tag=None, set_id=None, with_shadows=True):
+def cmd_export(out, slot=None, tag=None, set_id=None, with_shadows=True, section=None):
     index = read_json(INDEX)
-    chosen = select(index, slot, tag, set_id)
+    chosen = select(index, slot, tag, set_id, section=section)
     ids = {e["id"] for e in chosen}
     payload = {
         "version": 1,
@@ -562,6 +683,8 @@ def main():
     ap.add_argument("--tag")
     ap.add_argument("--set")
     ap.add_argument("--species")
+    ap.add_argument("--section", choices=[k for (k, _l, _s) in SECTIONS],
+                    help="cena (paisagem e natureza) ou itens (inventário)")
     ap.add_argument("--out", default=os.path.join(HERE, "game.json"))
     args = ap.parse_args()
 
@@ -570,11 +693,11 @@ def main():
     elif args.command == "build":
         cmd_build()
     elif args.command == "list":
-        cmd_list(args.slot, args.tag, args.set, args.species)
+        cmd_list(args.slot, args.tag, args.set, args.species, args.section)
     elif args.command == "check":
         cmd_check()
     else:
-        cmd_export(args.out, args.slot, args.tag, args.set)
+        cmd_export(args.out, args.slot, args.tag, args.set, section=args.section)
 
 
 if __name__ == "__main__":

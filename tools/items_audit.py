@@ -140,6 +140,21 @@ def section_a(payload):
     check("a blade keeps its crossguard wider than itself at every size",
           not flat, ", ".join(flat[:3]) or "%d blades x 3 sizes" % len(blades))
 
+    # What is ROUND cannot be checked in a cell grid (a cell is 1.66x taller than wide),
+    # so the routines declare the circles they draw and the ratio is checked here -- the
+    # same deal as the contact shadow's 2:1 ellipse. A ring, a stone, a mace head and a
+    # round shield that come out as tall ovals are the bug this catches.
+    ratio = wp.af.CELL_W / wp.af.CELL_H
+    ovals, circles = [], 0
+    for p in pieces:
+        for (rx, ry) in p.get("circles", []):
+            circles += 1
+            if abs(ry / max(1e-6, rx) - ratio) > 0.10 * ratio:
+                ovals.append("%s %.2f/%.2f" % (p["id"], rx, ry))
+    check("every declared circle is a circle on screen, not a cell oval",
+          not ovals, ", ".join(ovals[:3]) or
+          "%d circles across %d pieces, all at dy/dx = %.3f" % (circles, len(pieces), ratio))
+
     off_centre, worst_mass = [], 0.0
     for p in pieces:
         (bw, bh) = ink_bbox(p)

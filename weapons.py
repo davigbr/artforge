@@ -94,6 +94,25 @@ def cellipse(d, cx, cy, rx, ry, color):
     d.ellipse([(cx - rx) * UX, (cy - ry) * UY, (cx + rx) * UX, (cy + ry) * UY], fill=color)
 
 
+CIRCLES = []          # the round geometry drawn for the piece being built, for the audit
+
+
+def circle(d, cx, cy, r, color):
+    """A circle ON SCREEN, where `r` is the radius in CELLS across.
+
+    A text cell is 1.66x taller than it is wide, so an ellipse with equal radii in cell
+    units comes out as a tall oval on screen: this is that correction, in one place.
+    The opposite case is a horizontal DISC seen from above (a tree crown, a contact
+    shadow), which is squashed on purpose -- that is the isometry, and it lives in
+    `artforge.ISO_FLAT`. A stone, a mace head, a round shield and a ring are round, not
+    squashed, and this is the helper that says so.
+    """
+    ry = r * af.CELL_W / af.CELL_H
+    cellipse(d, cx, cy, r, ry, color)
+    CIRCLES.append([round(r, 3), round(ry, 3)])
+    return ry
+
+
 def pal(**kw):
     """Every art colour goes through the ink boost exactly once (the engine's
     numbers: a glyph only covers part of its cell, so the declared colour is not the
@@ -163,12 +182,10 @@ def w_blade(d, w, h, detail, metal, fitting, grip, gem=None, kind="sword"):
     crect(d, cx - guard_half, guard_y, cx + guard_half, guard_y + guard_th * 0.45,
           fitting["metal_light"])
     if detail:                                    # quillon tips
-        cellipse(d, cx - guard_half, guard_y + guard_th * 0.5, 0.7, guard_th * 0.75,
-                 fitting["metal_light"])
-        cellipse(d, cx + guard_half, guard_y + guard_th * 0.5, 0.7, guard_th * 0.75,
-                 fitting["metal_light"])
+        circle(d, cx - guard_half, guard_y + guard_th * 0.5, 0.5, fitting["metal_light"])
+        circle(d, cx + guard_half, guard_y + guard_th * 0.5, 0.5, fitting["metal_light"])
         if gem:
-            cellipse(d, cx, guard_y + guard_th * 0.5, 0.7, guard_th * 0.7, gem["metal"])
+            circle(d, cx, guard_y + guard_th * 0.5, 0.45, gem["metal"])
     # grip and pommel
     crect(d, cx - grip_half, guard_y + guard_th, cx + grip_half, pommel_y, grip["metal"])
     crect(d, cx - grip_half, guard_y + guard_th, cx - grip_half * 0.2, pommel_y,
@@ -177,25 +194,22 @@ def w_blade(d, w, h, detail, metal, fitting, grip, gem=None, kind="sword"):
         for i in range(3):
             y = guard_y + guard_th + (pommel_y - guard_y - guard_th) * (0.22 + 0.26 * i)
             cline(d, cx - grip_half, y, cx + grip_half, y, grip["metal_dark"], 1.0)
-    cellipse(d, cx, pommel_y, max(0.8, grip_half * 1.5), max(0.7, grip_half * 1.1),
-             fitting["metal"])
-    cellipse(d, cx, pommel_y - 0.25, max(0.4, grip_half * 0.7), max(0.35, grip_half * 0.5),
-             fitting["metal_light"])
+    circle(d, cx, pommel_y, max(0.7, grip_half * 1.35), fitting["metal"])
+    circle(d, cx - grip_half * 0.35, pommel_y - grip_half * 0.30, max(0.3, grip_half * 0.55),
+           fitting["metal_light"])
 
 
 def w_mace(d, w, h, detail, metal, haft, fitting, gem=None):
     """A head at the top of a haft: flanged, spiked when there is room."""
     cx = w / 2.0
     haft_half = max(0.6, w * 0.07)
-    head_r = min(w * 0.34, h * 0.16)
+    head_r = min(w * 0.34, h * 0.20)
     head_y = head_r + 0.8
     crect(d, cx - haft_half, head_y, cx + haft_half, h - 0.6, haft["metal"])
     crect(d, cx - haft_half, head_y, cx - haft_half * 0.2, h - 0.6, haft["metal_light"])
-    cellipse(d, cx, head_y, head_r, head_r, metal["metal"])
-    cellipse(d, cx - head_r * 0.3, head_y - head_r * 0.3, head_r * 0.5, head_r * 0.5,
-             metal["metal_light"])
-    cellipse(d, cx + head_r * 0.35, head_y + head_r * 0.35, head_r * 0.6, head_r * 0.6,
-             metal["metal_dark"])
+    circle(d, cx, head_y, head_r, metal["metal"])
+    circle(d, cx - head_r * 0.30, head_y - head_r * 0.34, head_r * 0.45, metal["metal_light"])
+    circle(d, cx + head_r * 0.35, head_y + head_r * 0.40, head_r * 0.52, metal["metal_dark"])
     for angle in (-90, -30, 30, 90, 150, 210):    # flanges
         a = math.radians(angle)
         cline(d, cx + math.cos(a) * head_r * 0.6, head_y + math.sin(a) * head_r * 0.6,
@@ -340,12 +354,12 @@ def w_staff(d, w, h, detail, wood, metal, gem):
     head_y = h * 0.16
     crect(d, cx - shaft_half, head_y, cx + shaft_half, h - 0.5, wood["metal"])
     crect(d, cx - shaft_half, head_y, cx - shaft_half * 0.2, h - 0.5, wood["metal_light"])
-    orb_r = min(w * 0.30, h * 0.11)
-    cellipse(d, cx, head_y - 0.4, orb_r, orb_r, gem["metal"])
-    cellipse(d, cx - orb_r * 0.35, head_y - orb_r * 0.75, orb_r * 0.45, orb_r * 0.45,
-             shade(gem["metal"], 1.35))
-    cellipse(d, cx + orb_r * 0.4, head_y + 0.2, orb_r * 0.5, orb_r * 0.5,
-             shade(gem["metal"], 0.62))
+    orb_r = min(w * 0.30, h * 0.16)
+    circle(d, cx, head_y - 0.4, orb_r, gem["metal"])
+    circle(d, cx - orb_r * 0.35, head_y - orb_r * 0.55, orb_r * 0.42,
+           shade(gem["metal"], 1.35))
+    circle(d, cx + orb_r * 0.40, head_y + orb_r * 0.25, orb_r * 0.46,
+           shade(gem["metal"], 0.62))
     for side in (-1, 1):                           # prongs
         cline(d, cx + side * shaft_half * 0.8, head_y + 0.4, cx + side * orb_r * 1.25,
               head_y - orb_r * 0.9, metal["metal"], 1.0)
@@ -363,18 +377,17 @@ def w_shield(d, w, h, detail, style, body, metal, boss, emblem=None):
 
     if style == "round":
         cy = (top + bot) / 2.0
-        ry = min((bot - top) / 2.0, half * 0.95)
-        cellipse(d, cx, cy, half, ry, body["metal"])
-        cellipse(d, cx - half * 0.20, cy - ry * 0.20, half * 0.66, ry * 0.66, body["metal_light"])
-        cellipse(d, cx + half * 0.34, cy + ry * 0.30, half * 0.52, ry * 0.52, body["metal_dark"])
-        cellipse(d, cx, cy, half * 0.30, ry * 0.34, boss["metal"])
-        cellipse(d, cx - half * 0.08, cy - ry * 0.10, half * 0.13, ry * 0.15,
-                 shade(boss["metal"], 1.35))
+        rr = min(half, ((bot - top) / 2.0) / (af.CELL_W / af.CELL_H))
+        circle(d, cx, cy, rr, body["metal"])
+        circle(d, cx - rr * 0.20, cy - rr * 0.20, rr * 0.66, body["metal_light"])
+        circle(d, cx + rr * 0.34, cy + rr * 0.30, rr * 0.52, body["metal_dark"])
+        circle(d, cx, cy, rr * 0.30, boss["metal"])
+        circle(d, cx - rr * 0.10, cy - rr * 0.14, rr * 0.13, shade(boss["metal"], 1.35))
         if detail:
             for k in range(8):
                 a = math.radians(k * 45)
-                cellipse(d, cx + math.cos(a) * half * 0.84, cy + math.sin(a) * ry * 0.84,
-                         0.5, 0.5, metal["metal"])
+                circle(d, cx + math.cos(a) * rr * 0.84, cy + math.sin(a) * rr * 0.84,
+                       max(0.22, rr * 0.07), metal["metal"])
         return
 
     if style == "tower":
@@ -641,21 +654,29 @@ def w_armor(d, w, h, detail, style, metal, leather, fitting, gem=None):
 
 
 def w_ring(d, w, h, detail, metal, gem):
-    """A 1x1 slot item: a band and a stone, and at this size the stone IS the read."""
-    cx, cy = w / 2.0, h / 2.0
-    rx = max(0.9, w * 0.32)
-    ry = max(0.8, h * 0.30)
-    cellipse(d, cx, cy, rx, ry, metal["metal"])
-    cellipse(d, cx, cy, rx * 0.55, ry * 0.55, (0, 0, 0))
-    cellipse(d, cx - rx * 0.25, cy - ry * 0.30, rx * 0.30, ry * 0.28, metal["metal_light"])
-    cellipse(d, cx, cy - ry * 1.05, max(0.7, w * 0.20), max(0.6, h * 0.20), gem["metal"])
-    cellipse(d, cx - w * 0.05, cy - ry * 1.20, max(0.3, w * 0.08), max(0.25, h * 0.08),
-             shade(gem["metal"], 1.4))
+    """A band and a stone, and at this size the two circles ARE the read.
+
+    This is the one piece in the set where 'round' is the feature, so the band, the hole
+    and the stone all go through circle() -- drawn in cell units they came out as a tall
+    oval, which is exactly what the eye was complaining about."""
+    cx = w / 2.0
+    r = max(0.9, min(w * 0.34, h * 0.44))
+    band = max(0.5, r * 0.32)
+    gem_r = max(0.5, r * 0.40)
+    ry = r * af.CELL_W / af.CELL_H
+    cy = h * 0.60
+    circle(d, cx, cy, r, metal["metal"])                       # the band
+    circle(d, cx, cy, r - band, (0, 0, 0))                     # the hole: background
+    circle(d, cx - r * 0.34, cy - ry * 0.42, r * 0.24, metal["metal_light"])
+    circle(d, cx, cy - ry - gem_r * 0.55, gem_r, gem["metal"])  # the stone
+    circle(d, cx - gem_r * 0.30, cy - ry - gem_r * 0.85, gem_r * 0.34,
+           shade(gem["metal"], 1.4))
     if detail:
         for angle in range(0, 360, 45):
             a = math.radians(angle)
-            cellipse(d, cx + math.cos(a) * rx * 0.85, cy + math.sin(a) * ry * 0.85,
-                     0.35, 0.32, metal["metal_dark"])
+            circle(d, cx + math.cos(a) * (r - band * 0.5),
+                   cy + math.sin(a) * (ry - band * 0.5 * af.CELL_W / af.CELL_H),
+                   max(0.22, band * 0.28), metal["metal_dark"])
 
 
 # --- the set --------------------------------------------------------------------
@@ -713,13 +734,15 @@ ITEMS = [
     ("armor.chest.gilded", "Peitoral dourado", "armor", "gilded", (10, 10), w_armor,
      dict(metal="steel", leather="leather", fitting="gold", gem_color=(180, 40, 48))),
     # three shield shapes
-    ("armor.shield.round", "Escudo redondo", "armor", "round", (9, 9), w_shield,
+    ("armor.shield.round", "Escudo redondo", "armor", "round", (9, 6), w_shield,
      dict(body="wood", metal="iron", boss="gold", emblem_color=(150, 44, 44))),
     ("armor.shield.kite", "Escudo em gota", "armor", "kite", (9, 11), w_shield,
      dict(body="wood", metal="iron", boss="gold", emblem_color=(150, 44, 44))),
     ("armor.shield.tower", "Escudo torre", "armor", "tower", (8, 12), w_shield,
      dict(body="wood", metal="iron", boss="steel", emblem_color=(60, 90, 150))),
-    ("jewelry.ring", "Anel", "jewelry", None, (5, 5), w_ring,
+    # 7x7 and not 5x5: the ring's HOLE is the feature, and inside a 5-cell box it comes
+    # out under a cell wide -- a cell is 6.6 x 11 px, so there is nowhere to put it.
+    ("jewelry.ring", "Anel", "jewelry", None, (7, 7), w_ring,
      dict(metal="gold", gem_color=(180, 40, 48))),
 ]
 
@@ -748,8 +771,9 @@ def build_item(item, size_id, scale, seed):
             kw[key] = mat(value)                   # a material name resolves to its palette
         else:
             kw[key] = value                        # a geometry knob passes through
+    CIRCLES.clear()
     routine(d, w, h, detail, **kw)
-    return img, w, h, detail
+    return img, w, h, detail, list(CIRCLES)
 
 
 def shift_grid(rows, w, h, dx, dy):
@@ -857,7 +881,7 @@ def build_set(seed):
     for item in ITEMS:
         (item_id, label, category, style, box, _routine, _mats) = item
         for (size_id, size_label, scale) in SIZES:
-            img, w, h, detail = build_item(item, size_id, scale, seed)
+            img, w, h, detail, circles = build_item(item, size_id, scale, seed)
             built = to_cells(img, w, h)
             rows = built["rows"]
             inked = sum(1 for r in rows for g in r["g"] if g != " ")
@@ -882,6 +906,10 @@ def build_set(seed):
                 "anchor": {"x": cx, "y": cy},
                 "frames": 1,
                 "directions": 1,
+                # The round geometry, declared the way the contact shadow declares its
+                # ellipse: what is round on screen cannot be checked in a cell grid, so
+                # it is checked here (see the audit's screen-circle check).
+                "circles": circles,
                 "levels": built["levels"],
                 "cells": rows,
                 "stats": {"inkedCells": inked, "cellCount": w * h,

@@ -55,7 +55,23 @@ O **slot** é o vocabulário por que o motor desenha, e é por ele que o banco s
 | `ator` | o que anda e anima |
 | `mancha` | plano, desenhado com o piso, **nunca oclui** (a sombra de contato) |
 | `efeito` | fogo, fumaça, brilho |
-| `icone` | peça de **inventário**: não tem chão, é **centralizada no slot** |
+| `icone` | peça de **inventário**: não tem chão, é **centralizada** |
+
+O banco se parte em **duas metades que não se misturam**, e a divisão está no índice (dá para filtrar e
+exportar) e na página (uma seção cada):
+
+- **cena** — paisagem e natureza: o que é *colocado num tile* e tem de compor com o vizinho (o piso emenda
+  consigo mesmo, o prop pisa no chão, a mancha vai junto com o piso);
+- **itens** — o que é *uma figura numa lista* e não compõe com nada (o slot `icone`).
+
+```bash
+PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py list --section itens    # 84 peças
+PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py export --section itens --out itens.json
+```
+
+Na página, **um cartão por coisa**: as três resoluções de um item (ou de uma árvore) são um cartão só, que
+abre na **maior** — a pequena é outro desenho, não uma miniatura — e as outras ficam em botões ao lado. Sem
+JavaScript a página mostra tudo, com as três resoluções abertas.
 
 O `check` já pagou por si: na primeira execução ele acusou **seis pares de sombras idênticas** — a sombra
 estava sendo gerada por árvore, e `oak.small` e `autumn.small` produziam o mesmo desenho sob ids
@@ -107,6 +123,15 @@ Consequências no código, todas em `weapons.py`:
 3. **Silhueta cheia precisa de margem de 1 célula na caixa.** Escudo e elmo desenhados até a borda da caixa
    saíam com **91–95 % de tinta** — um retângulo sólido, sem forma para ler.
 4. **Nada de contorno escuro.** O contorno é para fundo claro; o painel é escuro, e a peça brilha por si.
+5. **O que é redondo passa pelo `circle()`.** A célula é **1,66× mais alta que larga**, então uma elipse de
+   raios iguais em unidades de célula sai **oval na tela** — era por isso que o anel parecia uma bola
+   achatada. O `circle()` faz a correção em um lugar só, e cada círculo desenhado fica **declarado no
+   JSON** (`circles`), porque o que é redondo **não se confere numa grade de células** — confere-se no
+   número, como o 2:1 da mancha. Cuidado com o caso oposto: o disco *visto de cima* (copa, sombra) é
+   achatado **de propósito** — isso é a isometria, e mora no `ISO_FLAT`.
+6. **O tamanho da caixa responde ao traço, inclusive quando o traço é um buraco.** O anel pequeno em 5×5
+   saía como um borrão porque o **furo** ficava com menos de uma célula (a célula tem 6,6 × 11 px, não há
+   onde pôr um furo de 3 px). Com 7×7 o furo aparece. Sem grade de slots, quem decide é o traço.
 
 ## O tamanho responde à legibilidade, não a um footprint
 
@@ -238,7 +263,8 @@ de altura, e uma célula de texto só sabe ser inteira — meio-bloco existe par
 | ícones: tinta | 20–85% em 84/84 (o piso é 20 porque **um arco é curvo**: 25% de tinta é a forma honesta de um arco) |
 | ícones: redução | `shrink(grande, 2)` cai na grade da pequena em 28/28; o `shrink` do navegador dá **a mesma grade glifo a glifo** que o do Python; o contraste desenhado (65,6) ganha do reduzido (56,9) com a margem de 5 |
 | página | sem canvas, sem imagem, sem requisição externa; sem overflow em 1440×900 e 390×844 |
-| banco | `bank.py check`: 126 peças em 2 conjuntos, 46 tags, **zero arte repetida**; `tools/bank_audit.py`: **12/12**, com cada filtro contado contra o índice (conifer → 3, mancha → 18, "palm" → 3, icone → 84, chain → 3) |
+| ícones: redondo | todo círculo declarado no JSON tem `ry/rx = 0,602` (a proporção da célula) — o anel pequeno mede **33 × 33 px de tinta** |
+| banco | `bank.py check`: 126 peças em 2 conjuntos, 46 tags, **zero arte repetida**; `tools/bank_audit.py`: **19/19** — 54 cartões (um por coisa) segurando as 126 peças, cena e itens em seções separadas, todo cartão abrindo na maior resolução, o botão trocando de verdade (e o «copiar» indo junto), filtros contados **em peças** (conifer → 3, mancha → 18, "palm" → 3, icone → 84), a seção esvaziada levando o título embora, e sem JavaScript as 126 resoluções na página |
 
 Checagem que nunca falhou não prova nada: cada limiar aqui tem o valor da regressão ao lado (o boost fraco
 medido em 17 / 35 / 73). E duas métricas foram escolhidas justamente por não medirem o que pareciam medir —

@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """bank audit: the library page measured in a real browser.
 
-A browser with filters is only worth something if the filters actually select the
-right pieces, so this clicks them and counts what is on screen -- against the
-index, not against the page's own idea of itself.
+A browser with filters is only worth something if the filters actually select the right
+pieces, so this clicks them and counts what is on screen -- against the index, not
+against the page's own idea of itself.
+
+Two things this page has that are easy to get wrong and are therefore checked here: the
+bank is split into two SECTIONS (the scene and the inventory items) and one card carries
+a whole thing at its three resolutions with the biggest one showing. A filter counts
+PIECES, not cards: reporting a filter as having lost pieces it is still showing is the
+failure mode of counting the wrong thing.
 
 Run: PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 tools/bank_audit.py
 """
@@ -19,6 +25,12 @@ INDEX = os.path.join(HERE, "bank", "index.json")
 PAGE = os.path.join(HERE, "bank", "bank.html")
 SHOT = os.path.join(HERE, "reports", "bank.png")
 
+# in the browser: the pieces a filter is actually showing, read from each card's own
+# declaration of what it holds
+PIECES_SHOWN = """() => Array.from(document.querySelectorAll('.card'))
+  .filter(c => !c.classList.contains('hidden'))
+  .reduce((n, c) => n + JSON.parse(c.dataset.meta).ids.length, 0)"""
+
 results = []
 
 
@@ -32,10 +44,13 @@ def main():
     with open(INDEX, encoding="utf-8") as fh:
         index = json.load(fh)
     total = len(index["pieces"])
+    sizes = {e["id"]: e["w"] * e["h"] for e in index["pieces"]}
     by_slot = {}
     for e in index["pieces"]:
         by_slot[e["slot"]] = by_slot.get(e["slot"], 0) + 1
     conifers = sum(1 for e in index["pieces"] if "conifer" in e["tags"])
+    palms = sum(1 for e in index["pieces"] if "palm" in e["id"] or e["species"] == "palm")
+    icons = sum(1 for e in index["pieces"] if e["slot"] == "icone")
 
     check("index resolves its own set files", all(
         os.path.exists(os.path.join(HERE, "bank", e["file"])) for e in index["pieces"]),
@@ -60,51 +75,123 @@ def main():
                 check("offline (no external request)", not external, ", ".join(external[:2]))
                 page.screenshot(path=SHOT, full_page=True)
 
-                cards = page.evaluate("document.querySelectorAll('.card').length")
-                check("one card per piece in the index", cards == total,
-                      "%d cards for %d pieces" % (cards, total))
-                visible = page.evaluate(
-                    "Array.from(document.querySelectorAll('.card')).filter(c => !c.classList.contains('hidden')).length")
-                check("without a filter the whole bank shows", visible == total, "%d visible" % visible)
+                cards = page.evaluate("""() => Array.from(document.querySelectorAll('.card'))
+                  .map(c => ({ids: JSON.parse(c.dataset.meta).ids,
+                              slot: JSON.parse(c.dataset.meta).slot,
+                              section: c.closest('.sec').dataset.section}))""")
+                held = [i for c in cards for i in c["ids"]]
+                check("every piece sits in exactly one card",
+                      sorted(held) == sorted(e["id"] for e in index["pieces"]),
+                      "%d cards holding %d pieces (index has %d)"
+                      % (len(cards), len(held), total))
 
-                def click_and_count(selector, text):
-                    page.click("%s >> text=%s" % (selector, text))
+                sections = {}
+                for c in cards:
+                    sections.setdefault(c["section"], set()).update({c["slot"]})
+                check("the scene and the inventory are separate sections",
+                      set(sections) == {"cena", "itens"}
+                      and sections["cena"] == {"prop", "mancha"}
+                      and sections["itens"] == {"icone"},
+                      "; ".join("%s: %s" % (k, ",".join(sorted(v)))
+                                for k, v in sorted(sections.items())))
+
+                # Each card opens on its biggest piece, and the switch works.
+                opens = page.evaluate("""() => Array.from(document.querySelectorAll('.card'))
+                  .map(c => { const on = c.querySelector('.res.on');
+                              return {ids: JSON.parse(c.dataset.meta).ids,
+                                      on: on ? on.dataset.id : null}; })""")
+                wrong = [o for o in opens if not o["on"]
+                         or sizes[o["on"]] != max(sizes[i] for i in o["ids"])]
+                check("every card opens on its LARGEST resolution", not wrong,
+                      "%d cards, %d not opening on the biggest" % (len(opens), len(wrong)))
+
+                target = "weapon.sword.great.small"
+                card_id = "weapon.sword.great"
+                page.evaluate("""(id) => {
+                    const b = Array.from(document.querySelectorAll('button.r'))
+                      .find(x => x.dataset.target === id);
+                    b.click();
+                }""", target)
+                page.wait_for_timeout(120)
+                now = page.evaluate("""(id) => {
+                    const card = Array.from(document.querySelectorAll('.card'))
+                      .find(c => JSON.parse(c.dataset.meta).ids.includes(id));
+                    const on = card.querySelector('.res.on');
+                    const copy = on.querySelector('.copy');
+                    return {on: on.dataset.id,
+                            copied: JSON.parse(copy.dataset.json).id};
+                }""", target)
+                check("the resolution button switches what the card shows",
+                      now["on"] == target, "%s now shows %s" % (card_id, now["on"]))
+                check("and the copy button follows the visible resolution",
+                      now["copied"] == target, "copies %s" % now["copied"])
+
+                def shown():
+                    return page.evaluate(PIECES_SHOWN)
+
+                check("without a filter the whole bank shows", shown() == total,
+                      "%d of %d pieces" % (shown(), total))
+
+                def click_and_count(text):
+                    page.click("button.f >> text=%s" % text)
                     page.wait_for_timeout(120)
-                    return page.evaluate(
-                        "Array.from(document.querySelectorAll('.card'))"
-                        ".filter(c => !c.classList.contains('hidden')).length")
+                    return shown()
 
-                got = click_and_count("button.f", "conifer")
+                got = click_and_count("conifer")
                 check("tag filter selects the right pieces", got == conifers,
-                      "conifer -> %d card(s), index has %d" % (got, conifers))
-                click_and_count("button.f", "conifer")          # toggle off
+                      "conifer -> %d pieces, index has %d" % (got, conifers))
+                click_and_count("conifer")                       # toggle off
 
-                got = click_and_count("button.f", "mancha")
+                page.click("button.f >> text=mancha")
+                page.wait_for_timeout(150)
+                got = shown()
+                hidden = page.evaluate(
+                    "Array.from(document.querySelectorAll('.sec'))"
+                    ".filter(s => s.classList.contains('hidden'))"
+                    ".map(s => s.dataset.section)")
                 check("slot filter reaches the discs", got == by_slot.get("mancha", 0),
-                      "mancha -> %d card(s), index has %d" % (got, by_slot.get("mancha", 0)))
-                click_and_count("button.f", "mancha")
+                      "mancha -> %d pieces, index has %d" % (got, by_slot.get("mancha", 0)))
+                check("and a section emptied by the filter takes its heading with it",
+                      hidden == ["itens"], "hidden sections: %s" % (hidden or "none"))
+                click_and_count("mancha")
 
                 page.fill("#q", "palm")
                 page.wait_for_timeout(120)
-                got = page.evaluate(
-                    "Array.from(document.querySelectorAll('.card'))"
-                    ".filter(c => !c.classList.contains('hidden')).length")
-                palm = sum(1 for e in index["pieces"] if "palm" in e["id"] or e["species"] == "palm")
-                check("search box filters by id/species/tag", got == palm,
-                      "'palm' -> %d card(s), index has %d" % (got, palm))
+                got = shown()
+                check("search box filters by id/species/tag", got == palms,
+                      "'palm' -> %d pieces, index has %d" % (got, palms))
+                page.fill("#q", "icone")
+                page.wait_for_timeout(120)
+                check("the search reaches the item section too", shown() == icons,
+                      "'icone' -> %d pieces, index has %d" % (shown(), icons))
                 page.fill("#q", "")
 
                 buttons = page.evaluate("document.querySelectorAll('.copy').length")
-                check("every card can hand its piece over", buttons == total,
-                      "%d copy buttons" % buttons)
+                check("every resolution can hand its piece over", buttons == total,
+                      "%d copy buttons for %d pieces" % (buttons, total))
                 stamped = page.evaluate(
-                    "Array.from(document.querySelectorAll('.copy')).filter(b => !b.dataset.json).length")
-                check("each card carries the anchor and hash to pick it up", stamped == 0,
-                      "%d cards without a payload" % stamped)
+                    "Array.from(document.querySelectorAll('.copy'))"
+                    ".filter(b => !b.dataset.json).length")
+                check("each carries the anchor and hash to pick it up", stamped == 0,
+                      "%d without a payload" % stamped)
 
             overflow = page.evaluate("document.documentElement.scrollWidth - window.innerWidth")
             check("no horizontal overflow at %dx%d" % (vw, vh), overflow <= 0, "%d px" % overflow)
             page.close()
+
+        # Without JavaScript the page still has to be the whole bank: the resolution
+        # switch is gated on a class the script sets, so all three should be visible.
+        page = browser.new_page(viewport={"width": 1440, "height": 900},
+                                java_script_enabled=False)
+        page.goto("file://" + PAGE)
+        page.wait_for_timeout(200)
+        blocks = page.evaluate("document.querySelectorAll('.res').length")
+        hidden = page.evaluate("""() => Array.from(document.querySelectorAll('.res'))
+          .filter(r => !(r.offsetWidth || r.offsetHeight || r.getClientRects().length)).length""")
+        check("with JavaScript off, every resolution is still on the page",
+              blocks == total and hidden == 0,
+              "%d resolution blocks, %d hidden" % (blocks, hidden))
+        page.close()
         browser.close()
 
     failed = [r for r in results if not r[1]]
