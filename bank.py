@@ -1,0 +1,551 @@
+#!/usr/bin/env python3
+"""bank -- the piece library: every set that has been generated, indexed, tagged and
+reusable by another game.
+
+Why a bank and not just the generator's output: a set is what one script produced
+for one game; the bank is the stock. It keeps the set files untouched, indexes
+every piece with the metadata another project needs to pick it (slot, species,
+size, tags, size in cells, ANCHOR, its shadow), and gives each piece a content
+hash so the same piece arriving from two sets is recognisable as one thing.
+
+The SLOT vocabulary is the one the engine draws by:
+    piso    the ground, repeated on every tile (must tile with itself)
+    bloco   a tile with height: wall, cliff, thick trunk
+    prop    a static object standing on a tile (a tree)
+    ator    something that walks and animates
+    mancha  flat, drawn with the floor, never occludes (a contact shadow)
+    efeito  fire, smoke, glow
+
+Usage:
+    PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py ingest [file]
+    PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py build
+    PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py list [--slot S] [--tag T]
+    PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py check
+    PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 bank.py export --out game.json [--slot S] [--tag T] [--set X]
+
+`ingest` copies a generated set into the bank, `build` rewrites the index and the
+browser, `check` proves the bank is consistent with its own set files.
+
+Code is English; the copy the reader sees on the page is Portuguese.
+"""
+
+import argparse
+import hashlib
+import json
+import os
+import shutil
+import sys
+
+import artforge as af
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+BANK = os.path.join(HERE, "bank")
+SETS = os.path.join(BANK, "sets")
+INDEX = os.path.join(BANK, "index.json")
+PAGE = os.path.join(BANK, "bank.html")
+DEFAULT_SET = os.path.join(HERE, "assets", "trees.json")
+
+BANK_VERSION = 1
+
+# What each species IS, so another game can ask for "a conifer" and not for "oak".
+# A set that ships its own `pieceTags` overrides this; an unknown species gets the
+# slot tag only, which is honest -- the bank should not invent what it does not know.
+TAG_RULES = {
+    "oak": ["tree", "foliage"],
+    "autumn": ["tree", "foliage", "autumn"],
+    "birch": ["tree", "foliage", "pale-bark"],
+    "pine": ["tree", "conifer"],
+    "willow": ["tree", "foliage", "hanging"],
+    "palm": ["tree", "palm"],
+    "bush": ["shrub", "foliage"],
+    "dead": ["tree", "bare"],
+}
+
+SLOT_OF_KIND = {"prop": "prop", "decal": "mancha", "tile": "piso", "block": "bloco",
+                "actor": "ator", "fx": "efeito"}
+
+SIZE_ORDER = {"small": 0, "medium": 1, "large": 2, None: 3}
+
+
+def read_json(path):
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def write_json(path, payload):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, ensure_ascii=False, separators=(",", ":"))
+        fh.write("\n")
+
+
+def piece_hash(piece):
+    """Content hash: the same piece arriving from two sets has to be recognisable
+    as one thing, so the hash covers exactly what makes the piece what it is --
+    its grid, its colours and where its anchor sits -- and nothing about where it
+    came from."""
+    canon = json.dumps({"w": piece["w"], "h": piece["h"], "anchor": piece["anchor"],
+                        "cells": piece["cells"]}, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha1(canon.encode("utf-8")).hexdigest()
+
+
+def tags_for(piece, set_payload):
+    rules = (set_payload.get("pieceTags") or {}).get(piece.get("species"))
+    tags = list(rules) if rules else list(TAG_RULES.get(piece.get("species"), []))
+    tags.insert(0, SLOT_OF_KIND.get(piece.get("kind"), piece.get("kind")))
+    if piece.get("size"):
+        tags.append(piece["size"])
+    return sorted(set(tags))
+
+
+def entry_for(piece, set_id, set_payload, file_name):
+    return {
+        "id": piece["id"],
+        "set": set_id,
+        "file": file_name,
+        "kind": piece["kind"],
+        "slot": SLOT_OF_KIND.get(piece["kind"], piece["kind"]),
+        "species": piece.get("species"),
+        "size": piece.get("size"),
+        "w": piece["w"],
+        "h": piece["h"],
+        "anchor": piece["anchor"],
+        "shadow": piece.get("shadow"),
+        "frames": piece.get("frames", 1),
+        "directions": piece.get("directions", 1),
+        "tags": tags_for(piece, set_payload),
+        "hash": piece_hash(piece),
+    }
+
+
+def build_index():
+    sets = []
+    pieces = []
+    for name in sorted(os.listdir(SETS)) if os.path.isdir(SETS) else []:
+        if not name.endswith(".json"):
+            continue
+        payload = read_json(os.path.join(SETS, name))
+        set_id = payload.get("set") or os.path.splitext(name)[0]
+        entries = [entry_for(p, set_id, payload, "sets/" + name) for p in payload["pieces"]]
+        pieces.extend(entries)
+        sets.append({
+            "id": set_id,
+            "label": payload.get("label") or set_id,
+            "file": "sets/" + name,
+            "generator": payload.get("generator"),
+            "seed": payload.get("seed"),
+            "cell": payload.get("cell"),
+            "isoFlat": payload.get("isoFlat"),
+            "floorTone": payload.get("floorTone"),
+            "shadowInk": payload.get("shadowInk"),
+            "slots": sorted({e["slot"] for e in entries}),
+            "tags": sorted({t for e in entries for t in e["tags"]}),
+            "counts": {slot: sum(1 for e in entries if e["slot"] == slot)
+                       for slot in sorted({e["slot"] for e in entries})},
+            "pieceCount": len(entries),
+        })
+    index = {
+        "version": BANK_VERSION,
+        "generator": "bank.py",
+        "slots": sorted({e["slot"] for e in pieces}),
+        "tags": sorted({t for e in pieces for t in e["tags"]}),
+        "sets": sets,
+        "pieces": pieces,
+    }
+    write_json(INDEX, index)
+    return index
+
+
+def select(index, slot=None, tag=None, set_id=None, species=None):
+    out = []
+    for e in index["pieces"]:
+        if slot and e["slot"] != slot:
+            continue
+        if tag and tag not in e["tags"]:
+            continue
+        if set_id and e["set"] != set_id:
+            continue
+        if species and e["species"] != species:
+            continue
+        out.append(e)
+    return sorted(out, key=lambda e: (SIZE_ORDER.get(e["size"], 9), e["id"]))
+
+
+# --- the browser --------------------------------------------------------------
+def compose(prop, shadow, floor):
+    """The piece as the engine would draw it: the shadow first (it is flat and lies
+    with the floor), the prop standing on top, both placed by their ANCHOR."""
+    ground = prop["h"] - 1
+    below = (shadow["h"] - 1 - shadow["anchor"]["y"]) if shadow else 0
+    rows = prop["h"] + below
+    canvas = [[" "] * prop["w"] for _ in range(rows)]
+    colors = [[""] * prop["w"] for _ in range(rows)]
+    if shadow:
+        sh_x = prop["anchor"]["x"] - shadow["anchor"]["x"]
+        sh_y = ground - shadow["anchor"]["y"]
+        for y, row in enumerate(shadow["cells"]):
+            wy = sh_y + y
+            for x in range(shadow["w"]):
+                wx = sh_x + x
+                if row["g"][x] == " " or not (0 <= wx < prop["w"] and 0 <= wy < rows):
+                    continue
+                canvas[wy][wx] = row["g"][x]
+                colors[wy][wx] = row["c"][x]
+    base = ground - prop["anchor"]["y"]
+    for y, row in enumerate(prop["cells"]):
+        for x in range(prop["w"]):
+            if row["g"][x] == " ":
+                continue
+            canvas[base + y][x] = row["g"][x]
+            colors[base + y][x] = row["c"][x]
+    return [{"g": "".join(r), "c": colors[y]} for y, r in enumerate(canvas)], ground
+
+
+def compose_decal(shadow):
+    """A decal on its own: a library of discs is useful by itself -- another game
+    can pick a contact shadow and pair it with anything."""
+    return [{"g": row["g"], "c": row["c"]} for row in shadow["cells"]], shadow["anchor"]["y"]
+
+
+PAGE_HEAD = """<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>artforge — banco de peças</title>
+<style>
+  :root {
+    --panelw: min(1240px, calc(100vw - 40px));
+    --bg: #05070a; --panel: #0b0f14; --line: #1c2430;
+    --ink: #e9e5d8; --dim: #8b8f92; --accent: #cfa855;
+    --mono: "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 30px 20px 52px; color: var(--ink); font-family: var(--mono);
+         line-height: 1.5; background: radial-gradient(120% 70% at 50% 0%, #111a26 0%, var(--bg) 58%, #030405 100%); }
+  .wrap { width: var(--panelw); margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  .lede { color: var(--dim); font-size: 12.5px; margin: 0 0 16px; max-width: 96ch; }
+  .lede b { color: var(--accent); font-weight: 600; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+  button.f { font: inherit; font-size: 11.5px; color: var(--ink); background: #101721;
+             border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  button.f[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .field { font: inherit; font-size: 12px; color: var(--ink); background: #101721;
+           border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; min-width: 190px; }
+  .count { color: var(--dim); font-size: 11.5px; margin: 6px 0 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
+  /* A disc-only card is a small dark smudge at prop scale, and it reads as a broken
+     card: it gets its own scale and a badge, or it looks like missing art. */
+  .card.decal { border-color: #2d3a4a; }
+  .card.decal .art pre { font-size: 20px; }
+  .card.decal .art { padding: 16px 12px 12px; }
+  .badge { display: inline-block; border: 1px solid var(--accent); color: var(--accent);
+           border-radius: 4px; padding: 0 5px; font-size: 10px; margin-right: 6px; }
+  .art { padding: 12px 12px 8px; overflow-x: auto; }
+  pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.1;
+        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+  pre i { font-style: normal; }
+  .meta { padding: 8px 12px 11px; border-top: 1px solid var(--line); font-size: 11px; color: var(--dim); }
+  .meta b { color: var(--accent); font-weight: 600; }
+  .meta .id { color: var(--ink); display: block; margin-bottom: 3px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; font-size: 10.5px; }
+  .tag.slot { border-color: var(--accent); color: var(--accent); }
+  .copy { font: inherit; font-size: 10.5px; color: var(--ink); background: #101721;
+          border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; cursor: pointer; margin-top: 8px; }
+  .hidden { display: none; }
+  footer { color: var(--dim); font-size: 11.5px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 18px; }
+  code { color: var(--accent); }
+</style></head><body><div class="wrap">
+<h1>artforge — banco de peças</h1>
+<p class="lede">__LEDE__</p>
+<div class="bar" id="slots"></div>
+<div class="bar" id="tags"></div>
+<div class="bar"><input class="field" id="q" placeholder="filtrar por id, espécie, tag…" aria-label="filtro"></div>
+<p class="count" id="count"></p>
+<div class="grid" id="grid">
+__CARDS__
+</div>
+<footer>__FOOTER__</footer>
+</div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+  var index = JSON.parse(document.getElementById("data").textContent);
+  var state = {slot: null, tag: null, q: ""};
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+
+  function button(label, kind, value) {
+    var b = document.createElement("button");
+    b.className = "f";
+    b.textContent = label;
+    b.dataset.kind = kind;
+    b.dataset.value = value == null ? "" : value;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () {
+      state[kind] = (state[kind] === value) ? null : value;
+      sync();
+    });
+    return b;
+  }
+
+  var slots = document.getElementById("slots");
+  slots.appendChild(button("todos", "slot", null));
+  index.slots.forEach(function (s) { slots.appendChild(button(s, "slot", s)); });
+  var tags = document.getElementById("tags");
+  index.tags.forEach(function (t) { tags.appendChild(button(t, "tag", t)); });
+
+  function matches(meta) {
+    if (state.slot && meta.slot !== state.slot) return false;
+    if (state.tag && meta.tags.indexOf(state.tag) === -1) return false;
+    if (state.q) {
+      var hay = (meta.id + " " + (meta.species || "") + " " + meta.tags.join(" ")).toLowerCase();
+      if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
+    }
+    return true;
+  }
+
+  function sync() {
+    document.querySelectorAll("button.f").forEach(function (b) {
+      var on = state[b.dataset.kind] === (b.dataset.value || null);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    var shown = 0;
+    cards.forEach(function (card) {
+      var meta = JSON.parse(card.dataset.meta);
+      var ok = matches(meta);
+      card.classList.toggle("hidden", !ok);
+      if (ok) shown++;
+    });
+    document.getElementById("count").textContent =
+      shown + " de " + cards.length + " peças no banco";
+  }
+
+  document.getElementById("q").addEventListener("input", function () {
+    state.q = this.value;
+    sync();
+  });
+
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var text = this.dataset.json;
+      var done = function () { b.textContent = "copiado"; setTimeout(function () { b.textContent = "copiar peça"; }, 1200); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done);
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) { /* clipboard blocked */ }
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+  });
+
+  sync();
+</script>
+</div></body></html>
+"""
+
+
+def build_page(index):
+    by_id = {}
+    for setinfo in index["sets"]:
+        payload = read_json(os.path.join(BANK, setinfo["file"]))
+        for p in payload["pieces"]:
+            by_id[p["id"]] = (p, payload)
+    cards = []
+    for e in index["pieces"]:
+        piece, payload = by_id[e["id"]]
+        if e["slot"] == "prop":
+            shadow = by_id.get(e["shadow"], (None, None))[0]
+            rows, ground = compose(piece, shadow, payload.get("floorTone"))
+            detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>" % (
+                e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-")
+        else:
+            rows, ground = compose_decal(piece)
+            detail = ("%s &times; %s células · âncora %d,%d<br>disco rx %.2f × ry %.2f células "
+                      "(2:1 na tela)" % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
+                                         piece["disc"]["rx"], piece["disc"]["ry"]))
+        body, _inked = af.run_length_html(rows)
+        meta = json.dumps({"id": e["id"], "slot": e["slot"], "species": e["species"],
+                           "tags": e["tags"]}, ensure_ascii=False).replace('"', "&quot;")
+        snippet = json.dumps({"id": e["id"], "kind": e["kind"], "slot": e["slot"], "w": e["w"],
+                              "h": e["h"], "anchor": e["anchor"], "shadow": e.get("shadow"),
+                              "file": e["file"], "hash": e["hash"]},
+                             ensure_ascii=False, separators=(",", ":")).replace('"', "&quot;")
+        cards.append(
+            '<article class="card %s" data-meta="%s">\n'
+            '  <div class="art" style="background:%s"><pre>%s</pre></div>\n'
+            '  <div class="meta"><b class="id">%s</b>%s<br>hash <code>%s</code>'
+            '<div class="tags">%s</div>'
+            '<button class="copy" data-json="%s">copiar peça</button></div>\n'
+            '</article>'
+            % ("decal" if e["slot"] != "prop" else "prop", meta,
+               payload.get("floorTone", "#3a352c"), body,
+               ('<span class="badge">só a mancha</span>' if e["slot"] != "prop" else "") + e["id"],
+               detail, e["hash"][:12],
+               "".join('<span class="tag%s">%s</span>'
+                       % (" slot" if t == e["slot"] else "", t) for t in e["tags"]),
+               snippet))
+
+    total_props = sum(1 for e in index["pieces"] if e["slot"] == "prop")
+    total_shadows = sum(1 for e in index["pieces"] if e["slot"] == "mancha")
+    lede = ("<b>%d conjuntos</b>, <b>%d peças</b> (%d props, %d manchas), indexadas por "
+            "<b>slot</b> — o vocabulário por que o motor desenha: piso, bloco, prop, ator, "
+            "mancha, efeito. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula "
+            "que vai para o centro do tile), sua mancha de contato e um <b>hash de conteúdo</b>, "
+            "para a mesma peça chegando de dois conjuntos ser reconhecida como uma só. "
+            "Os filtros são só CSS + JS: sem JavaScript a página mostra o banco inteiro."
+            % (len(index["sets"]), len(index["pieces"]), total_props, total_shadows))
+    footer = ("Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · "
+              "gerado por <code>bank.py</code> · para levar uma peça para outro jogo: "
+              "<code>bank.py export --tag conifer --out game.json</code>")
+    html = (PAGE_HEAD.replace("__LEDE__", lede)
+            .replace("__CARDS__", "\n".join(cards))
+            .replace("__FOOTER__", footer)
+            .replace("__DATA__", json.dumps(
+                {"slots": index["slots"], "tags": index["tags"]}, ensure_ascii=False)))
+    with open(PAGE, "w", encoding="utf-8") as fh:
+        fh.write(html)
+    return len(cards)
+
+
+# --- commands -----------------------------------------------------------------
+def cmd_ingest(path):
+    payload = read_json(path)
+    set_id = payload.get("set") or os.path.splitext(os.path.basename(path))[0]
+    os.makedirs(SETS, exist_ok=True)
+    target = os.path.join(SETS, set_id + ".json")
+    shutil.copyfile(path, target)
+    print("ingested %s -> %s (%d pieces)" % (os.path.relpath(path, HERE),
+                                             os.path.relpath(target, HERE),
+                                             len(payload["pieces"])))
+    index = build_index()
+    build_page(index)
+    print("index  : %d sets, %d pieces" % (len(index["sets"]), len(index["pieces"])))
+
+
+def cmd_build():
+    index = build_index()
+    cards = build_page(index)
+    print("bank: %d sets, %d pieces (%d prop cards)" % (len(index["sets"]), len(index["pieces"]), cards))
+    print("  index : %s" % os.path.relpath(INDEX, HERE))
+    print("  page  : %s" % os.path.relpath(PAGE, HERE))
+
+
+def cmd_list(slot=None, tag=None, set_id=None, species=None):
+    index = read_json(INDEX)
+    chosen = select(index, slot, tag, set_id, species)
+    print("%-26s %-8s %-8s %6s %-12s %s" % ("id", "slot", "species", "cells", "anchor", "tags"))
+    for e in chosen:
+        print("%-26s %-8s %-8s %2dx%-3d %-12s %s"
+              % (e["id"], e["slot"], e["species"] or "-", e["w"], e["h"],
+                 "%d,%d" % (e["anchor"]["x"], e["anchor"]["y"]), " ".join(e["tags"])))
+    print("\n%d pieces%s" % (len(chosen),
+                             " of %d" % len(index["pieces"]) if len(chosen) != len(index["pieces"]) else ""))
+
+
+def cmd_export(out, slot=None, tag=None, set_id=None, with_shadows=True):
+    index = read_json(INDEX)
+    chosen = select(index, slot, tag, set_id)
+    ids = {e["id"] for e in chosen}
+    payload = {
+        "version": 1,
+        "generator": "bank.py export",
+        "from": sorted({e["set"] for e in chosen}),
+        "filter": {k: v for k, v in (("slot", slot), ("tag", tag), ("set", set_id)) if v},
+        "cell": index["sets"][0]["cell"] if index["sets"] else None,
+        "floorTone": index["sets"][0]["floorTone"] if index["sets"] else None,
+        "shadowInk": index["sets"][0]["shadowInk"] if index["sets"] else None,
+        "pieces": [],
+    }
+    for e in chosen:
+        st = read_json(os.path.join(BANK, e["file"]))
+        for p in st["pieces"]:
+            if p["id"] == e["id"]:
+                payload["pieces"].append(p)
+            elif with_shadows and e.get("shadow") == p["id"] and p["id"] in ids:
+                payload["pieces"].append(p)
+    for e in chosen:
+        if with_shadows and e.get("shadow") and e["shadow"] not in ids:
+            st = read_json(os.path.join(BANK, e["file"]))
+            for p in st["pieces"]:
+                if p["id"] == e["shadow"] and all(q["id"] != p["id"] for q in payload["pieces"]):
+                    payload["pieces"].append(p)
+    write_json(out, payload)
+    print("exported %d pieces -> %s (%.0f KB)" % (len(payload["pieces"]),
+                                                  os.path.relpath(out, HERE),
+                                                  os.path.getsize(out) / 1024.0))
+
+
+def cmd_check():
+    index = read_json(INDEX)
+    problems = []
+    seen_ids, seen_hashes = {}, {}
+    for e in index["pieces"]:
+        if e["id"] in seen_ids:
+            problems.append("duplicate id %s" % e["id"])
+        seen_ids[e["id"]] = e
+        seen_hashes.setdefault(e["hash"], []).append(e["id"])
+        path = os.path.join(BANK, e["file"])
+        if not os.path.exists(path):
+            problems.append("%s: missing file %s" % (e["id"], e["file"]))
+            continue
+        st = read_json(path)
+        piece = next((p for p in st["pieces"] if p["id"] == e["id"]), None)
+        if piece is None:
+            problems.append("%s: absent from %s" % (e["id"], e["file"]))
+            continue
+        if piece_hash(piece) != e["hash"]:
+            problems.append("%s: hash mismatch (set file changed)" % e["id"])
+        if (piece["w"], piece["h"], piece["anchor"]) != (e["w"], e["h"], e["anchor"]):
+            problems.append("%s: geometry in the index differs from the set" % e["id"])
+        if e["kind"] == "prop":
+            if e.get("shadow") not in seen_ids and e.get("shadow") not in {p["id"] for p in st["pieces"]}:
+                problems.append("%s: shadow %s not in the bank" % (e["id"], e.get("shadow")))
+            for t in e["tags"]:
+                if t not in index["tags"]:
+                    problems.append("%s: tag %s missing from the index" % (e["id"], t))
+    dupes = {h: ids for h, ids in seen_hashes.items() if len(ids) > 1}
+    for h, ids in dupes.items():
+        problems.append("identical pieces: %s (they are the same art)" % ", ".join(ids))
+    page = os.path.exists(PAGE) and os.path.getsize(PAGE) > 1000
+    if not page:
+        problems.append("bank.html missing or empty -- run bank.py build")
+    print("bank check: %d sets, %d pieces, %d tags%s"
+          % (len(index["sets"]), len(index["pieces"]), len(index["tags"]),
+             ", %d identical pairs" % len(dupes) if dupes else ""))
+    for p in problems:
+        print("  FAIL %s" % p)
+    if problems:
+        sys.exit(1)
+    print("  ok: every indexed piece resolves in its set file, hashes match, no duplicates")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="the piece library")
+    ap.add_argument("command", choices=["ingest", "build", "list", "check", "export"])
+    ap.add_argument("path", nargs="?", default=DEFAULT_SET)
+    ap.add_argument("--slot")
+    ap.add_argument("--tag")
+    ap.add_argument("--set")
+    ap.add_argument("--species")
+    ap.add_argument("--out", default=os.path.join(HERE, "game.json"))
+    args = ap.parse_args()
+
+    if args.command == "ingest":
+        cmd_ingest(args.path)
+    elif args.command == "build":
+        cmd_build()
+    elif args.command == "list":
+        cmd_list(args.slot, args.tag, args.set, args.species)
+    elif args.command == "check":
+        cmd_check()
+    else:
+        cmd_export(args.out, args.slot, args.tag, args.set)
+
+
+if __name__ == "__main__":
+    main()

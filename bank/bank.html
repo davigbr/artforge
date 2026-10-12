@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>artforge — banco de peças</title>
+<style>
+  :root {
+    --panelw: min(1240px, calc(100vw - 40px));
+    --bg: #05070a; --panel: #0b0f14; --line: #1c2430;
+    --ink: #e9e5d8; --dim: #8b8f92; --accent: #cfa855;
+    --mono: "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 30px 20px 52px; color: var(--ink); font-family: var(--mono);
+         line-height: 1.5; background: radial-gradient(120% 70% at 50% 0%, #111a26 0%, var(--bg) 58%, #030405 100%); }
+  .wrap { width: var(--panelw); margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  .lede { color: var(--dim); font-size: 12.5px; margin: 0 0 16px; max-width: 96ch; }
+  .lede b { color: var(--accent); font-weight: 600; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+  button.f { font: inherit; font-size: 11.5px; color: var(--ink); background: #101721;
+             border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  button.f[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .field { font: inherit; font-size: 12px; color: var(--ink); background: #101721;
+           border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; min-width: 190px; }
+  .count { color: var(--dim); font-size: 11.5px; margin: 6px 0 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 14px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
+  /* A disc-only card is a small dark smudge at prop scale, and it reads as a broken
+     card: it gets its own scale and a badge, or it looks like missing art. */
+  .card.decal { border-color: #2d3a4a; }
+  .card.decal .art pre { font-size: 20px; }
+  .card.decal .art { padding: 16px 12px 12px; }
+  .badge { display: inline-block; border: 1px solid var(--accent); color: var(--accent);
+           border-radius: 4px; padding: 0 5px; font-size: 10px; margin-right: 6px; }
+  .art { padding: 12px 12px 8px; overflow-x: auto; }
+  pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.1;
+        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+  pre i { font-style: normal; }
+  .meta { padding: 8px 12px 11px; border-top: 1px solid var(--line); font-size: 11px; color: var(--dim); }
+  .meta b { color: var(--accent); font-weight: 600; }
+  .meta .id { color: var(--ink); display: block; margin-bottom: 3px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; font-size: 10.5px; }
+  .tag.slot { border-color: var(--accent); color: var(--accent); }
+  .copy { font: inherit; font-size: 10.5px; color: var(--ink); background: #101721;
+          border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; cursor: pointer; margin-top: 8px; }
+  .hidden { display: none; }
+  footer { color: var(--dim); font-size: 11.5px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 18px; }
+  code { color: var(--accent); }
+</style></head><body><div class="wrap">
+<h1>artforge — banco de peças</h1>
+<p class="lede"><b>1 conjuntos</b>, <b>42 peças</b> (24 props, 18 manchas), indexadas por <b>slot</b> — o vocabulário por que o motor desenha: piso, bloco, prop, ator, mancha, efeito. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile), sua mancha de contato e um <b>hash de conteúdo</b>, para a mesma peça chegando de dois conjuntos ser reconhecida como uma só. Os filtros são só CSS + JS: sem JavaScript a página mostra o banco inteiro.</p>
+<div class="bar" id="slots"></div>
+<div class="bar" id="tags"></div>
+<div class="bar"><input class="field" id="q" placeholder="filtrar por id, espécie, tag…" aria-label="filtro"></div>
+<p class="count" id="count"></p>
+<div class="grid" id="grid">
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.oak.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;oak&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre><i style="color:#1c3018">:</i><i style="color:#386830">)</i><i style="color:#488838">3</i><i style="color:#7cd85c">A</i><i style="color:#94f468">N</i><i style="color:#80e060">H</i><i style="color:#488038">f</i><i style="color:#38602c">L</i>
+<i style="color:#549840">n</i><i style="color:#80e060">8</i><i style="color:#88dc58">H</i><i style="color:#84e060">8</i><i style="color:#80e460">8</i><i style="color:#88e460">R</i><i style="color:#80dc60">X</i><i style="color:#5ca444">x</i>
+ <i style="color:#1c3014">:</i><i style="color:#507034">F</i><i style="color:#346028">s</i><i style="color:#688c44">[</i><i style="color:#285020">!</i><i style="color:#3c4c24">c</i><i style="color:#101c0c">.</i>
+  <i style="color:#302818">-</i><i style="color:#3c301c">,</i><i style="color:#f0d478">M</i><i style="color:#38301c">,</i><i style="color:#302818">-</i> 
+   <i style="color:#382c18">_</i><i style="color:#d8b868">U</i><i style="color:#342818">:</i>  
+   <i style="color:#282414">.</i><i style="color:#ffe080">@</i><i style="color:#241c10">.</i>  
+  <i style="color:#1a1814">▄</i><i style="color:#3c3820">=</i><i style="color:#ffe080">@</i><i style="color:#342c18">:</i>  
+ <i style="color:#1a1814">██</i><i style="color:#484024">+</i><i style="color:#ffd478">W</i><i style="color:#403420">=</i><i style="color:#1a1814">█</i> 
+  <i style="color:#1a1814">▀▀▀▀</i>  </pre></div>
+  <div class="meta"><b class="id">tree.oak.small</b>8 &times; 8 células · âncora 4,7<br>mancha <code>shadow.disc.r3.13</code><br>hash <code>9c0d4171d363</code><div class="tags"><span class="tag">foliage</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.oak.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:8,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r3.13&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;9c0d4171d363f7a49639e23d2be3b0690b89bcc8&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.oak.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;oak&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#203818">^^</i><i style="color:#183014">_</i><i style="color:#101c0c">.</i>   
+ <i style="color:#284820">!</i><i style="color:#203c18">;</i><i style="color:#38682c">)</i><i style="color:#70c454">d</i><i style="color:#9cf464">W</i><i style="color:#a0f060">N</i><i style="color:#90e460">#</i><i style="color:#80d054">G</i><i style="color:#549840">Z</i><i style="color:#284820">+</i><i style="color:#345c28">L</i>
+<i style="color:#74cc58">p</i><i style="color:#98e860">B</i><i style="color:#98f868">Q</i><i style="color:#88dc5c">m</i><i style="color:#90e05c">D</i><i style="color:#90e860">$</i><i style="color:#90f468">M</i><i style="color:#90e860">#</i><i style="color:#84e060">8</i><i style="color:#7cd85c">K</i><i style="color:#68b44c">w</i><i style="color:#7cd458">U</i>
+<i style="color:#284820">!</i><i style="color:#407834">{</i><i style="color:#68c050">6</i><i style="color:#70c050">9</i><i style="color:#7ccc54">O</i><i style="color:#64b048">E</i><i style="color:#5ca044">x</i><i style="color:#70c050">h</i><i style="color:#70bc50">6</i><i style="color:#68b44c">w</i><i style="color:#509840">o</i><i style="color:#2c5024">/</i>
+  <i style="color:#1c2818">:</i><i style="color:#446430">J</i><i style="color:#346028">T</i><i style="color:#386c30">7</i><i style="color:#709848">Y</i><i style="color:#244420">+</i><i style="color:#182c14">:</i><i style="color:#303c1c">&gt;</i><i style="color:#10180c">.</i> 
+   <i style="color:#383018">^</i><i style="color:#2c2414">:</i> <i style="color:#f0d478">M</i> <i style="color:#302818">:</i><i style="color:#342c18">,</i>  
+    <i style="color:#282010">'</i><i style="color:#4c4024">r</i><i style="color:#f8d878">W</i><i style="color:#4c4024">!</i><i style="color:#282010">'</i>   
+     <i style="color:#282414">-</i><i style="color:#d8b868">A</i><i style="color:#282010">'</i>    
+     <i style="color:#282414">-</i><i style="color:#ffe080">@</i><i style="color:#241c10">.</i>    
+     <i style="color:#38301c">=</i><i style="color:#ffe080">@</i><i style="color:#302814">:</i>    
+  <i style="color:#1a1814">░▄▄</i><i style="color:#443c20">+</i><i style="color:#ffe07c">@</i><i style="color:#3c301c">=</i><i style="color:#1a1814">▄▄░</i> 
+  <i style="color:#1a1814">███</i><i style="color:#4c4428">c</i><i style="color:#ffd478">W</i><i style="color:#443820">&gt;</i><i style="color:#1a1814">███</i> 
+  <i style="color:#1a1814">░▀▀███▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">tree.oak.medium</b>12 &times; 12 células · âncora 6,11<br>mancha <code>shadow.disc.r4.6</code><br>hash <code>0820e363ee64</code><div class="tags"><span class="tag">foliage</span><span class="tag">medium</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.oak.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:12,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:11},&quot;shadow&quot;:&quot;shadow.disc.r4.6&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;0820e363ee64ce6b29923bf3bdaa9041914fa054&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.oak.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;oak&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;large&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>    <i style="color:#142810">_</i><i style="color:#4c883c">l</i><i style="color:#70a844">S</i><i style="color:#8ccc50">U</i><i style="color:#98ec60">g</i><i style="color:#90f064">M</i><i style="color:#78c450">V</i><i style="color:#70b84c">6</i><i style="color:#305828">T</i><i style="color:#0c1808">.</i>  
+<i style="color:#447834">}</i><i style="color:#68a848">2</i><i style="color:#6ca040">y</i><i style="color:#84d85c">X</i><i style="color:#78dc60">H</i><i style="color:#68c054">d</i><i style="color:#7cd458">A</i><i style="color:#84d858">H</i><i style="color:#88e05c">8</i><i style="color:#7cd058">U</i><i style="color:#78cc54">O</i><i style="color:#70c854">V</i><i style="color:#509840">Z</i><i style="color:#74c450">4</i><i style="color:#70b850">6</i><i style="color:#7ccc58">G</i>
+<i style="color:#68bc50">6</i><i style="color:#7ccc54">G</i><i style="color:#88e05c">8</i><i style="color:#8ce460">#</i><i style="color:#9cf060">N</i><i style="color:#acff64">@</i><i style="color:#a8fc64">@</i><i style="color:#8ce860">$</i><i style="color:#90f064">M</i><i style="color:#a0fc68">&amp;</i><i style="color:#a0f864">%</i><i style="color:#90ec60">g</i><i style="color:#8ce860">B</i><i style="color:#88dc5c">m</i><i style="color:#74c450">V</i><i style="color:#68b850">6</i>
+<i style="color:#1c3818">&gt;</i><i style="color:#386c30">|</i><i style="color:#5cac48">E</i><i style="color:#60b44c">q</i><i style="color:#6cc050">9</i><i style="color:#74c850">V</i><i style="color:#70c050">9</i><i style="color:#5cac48">E</i><i style="color:#60b44c">q</i><i style="color:#6cc050">9</i><i style="color:#70c450">4</i><i style="color:#70c050">d</i><i style="color:#68b850">6</i><i style="color:#58a448">y</i><i style="color:#48883c">t</i><i style="color:#20401c">+</i>
+  <i style="color:#142410">:</i><i style="color:#305c2c">v</i><i style="color:#448038">3</i><i style="color:#509844">5</i><i style="color:#58a048">j</i><i style="color:#58a448">y</i><i style="color:#44803c">1</i><i style="color:#407838">}</i><i style="color:#386830">(</i><i style="color:#284c20">/</i><i style="color:#203c1c">+</i><i style="color:#142410">:</i>  
+   <i style="color:#1c180c">.</i><i style="color:#443820">r</i> <i style="color:#081408">.</i><i style="color:#0c180c">.</i><i style="color:#d8c46c">8</i>   <i style="color:#483820">r</i><i style="color:#18140c">.</i>  
+    <i style="color:#101008">.</i><i style="color:#504024">/</i>  <i style="color:#f0d478">M</i>  <i style="color:#504024">/</i><i style="color:#100c08">.</i>   
+      <i style="color:#504024">/</i><i style="color:#201810">'</i><i style="color:#f8d878">Q</i><i style="color:#1c180c">'</i><i style="color:#504024">/</i>     
+       <i style="color:#544428">?</i><i style="color:#e4c470">R</i><i style="color:#544428">z</i>      
+       <i style="color:#201c10">-</i><i style="color:#f0d478">M</i><i style="color:#1c180c">'</i>      
+       <i style="color:#2c2814">,</i><i style="color:#ffe080">@</i><i style="color:#241c10">-</i>      
+       <i style="color:#38301c">&gt;</i><i style="color:#ffe080">@</i><i style="color:#302814">,</i>      
+     <i style="color:#1a1814">░▒</i><i style="color:#403820">!</i><i style="color:#ffe080">@</i><i style="color:#382c18">;</i><i style="color:#1a1814">░</i>     
+  <i style="color:#1a1814">▄▄███</i><i style="color:#484024">*</i><i style="color:#ffe07c">@</i><i style="color:#40341c">+</i><i style="color:#1a1814">██▄▒</i>  
+ <i style="color:#1a1814">░█████</i><i style="color:#504428">z</i><i style="color:#ffd478">W</i><i style="color:#443820">!</i><i style="color:#1a1814">████</i>  
+  <i style="color:#1a1814">▀▀████████▀▒</i>  
+     <i style="color:#1a1814">░▒▀▀▒░</i>     </pre></div>
+  <div class="meta"><b class="id">tree.oak.large</b>16 &times; 15 células · âncora 8,14<br>mancha <code>shadow.disc.r6.16</code><br>hash <code>38d38fe5da10</code><div class="tags"><span class="tag">foliage</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.oak.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:16,&quot;h&quot;:15,&quot;anchor&quot;:{&quot;x&quot;:8,&quot;y&quot;:14},&quot;shadow&quot;:&quot;shadow.disc.r6.16&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;38d38fe5da10272f0d1a7b30596a3676866ca66e&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.pine.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;pine&quot;, &quot;tags&quot;: [&quot;conifer&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#1c281c">:</i>   
+   <i style="color:#406840">{</i>   
+  <i style="color:#080c08">.</i><i style="color:#64a86c">O</i>   
+  <i style="color:#2c482c">*</i><i style="color:#68ac70">b</i><i style="color:#244028">+</i>  
+  <i style="color:#58945c">S</i><i style="color:#5ca068">6</i><i style="color:#488050">e</i>  
+ <i style="color:#182818">-</i><i style="color:#509060">]</i><i style="color:#48845c">Y</i><i style="color:#508c60">y</i><i style="color:#142418">.</i> 
+ <i style="color:#40744c">1</i><i style="color:#407c58">[</i><i style="color:#407854">l</i><i style="color:#407c58">[</i><i style="color:#40704c">1</i> 
+<i style="color:#284830">*</i><i style="color:#447c58">n</i><i style="color:#3c7050">3</i><i style="color:#3c7450">1</i><i style="color:#3c7050">3</i><i style="color:#447c58">n</i><i style="color:#284830">*</i>
+<i style="color:#386448">i</i><i style="color:#387050">fIIIf</i><i style="color:#386848">{</i>
+<i style="color:#306448">F</i><i style="color:#346850">CCCCC</i><i style="color:#346448">F</i>
+<i style="color:#1a1814">░</i><i style="color:#102018">.</i><i style="color:#203428">=</i><i style="color:#e4b868">@</i><i style="color:#203428">=</i><i style="color:#102018">.</i><i style="color:#1a1814">░</i>
+ <i style="color:#1a1814">░▒▀▒░</i> </pre></div>
+  <div class="meta"><b class="id">tree.pine.small</b>7 &times; 11 células · âncora 3,10<br>mancha <code>shadow.disc.r2.86</code><br>hash <code>06971c987477</code><div class="tags"><span class="tag">conifer</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.pine.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:7,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:10},&quot;shadow&quot;:&quot;shadow.disc.r2.86&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;06971c98747786cd7664d6c022e7786689fe1549&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.pine.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;pine&quot;, &quot;tags&quot;: [&quot;conifer&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#141c14">_</i>     
+     <i style="color:#406c44">Z</i>     
+     <i style="color:#68b06c">g</i>     
+    <i style="color:#1c301c">!</i><i style="color:#70bc74">@</i><i style="color:#18281c">&lt;</i>    
+    <i style="color:#508050">q</i><i style="color:#68b070">0</i><i style="color:#3c6844">[</i>    
+    <i style="color:#64a86c">#</i><i style="color:#5ca068">mX</i>    
+   <i style="color:#385838">I</i><i style="color:#6cb470">N</i><i style="color:#60a068">m</i><i style="color:#589864">b</i><i style="color:#284830">)</i>   
+  <i style="color:#080c08">.</i><i style="color:#549060">p</i><i style="color:#4c885c">P</i><i style="color:#488458">q</i><i style="color:#4c885c">P</i><i style="color:#549060">V</i><i style="color:#080c08">.</i>  
+  <i style="color:#305030">F</i><i style="color:#5ca068">K</i><i style="color:#4c885c">P</i><i style="color:#488058">w</i><i style="color:#4c885c">P</i><i style="color:#549460">O</i><i style="color:#284830">J</i>  
+ <i style="color:#182c1c">&lt;</i><i style="color:#48845c">k</i><i style="color:#407854">yyyyy</i><i style="color:#488458">q</i><i style="color:#18281c">&lt;</i> 
+<i style="color:#080c08">.</i><i style="color:#34583c">I</i><i style="color:#488058">S</i><i style="color:#3c7454">j</i><i style="color:#407854">jjj</i><i style="color:#3c7454">j</i><i style="color:#448058">E</i><i style="color:#345838">f</i><i style="color:#080c08">.</i>
+<i style="color:#2c4c34">|</i><i style="color:#3c7450">x</i><i style="color:#387050">5555555</i><i style="color:#3c7450">x</i><i style="color:#2c4c34">|</i>
+<i style="color:#407850">y</i><i style="color:#387050">5Z55555ZZ</i><i style="color:#407850">y</i>
+<i style="color:#346850">nnnne</i><i style="color:#386850">e</i><i style="color:#346850">ennnn</i>
+<i style="color:#1c382c">z</i><i style="color:#306048">t</i><i style="color:#346850">nnnnnnn</i><i style="color:#306448">l</i><i style="color:#204030">s</i>
+<i style="color:#1a1814">░█</i><i style="color:#08100c">.</i><i style="color:#102018">^</i><i style="color:#203424">*</i><i style="color:#e4b868">@</i><i style="color:#203424">*</i><i style="color:#102018">^</i><i style="color:#081410">'</i>  
+ <i style="color:#1a1814">░▀▀▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">tree.pine.medium</b>11 &times; 16 células · âncora 5,15<br>mancha <code>shadow.disc.r4.2</code><br>hash <code>fbfa1487acff</code><div class="tags"><span class="tag">conifer</span><span class="tag">medium</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.pine.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:11,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:15},&quot;shadow&quot;:&quot;shadow.disc.r4.2&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;fbfa1487acff5d3c7d27f6b2f5c6ebae62372ddc&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.pine.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;pine&quot;, &quot;tags&quot;: [&quot;conifer&quot;, &quot;large&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>       <i style="color:#446c44">[</i>       
+       <i style="color:#68b06c">R</i>       
+      <i style="color:#182414">,</i><i style="color:#74c078">W</i><i style="color:#101c10">-</i>      
+      <i style="color:#386038">}</i><i style="color:#78c87c">@</i><i style="color:#305030">7</i>      
+      <i style="color:#68a868">X</i><i style="color:#5ca068">G</i><i style="color:#4c8458">2</i>      
+     <i style="color:#203824">c</i><i style="color:#7ccc7c">@</i><i style="color:#70bc74">0</i><i style="color:#60a468">A</i><i style="color:#182c1c">&gt;</i>     
+     <i style="color:#3c6840">t</i><i style="color:#549864">9</i><i style="color:#509060">P</i><i style="color:#549864">9</i><i style="color:#386440">I</i>     
+    <i style="color:#142014">_</i><i style="color:#70b870">B</i><i style="color:#68b070">8</i><i style="color:#5ca068">O</i><i style="color:#549460">h</i><i style="color:#508c60">q</i><i style="color:#101810">'</i>    
+    <i style="color:#589460">9</i><i style="color:#5ca068">O</i><i style="color:#549460">h</i><i style="color:#509060">P</i><i style="color:#549460">h</i><i style="color:#5c9c68">p</i><i style="color:#54905c">P</i>    
+    <i style="color:#4c8858">E</i><i style="color:#447c58">jjjjj</i><i style="color:#447c54">x</i>    
+  <i style="color:#0c1810">.</i><i style="color:#4c8454">]</i><i style="color:#5ca068">G</i><i style="color:#509060">k</i><i style="color:#488058">a</i><i style="color:#447c58">x</i><i style="color:#488058">a</i><i style="color:#509060">k</i><i style="color:#589864">4</i><i style="color:#487c50">x</i><i style="color:#0c1810">.</i>  
+  <i style="color:#407048">[</i><i style="color:#447c58">x</i><i style="color:#407854">ZZZZZZZ</i><i style="color:#447c58">x</i><i style="color:#406c48">u</i>  
+ <i style="color:#08100c">.</i><i style="color:#345c3c">{</i><i style="color:#488058">a</i><i style="color:#407854">ZZZZZZZ</i><i style="color:#488058">y</i><i style="color:#34583c">{</i><i style="color:#08100c">.</i> 
+<i style="color:#182818">^</i><i style="color:#509060">k</i><i style="color:#407c54">Y</i><i style="color:#387050">nn</i><i style="color:#3c7050">neeen</i><i style="color:#387050">nn</i><i style="color:#407c54">Y</i><i style="color:#509060">k</i><i style="color:#182818">^</i>
+<i style="color:#182c1c">&gt;</i><i style="color:#407854">5</i><i style="color:#387050">nnnnnnnnnnn</i><i style="color:#407854">5</i><i style="color:#1c3020">&gt;</i>
+<i style="color:#4c885c">E</i><i style="color:#407854">Z</i><i style="color:#386c50">u</i><i style="color:#387050">[nnnnnnn[</i><i style="color:#386c50">u</i><i style="color:#407854">Z</i><i style="color:#4c885c">E</i>
+<i style="color:#346850">tttt</i><i style="color:#386850">t</i><i style="color:#386c50">lllll</i><i style="color:#386850">t</i><i style="color:#346850">tttt</i>
+<i style="color:#34684c">1</i><i style="color:#346850">ttttttttttttt</i><i style="color:#34684c">1</i>
+<i style="color:#08100c">.</i><i style="color:#1c382c">c</i><i style="color:#2c5840">i</i><i style="color:#346850">ttttttttt</i><i style="color:#2c5844">i</i><i style="color:#203c2c">*</i><i style="color:#08100c">.</i>
+  <i style="color:#1a1814">██</i><i style="color:#0c1810">.</i><i style="color:#102018">:</i><i style="color:#203020">+</i><i style="color:#e4b868">@</i><i style="color:#203020">+</i><i style="color:#102018">_</i><i style="color:#0c1810">.</i><i style="color:#1a1814">██</i>  
+  <i style="color:#1a1814">░▀███████▀░</i>  
+      <i style="color:#1a1814">░░░</i>      </pre></div>
+  <div class="meta"><b class="id">tree.pine.large</b>15 &times; 20 células · âncora 7,19<br>mancha <code>shadow.disc.r5.63</code><br>hash <code>4c62975c84a2</code><div class="tags"><span class="tag">conifer</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.pine.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:15,&quot;h&quot;:20,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:19},&quot;shadow&quot;:&quot;shadow.disc.r5.63&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;4c62975c84a2b7d791ea9f64f078063f43a40462&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.birch.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;birch&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;pale-bark&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#18200c">'</i><i style="color:#748038">I</i><i style="color:#9ca84c">a</i><i style="color:#748838">1</i><i style="color:#181c0c">.</i> 
+<i style="color:#748c38">l</i><i style="color:#b0d054">p</i><i style="color:#88bc40">S</i><i style="color:#74a038">o</i><i style="color:#709c38">e</i><i style="color:#94b848">S</i><i style="color:#405820">?</i>
+ <i style="color:#18200c">'</i><i style="color:#303420">;</i><i style="color:#a8a89c">E</i><i style="color:#24241c">:</i><i style="color:#101008">.</i> 
+  <i style="color:#141010">.</i><i style="color:#706c60">i</i><i style="color:#181414">.</i>  
+  <i style="color:#101010">.</i><i style="color:#a4a098">]</i><i style="color:#181814">.</i>  
+  <i style="color:#20201c">-</i><i style="color:#b8b8ac">h</i><i style="color:#282820">_</i>  
+  <i style="color:#303028">=</i><i style="color:#b8b8ac">h</i><i style="color:#38382c">&gt;</i>  
+<i style="color:#1a1814">░█</i><i style="color:#38382c">&gt;</i><i style="color:#fcfcd0">@</i><i style="color:#404034">!</i><i style="color:#1a1814">░</i> 
+  <i style="color:#1a1814">░░</i>   </pre></div>
+  <div class="meta"><b class="id">tree.birch.small</b>7 &times; 8 células · âncora 3,7<br>mancha <code>shadow.disc.r2.45</code><br>hash <code>2a45984a644e</code><div class="tags"><span class="tag">foliage</span><span class="tag">pale-bark</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.birch.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:7,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r2.45&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;2a45984a644e80f120db00e70e910b18e140dc4c&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.birch.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;birch&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;medium&quot;, &quot;pale-bark&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#303418">;</i><i style="color:#7c803c">u</i><i style="color:#344018">!</i><i style="color:#18200c">.</i>  
+<i style="color:#242410">:</i><i style="color:#747c38">t</i><i style="color:#ace854">B</i><i style="color:#acd454">H</i><i style="color:#b0dc58">R</i><i style="color:#a0d450">X</i><i style="color:#a0d050">A</i><i style="color:#90a048">2</i><i style="color:#385018">/</i>
+<i style="color:#58782c">}</i><i style="color:#8cb844">66</i><i style="color:#5c8030">3</i><i style="color:#54643c">(</i><i style="color:#486824">7</i><i style="color:#709438">Z</i><i style="color:#587828">}</i><i style="color:#283814">;</i>
+  <i style="color:#1c1814">.</i><i style="color:#1c1c18">.</i><i style="color:#dcd8cc">N</i><i style="color:#181414">.</i><i style="color:#181814">.</i>  
+   <i style="color:#24201c">-</i><i style="color:#a8a498">6</i><i style="color:#202018">'</i>   
+   <i style="color:#141414">.</i><i style="color:#b0aca0">4</i><i style="color:#101010">.</i>   
+   <i style="color:#202018">'</i><i style="color:#b8b8ac">b</i><i style="color:#1c1c18">.</i>   
+   <i style="color:#282820">_</i><i style="color:#b8b8ac">b</i><i style="color:#282820">_</i>   
+   <i style="color:#303028">;</i><i style="color:#c0c0b0">K</i><i style="color:#303028">=</i>   
+ <i style="color:#1a1814">░▄</i><i style="color:#3c3c34">!</i><i style="color:#dcd8cc">N</i><i style="color:#383830">+</i><i style="color:#1a1814">▄░</i> 
+ <i style="color:#1a1814">██</i><i style="color:#404034">r</i><i style="color:#e8e8b8">@</i><i style="color:#404034">!</i><i style="color:#1a1814">██</i> 
+ <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">tree.birch.medium</b>9 &times; 11 células · âncora 4,10<br>mancha <code>shadow.disc.r3.6</code><br>hash <code>c8d3eb6b1f8f</code><div class="tags"><span class="tag">foliage</span><span class="tag">medium</span><span class="tag">pale-bark</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.birch.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:10},&quot;shadow&quot;:&quot;shadow.disc.r3.6&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;c8d3eb6b1f8f5afb451652e31c9cf321cb63e9e6&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.birch.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;birch&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;large&quot;, &quot;pale-bark&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#18180c">'</i><i style="color:#303418">+</i><i style="color:#383c1c">r</i><i style="color:#242410">^</i>    
+  <i style="color:#4c6c24">i</i><i style="color:#d0f464">W</i><i style="color:#e0f870">@@</i><i style="color:#d0f864">Q</i><i style="color:#98d048">b</i><i style="color:#507028">i</i><i style="color:#202410">,</i> 
+<i style="color:#98b848">h</i><i style="color:#d8f068">W</i><i style="color:#d8f86c">&amp;</i><i style="color:#a8d850">X</i><i style="color:#7cb03c">S</i><i style="color:#649030">e</i><i style="color:#94d448">b</i><i style="color:#8cc044">h</i><i style="color:#c4e860">B</i><i style="color:#c0f060">0</i><i style="color:#5c842c">t</i>
+<i style="color:#2c4014">!</i><i style="color:#507028">i</i><i style="color:#5c8030">3</i><i style="color:#507028">{</i><i style="color:#304018">c</i><i style="color:#a4a498">q</i><i style="color:#182410">_</i><i style="color:#344818">*</i><i style="color:#445828">)</i><i style="color:#243010">;</i><i style="color:#080c04">.</i>
+   <i style="color:#282420">^</i><i style="color:#0c0c08">.</i><i style="color:#c8c8b8">X</i><i style="color:#0c0c0c">.</i><i style="color:#282420">^</i>   
+    <i style="color:#2c2824">;</i><i style="color:#d8d4c8">$</i><i style="color:#2c2c24">;</i>    
+    <i style="color:#0c0c0c">.</i><i style="color:#909080">j</i><i style="color:#101010">.</i>    
+    <i style="color:#181814">-</i><i style="color:#e4e0d4">N</i><i style="color:#181818">-</i>    
+    <i style="color:#1c1c18">:</i><i style="color:#c4c0b8">A</i><i style="color:#20201c">,</i>    
+    <i style="color:#242420">^</i><i style="color:#b8b8ac">p</i><i style="color:#282820">=</i>    
+    <i style="color:#303028">&gt;</i><i style="color:#f0ece0">@</i><i style="color:#303028">&lt;</i>    
+    <i style="color:#34342c">+</i><i style="color:#b8b8ac">p</i><i style="color:#383830">!</i>    
+ <i style="color:#1a1814">▒▄█</i><i style="color:#3c3c30">c</i><i style="color:#b8b8ac">p</i><i style="color:#404034">*</i><i style="color:#1a1814">█▄▒</i> 
+<i style="color:#1a1814">░███</i><i style="color:#404034">/</i><i style="color:#fcfcd0">@</i><i style="color:#404034">/</i><i style="color:#1a1814">███░</i>
+ <i style="color:#1a1814">▒▀█████▀▒</i> </pre></div>
+  <div class="meta"><b class="id">tree.birch.large</b>11 &times; 14 células · âncora 5,13<br>mancha <code>shadow.disc.r4.82</code><br>hash <code>342eb4175f4f</code><div class="tags"><span class="tag">foliage</span><span class="tag">large</span><span class="tag">pale-bark</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.birch.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:11,&quot;h&quot;:14,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:13},&quot;shadow&quot;:&quot;shadow.disc.r4.82&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;342eb4175f4f60860ecdb89630028a746cbfb0fc&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.dead.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;dead&quot;, &quot;tags&quot;: [&quot;bare&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#383830">+</i><i style="color:#4c4c40">z</i> <i style="color:#545448">L</i><i style="color:#10100c">.</i> 
+  <i style="color:#787868">f</i><i style="color:#646458">(</i><i style="color:#3c3c34">!</i><i style="color:#2c2c28">=</i> 
+<i style="color:#303028">=</i><i style="color:#44443c">c</i> <i style="color:#30302c">;</i> <i style="color:#141410">.</i><i style="color:#646458">(</i>
+<i style="color:#242420">_</i><i style="color:#34342c">&gt;</i><i style="color:#68685c">F</i><i style="color:#e0e0c8">R</i><i style="color:#646458">(</i><i style="color:#383830">&lt;</i> 
+<i style="color:#34342c">&gt;</i> <i style="color:#3c3c34">!</i><i style="color:#f4f4d8">N</i><i style="color:#484840">/</i><i style="color:#30302c">;</i><i style="color:#383830">&lt;</i>
+<i style="color:#10100c">.</i><i style="color:#58584c">T</i><i style="color:#646458">(</i><i style="color:#fcfce4">@</i><i style="color:#484840">/</i><i style="color:#242420">_</i> 
+  <i style="color:#343430">&gt;</i><i style="color:#ffffe8">@</i><i style="color:#343430">&gt;</i>  
+  <i style="color:#4c4c44">z</i><i style="color:#ffffe8">@</i><i style="color:#505044">?</i>  
+ <i style="color:#1a1814">█</i><i style="color:#606058">J</i><i style="color:#ffffe0">@</i><i style="color:#606054">7</i><i style="color:#1a1814">█</i> 
+  <i style="color:#1a1814">░░░</i>  </pre></div>
+  <div class="meta"><b class="id">tree.dead.small</b>7 &times; 9 células · âncora 3,8<br>mancha <code>shadow.disc.r2.58</code><br>hash <code>9aa44d671e1a</code><div class="tags"><span class="tag">bare</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.dead.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:7,&quot;h&quot;:9,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:8},&quot;shadow&quot;:&quot;shadow.disc.r2.58&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;9aa44d671e1a03f1d5741a38d1bc25cdc30fe39a&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.dead.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;dead&quot;, &quot;tags&quot;: [&quot;bare&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#44443c">*</i><i style="color:#404038">c</i><i style="color:#181818">'</i>  <i style="color:#646458">(</i>   
+   <i style="color:#48483c">/</i><i style="color:#1c1c18">-</i> <i style="color:#4c4c40">?</i><i style="color:#383830">+</i>   
+    <i style="color:#686858">F</i><i style="color:#707060">C</i><i style="color:#30302c">&gt;</i> <i style="color:#303028">;</i><i style="color:#20201c">:</i> 
+<i style="color:#101010">.</i><i style="color:#0c0c0c">.</i><i style="color:#44443c">*</i>  <i style="color:#282824">^</i>   <i style="color:#383830">+</i><i style="color:#505048">L</i>
+<i style="color:#383830">&lt;</i><i style="color:#606054">7</i>   <i style="color:#88887c">n</i><i style="color:#20201c">:</i><i style="color:#58584c">T</i><i style="color:#383830">+</i><i style="color:#282820">,</i> 
+  <i style="color:#303028">&gt;</i><i style="color:#4c4c44">?</i><i style="color:#58584c">v</i><i style="color:#e8e8d0">B</i><i style="color:#4c4c44">?</i>   <i style="color:#10100c">.</i>
+<i style="color:#303028">;</i>  <i style="color:#242420">,</i><i style="color:#20201c">:</i><i style="color:#f0f0d8">N</i><i style="color:#181818">'</i><i style="color:#404038">c</i> <i style="color:#3c3c34">!</i><i style="color:#1c1c18">-</i>
+ <i style="color:#44443c">*</i><i style="color:#3c3c34">!</i><i style="color:#242420">_</i><i style="color:#181814">'</i><i style="color:#f8f8e0">%</i><i style="color:#5c5c50">J</i><i style="color:#3c3c34">!</i><i style="color:#54544c">T</i><i style="color:#0c0c0c">.</i> 
+  <i style="color:#282820">,</i><i style="color:#404038">r</i><i style="color:#707060">C</i><i style="color:#ffffe4">@</i><i style="color:#282820">,</i>    
+    <i style="color:#343430">&lt;</i><i style="color:#ffffe8">@</i><i style="color:#383830">&lt;</i>    
+    <i style="color:#444440">*</i><i style="color:#ffffe8">@</i><i style="color:#484840">/</i>    
+  <i style="color:#1a1814">░▄</i><i style="color:#585850">T</i><i style="color:#ffffe8">@</i><i style="color:#58584c">v</i><i style="color:#1a1814">▄░</i>  
+ <i style="color:#1a1814">░██</i><i style="color:#606058">(</i><i style="color:#ffffe0">@</i><i style="color:#646458">(</i><i style="color:#1a1814">██░</i> 
+  <i style="color:#1a1814">░▀▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">tree.dead.medium</b>11 &times; 13 células · âncora 5,12<br>mancha <code>shadow.disc.r3.8</code><br>hash <code>1dfcd066d5e6</code><div class="tags"><span class="tag">bare</span><span class="tag">medium</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.dead.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:11,&quot;h&quot;:13,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:12},&quot;shadow&quot;:&quot;shadow.disc.r3.8&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;1dfcd066d5e6941817bb9006b741cfb7c9630dcd&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.dead.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;dead&quot;, &quot;tags&quot;: [&quot;bare&quot;, &quot;large&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#181814">-</i><i style="color:#404038">r</i><i style="color:#181814">'</i><i style="color:#404038">*</i>   <i style="color:#0c0c08">.</i><i style="color:#686858">F</i>    
+    <i style="color:#545448">T</i><i style="color:#1c1c18">:</i>   <i style="color:#505048">L</i>     
+     <i style="color:#2c2c28">;</i><i style="color:#58584c">)</i><i style="color:#181814">'</i><i style="color:#848470">u</i><i style="color:#181818">-</i> <i style="color:#101010">.</i>   
+      <i style="color:#68685c">F</i><i style="color:#6c6c5c">{</i>   <i style="color:#181814">-</i><i style="color:#404038">c</i>  
+  <i style="color:#0c0c08">.</i><i style="color:#44443c">/</i>   <i style="color:#303028">&gt;</i>     <i style="color:#484840">z</i><i style="color:#404038">*</i>
+<i style="color:#404038">*</i><i style="color:#303028">&gt;</i><i style="color:#383834">!</i>    <i style="color:#404038">c</i>   <i style="color:#2c2c28">;</i><i style="color:#383830">+</i><i style="color:#303028">&gt;</i> 
+ <i style="color:#282824">^</i><i style="color:#303028">&gt;&gt;</i><i style="color:#202020">_</i>  <i style="color:#d4d4c0">X</i><i style="color:#5c5c50">J</i><i style="color:#606050">7</i><i style="color:#58584c">v</i><i style="color:#0c0c0c">.</i>   
+    <i style="color:#181814">-</i><i style="color:#686858">F</i><i style="color:#6c6c5c">{</i><i style="color:#ececd0">g</i> <i style="color:#181818">-</i>    <i style="color:#181814">-</i>
+<i style="color:#2c2c28">;</i>    <i style="color:#303028">;</i><i style="color:#080808">.</i><i style="color:#f0f0d8">M</i> <i style="color:#2c2c24">=</i><i style="color:#2c2c28">;</i> <i style="color:#141410">'</i><i style="color:#404038">c</i> 
+ <i style="color:#404038">c</i><i style="color:#141410">'</i><i style="color:#101010">.</i><i style="color:#404038">*</i> <i style="color:#101010">.</i><i style="color:#f8f8e0">Q</i><i style="color:#303028">&gt;</i><i style="color:#242420">,</i><i style="color:#404038">r</i><i style="color:#585850">)</i><i style="color:#34342c">&lt;</i>  
+  <i style="color:#303028">&gt;</i><i style="color:#58584c">v</i><i style="color:#30302c">&gt;</i><i style="color:#58584c">v</i><i style="color:#68685c">i</i><i style="color:#fcfce0">@</i><i style="color:#505044">s</i><i style="color:#282824">=</i><i style="color:#0c0c08">.</i>    
+      <i style="color:#282820">^</i><i style="color:#ffffe8">@</i><i style="color:#282824">=</i>      
+      <i style="color:#343430">+</i><i style="color:#ffffe8">@</i><i style="color:#383830">+</i>      
+      <i style="color:#40403c">*</i><i style="color:#ffffe8">@</i><i style="color:#444438">*</i>      
+      <i style="color:#505048">s</i><i style="color:#ffffe8">@</i><i style="color:#505048">L</i>      
+  <i style="color:#1a1814">░▄██</i><i style="color:#5c5c54">J</i><i style="color:#ffffe8">@</i><i style="color:#606050">7</i><i style="color:#1a1814">█▄░</i>   
+  <i style="color:#1a1814">████</i><i style="color:#64645c">|</i><i style="color:#ffffe0">@</i><i style="color:#686858">F</i><i style="color:#1a1814">███</i>   
+  <i style="color:#1a1814">░▀██████▀░</i>   
+               </pre></div>
+  <div class="meta"><b class="id">tree.dead.large</b>15 &times; 17 células · âncora 7,16<br>mancha <code>shadow.disc.r5.09</code><br>hash <code>8d4ea45fcfaf</code><div class="tags"><span class="tag">bare</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.dead.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:15,&quot;h&quot;:17,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:16},&quot;shadow&quot;:&quot;shadow.disc.r5.09&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;8d4ea45fcfafcb71a5a3773c6fceb31ce89fbc42&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.bush.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;bush&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;prop&quot;, &quot;shrub&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#382c18">.</i><i style="color:#342818">.</i><i style="color:#382c18">.</i>  
+  <i style="color:#6c5c30">T</i><i style="color:#686030">v</i><i style="color:#6c5830">L</i>  
+<i style="color:#305828">r</i><i style="color:#589844">Z</i><i style="color:#90ec64">&amp;</i><i style="color:#88e864">W</i><i style="color:#80e468">0</i><i style="color:#48843c">f</i><i style="color:#2c5828">!</i>
+<i style="color:#60ac4c">E</i><i style="color:#58a048">x</i><i style="color:#488840">3</i><i style="color:#f0d070">@</i><i style="color:#58a44c">j</i><i style="color:#58a448">y</i><i style="color:#549848">o</i>
+<i style="color:#1a1814">░▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">tree.bush.small</b>7 &times; 4 células · âncora 3,3<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>a5ef9075206c</code><div class="tags"><span class="tag">foliage</span><span class="tag slot">prop</span><span class="tag">shrub</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.bush.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:7,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:3},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a5ef9075206c1260f782fdb75953f9e62fddcc27&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.bush.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;bush&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;shrub&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>    <i style="color:#101008">.</i><i style="color:#141008">.</i> <i style="color:#101008">.</i>   
+   <i style="color:#18140c">.</i><i style="color:#504024">s</i><i style="color:#6c5c30">C</i><i style="color:#141008">.</i><i style="color:#544424">T</i>   
+ <i style="color:#305828">)</i><i style="color:#385c28">(</i><i style="color:#70b84c">O</i><i style="color:#88e060">W</i><i style="color:#94e460">@</i><i style="color:#70b048">4</i><i style="color:#7ccc5c">D</i><i style="color:#386028">|</i><i style="color:#0c180c">.</i> 
+<i style="color:#68b850">p</i><i style="color:#78cc58">R</i><i style="color:#7ce064">N</i><i style="color:#78cc58">R</i><i style="color:#80d058">$</i><i style="color:#7cd058">D</i><i style="color:#78c854">m</i><i style="color:#80dc60">N</i><i style="color:#8ce460">&amp;</i><i style="color:#7cdc60">M</i><i style="color:#50883c">5</i>
+<i style="color:#4c9040">x</i><i style="color:#549844">]</i><i style="color:#488840">o</i><i style="color:#386c34">}</i><i style="color:#4c9444">j</i><i style="color:#e8cc6c">@</i><i style="color:#488840">Z</i><i style="color:#4c9448">y</i><i style="color:#488440">e</i><i style="color:#509444">y</i><i style="color:#44803c">u</i>
+ <i style="color:#1a1814">░▀█████▀░</i> </pre></div>
+  <div class="meta"><b class="id">tree.bush.medium</b>11 &times; 5 células · âncora 5,4<br>mancha <code>shadow.disc.r4.8</code><br>hash <code>6da7a3714926</code><div class="tags"><span class="tag">foliage</span><span class="tag">medium</span><span class="tag slot">prop</span><span class="tag">shrub</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.bush.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:11,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:4},&quot;shadow&quot;:&quot;shadow.disc.r4.8&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;6da7a371492657837d0980e985c0035f872c691e&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.bush.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;bush&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;large&quot;, &quot;prop&quot;, &quot;shrub&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#40341c">;</i> <i style="color:#40341c">;</i> <i style="color:#40341c">;</i>     
+     <i style="color:#685430">)</i> <i style="color:#685430">)</i> <i style="color:#685430">)</i>     
+  <i style="color:#244420">+</i><i style="color:#345c28">T</i><i style="color:#5c943c">5</i><i style="color:#90c050">b</i><i style="color:#74b044">6</i><i style="color:#88c050">b</i><i style="color:#68b850">9</i><i style="color:#84d860">D</i><i style="color:#487030">{</i><i style="color:#243c18">;</i><i style="color:#142810">'</i>  
+<i style="color:#081008">.</i><i style="color:#203c1c">=</i><i style="color:#60b454">P</i><i style="color:#80d058">m</i><i style="color:#98ec5c">%</i><i style="color:#a0f05c">@</i><i style="color:#9cf05c">@</i><i style="color:#98e85c">W</i><i style="color:#84d858">RR</i><i style="color:#84dc60">$</i><i style="color:#80d458">8</i><i style="color:#6cc860">b</i><i style="color:#54a048">j</i><i style="color:#102010">.</i>
+<i style="color:#84d858">D</i><i style="color:#98ec5c">%</i><i style="color:#84e060">B</i><i style="color:#78d058">X</i><i style="color:#58a850">2</i><i style="color:#5ca84c">E</i><i style="color:#64b450">666</i><i style="color:#6cc85c">G</i><i style="color:#70d464">H</i><i style="color:#8ce058">B</i><i style="color:#90e45c">N</i><i style="color:#80d458">8</i><i style="color:#74c858">U</i>
+<i style="color:#40803c">I</i><i style="color:#4c9044">e</i><i style="color:#489044">n</i><i style="color:#407c3c">f</i><i style="color:#387038">F</i><i style="color:#448440">1</i><i style="color:#509848">5</i><i style="color:#e8cc6c">N</i><i style="color:#509c48">x</i><i style="color:#4c9448">o</i><i style="color:#488c44">[</i><i style="color:#488844">u</i><i style="color:#488c44">[</i><i style="color:#407838">}</i><i style="color:#40803c">I</i>
+ <i style="color:#1a1814">▀██████████▀</i>  
+   <i style="color:#1a1814">░░▀▀▀▀░░</i>    </pre></div>
+  <div class="meta"><b class="id">tree.bush.large</b>15 &times; 6 células · âncora 7,5<br>mancha <code>shadow.disc.r6.43</code><br>hash <code>2784565df957</code><div class="tags"><span class="tag">foliage</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">shrub</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.bush.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:15,&quot;h&quot;:6,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:5},&quot;shadow&quot;:&quot;shadow.disc.r6.43&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;2784565df957f06ae0de42446e863f389b8eee74&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.palm.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;palm&quot;, &quot;tags&quot;: [&quot;palm&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#0c1008">.</i><i style="color:#182010">:</i><i style="color:#081008">.</i>  <i style="color:#081408">.</i> <i style="color:#202c14">^</i>
+ <i style="color:#102814">_</i><i style="color:#183018">==</i><i style="color:#407034">{</i><i style="color:#345828">T</i><i style="color:#305828">T</i><i style="color:#182c18">^</i><i style="color:#18381c">&lt;</i>
+<i style="color:#304420">*</i><i style="color:#142010">-</i><i style="color:#0c1408">.</i><i style="color:#203014">=</i><i style="color:#508444">u</i><i style="color:#80a458">w</i><i style="color:#304c24">?</i><i style="color:#141c0c">'</i><i style="color:#0c1408">.</i>
+    <i style="color:#889054">j</i><i style="color:#888c50">x</i><i style="color:#081408">.</i>  
+    <i style="color:#b8b870">U</i><i style="color:#84844c">5</i>   
+    <i style="color:#b4b46c">G</i><i style="color:#646438">{</i>   
+   <i style="color:#1c1c10">-</i><i style="color:#b4b470">G</i><i style="color:#585830">7</i>   
+   <i style="color:#282818">^</i><i style="color:#b0b06c">O</i><i style="color:#50502c">T</i>   
+   <i style="color:#383820">!</i><i style="color:#acac68">4</i><i style="color:#484828">?</i>   
+   <i style="color:#48482c">s</i><i style="color:#b4b46c">G</i><i style="color:#50502c">T</i>   
+ <i style="color:#1a1814">░█</i><i style="color:#505030">v</i><i style="color:#e4e480">@</i><i style="color:#505030">v</i><i style="color:#1a1814">█░</i> 
+   <i style="color:#1a1814">░▀░</i>   </pre></div>
+  <div class="meta"><b class="id">tree.palm.small</b>9 &times; 11 células · âncora 4,10<br>mancha <code>shadow.disc.r2.72</code><br>hash <code>67f31db109b8</code><div class="tags"><span class="tag">palm</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.palm.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:10},&quot;shadow&quot;:&quot;shadow.disc.r2.72&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;67f31db109b8aeab56993aa0da5263cda2180ee4&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.palm.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;palm&quot;, &quot;tags&quot;: [&quot;medium&quot;, &quot;palm&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#182410">,</i><i style="color:#283818">/</i> <i style="color:#102410">_</i>   <i style="color:#102410">_</i> <i style="color:#203418">r</i><i style="color:#1c2814">;</i>
+  <i style="color:#184020">z</i><i style="color:#102010">_</i><i style="color:#142814">=</i><i style="color:#1c3418">r</i><i style="color:#305028">{</i><i style="color:#102010">-</i><i style="color:#2c5024">F</i><i style="color:#20381c">/</i><i style="color:#142814">=</i><i style="color:#102010">:</i><i style="color:#183c1c">/</i>
+<i style="color:#304820">(</i><i style="color:#203018">r</i><i style="color:#101c0c">'</i><i style="color:#0c1408">.</i><i style="color:#101c0c">'</i><i style="color:#304420">)</i><i style="color:#589040">U</i><i style="color:#649850">R</i><i style="color:#5c9444">H</i><i style="color:#344820">|</i><i style="color:#142010">:</i><i style="color:#0c1408">.</i><i style="color:#10180c">.</i>
+      <i style="color:#344c2c">i</i><i style="color:#9c9c5c">@</i><i style="color:#143018">&lt;</i>    
+      <i style="color:#404028">7</i><i style="color:#7c7c48">p</i>     
+      <i style="color:#484830">{</i><i style="color:#606038">Z</i>     
+      <i style="color:#787848">V</i><i style="color:#707040">k</i>     
+      <i style="color:#909054">$</i><i style="color:#606038">x</i>     
+      <i style="color:#707044">q</i><i style="color:#404024">)</i>     
+     <i style="color:#101008">.</i><i style="color:#707040">P</i><i style="color:#3c3c24">v</i>     
+     <i style="color:#202014">,</i><i style="color:#909058">B</i><i style="color:#444428">(</i>     
+     <i style="color:#282818">+</i><i style="color:#8c8c58">#</i><i style="color:#404024">)</i>     
+     <i style="color:#202014">,</i><i style="color:#585830">u</i><i style="color:#282818">&gt;</i>     
+   <i style="color:#1a1814">░▄</i><i style="color:#343420">z</i><i style="color:#7c7c4c">p</i><i style="color:#343420">z</i><i style="color:#1a1814">▄░</i>   
+  <i style="color:#1a1814">▒██</i><i style="color:#48482c">C</i><i style="color:#f4f48c">@</i><i style="color:#484828">{</i><i style="color:#1a1814">██▒</i>  
+   <i style="color:#1a1814">░▀▀▀▀▀░</i>   </pre></div>
+  <div class="meta"><b class="id">tree.palm.medium</b>13 &times; 15 células · âncora 6,14<br>mancha <code>shadow.disc.r4</code><br>hash <code>c391e35c3409</code><div class="tags"><span class="tag">medium</span><span class="tag">palm</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.palm.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:13,&quot;h&quot;:15,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:14},&quot;shadow&quot;:&quot;shadow.disc.r4&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;c391e35c34091f8ce2b44eb57549039cb8c6611f&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.palm.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;palm&quot;, &quot;tags&quot;: [&quot;large&quot;, &quot;palm&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#203018">c</i><i style="color:#243418">/</i>  <i style="color:#102814">=</i>    <i style="color:#102814">;</i>  <i style="color:#304420">J</i><i style="color:#141c0c">_</i>
+  <i style="color:#0c1c10">-</i><i style="color:#18381c">/</i><i style="color:#142814">&gt;</i><i style="color:#142410">^</i><i style="color:#0c180c">.</i><i style="color:#101c0c">-</i><i style="color:#081408">.</i>  <i style="color:#08180c">.</i><i style="color:#10180c">''</i><i style="color:#182814">&gt;</i><i style="color:#102814">&gt;</i><i style="color:#184020">s</i>
+     <i style="color:#081008">..</i><i style="color:#305024">{</i><i style="color:#70b050">@</i><i style="color:#508840">4</i><i style="color:#64a44c">M</i><i style="color:#60a048">$</i><i style="color:#1c3418">*</i><i style="color:#081008">.</i><i style="color:#040c08">.</i>  
+<i style="color:#385024">C</i><i style="color:#283818">?</i><i style="color:#182410">^</i><i style="color:#0c180c">.</i><i style="color:#0c1008">.</i><i style="color:#101808">'</i><i style="color:#202c14">+!</i><i style="color:#24381c">?</i><i style="color:#608048">4</i><i style="color:#44743c">]</i><i style="color:#202c14">+</i><i style="color:#203014">!</i><i style="color:#1c2810">&gt;</i><i style="color:#0c1408">..</i><i style="color:#10180c">'</i>
+        <i style="color:#0c140c">.</i><i style="color:#606038">x</i><i style="color:#1c1c10">,</i>      
+        <i style="color:#14140c">'</i><i style="color:#606038">x</i><i style="color:#101008">.</i>      
+        <i style="color:#202014">^</i><i style="color:#5c5c34">o</i>       
+        <i style="color:#2c2c1c">r</i><i style="color:#585834">[</i>       
+        <i style="color:#383820">T</i><i style="color:#585830">[</i>       
+        <i style="color:#545438">l</i><i style="color:#585830">[</i>       
+        <i style="color:#5c5c34">o</i><i style="color:#4c4c2c">f</i>       
+        <i style="color:#646440">j</i><i style="color:#404024">(</i>       
+        <i style="color:#606038">Z</i><i style="color:#383820">L</i>       
+       <i style="color:#101008">.</i><i style="color:#646440">y</i><i style="color:#34341c">z</i>       
+       <i style="color:#18180c">-</i><i style="color:#5c5c34">o</i><i style="color:#30301c">*</i>       
+       <i style="color:#202010">^</i><i style="color:#686840">]</i><i style="color:#2c2c18">c</i>       
+       <i style="color:#202014">=</i><i style="color:#585830">[</i><i style="color:#282818">!</i>       
+       <i style="color:#282818">&lt;</i><i style="color:#60603c">5</i><i style="color:#282818">&lt;</i>       
+   <i style="color:#1a1814">▄▄██</i><i style="color:#202014">;</i><i style="color:#484828">C</i><i style="color:#242414">&gt;</i><i style="color:#1a1814">█▄▄</i>    
+  <i style="color:#1a1814">░████</i><i style="color:#343420">?</i><i style="color:#e4e480">@</i><i style="color:#30301c">/</i><i style="color:#1a1814">███░</i>   
+   <i style="color:#1a1814">▀▀██████▀▀</i>    
+       <i style="color:#1a1814">░░</i>        </pre></div>
+  <div class="meta"><b class="id">tree.palm.large</b>17 &times; 20 células · âncora 8,19<br>mancha <code>shadow.disc.r5.36</code><br>hash <code>68d5b5ba8cf1</code><div class="tags"><span class="tag">large</span><span class="tag">palm</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.palm.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:17,&quot;h&quot;:20,&quot;anchor&quot;:{&quot;x&quot;:8,&quot;y&quot;:19},&quot;shadow&quot;:&quot;shadow.disc.r5.36&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;68d5b5ba8cf158f76959da150b445ae06c017dbc&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.willow.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;willow&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;hanging&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre><i style="color:#10140c">.</i><i style="color:#88b468">P</i><i style="color:#acd874">m</i><i style="color:#d0fc88">@</i><i style="color:#b8dc70">#</i><i style="color:#b4ec7c">N</i><i style="color:#98c868">G</i><i style="color:#588840">1</i> 
+<i style="color:#3c6030">L</i><i style="color:#90d468">K</i><i style="color:#94d468">K</i><i style="color:#90d068">bUb</i><i style="color:#8cd068">b</i><i style="color:#80c460">d</i><i style="color:#406430">T</i>
+<i style="color:#284824">&lt;</i><i style="color:#94c464">V</i><i style="color:#98c464">p</i><i style="color:#488844">3</i><i style="color:#4c8840">3</i><i style="color:#4c8c44">1</i><i style="color:#78b058">E</i><i style="color:#709048">n</i><i style="color:#505830">s</i>
+<i style="color:#2c5028">r</i><i style="color:#6ca450">y</i><i style="color:#acd870">8</i><i style="color:#508844">1</i><i style="color:#549048">l</i><i style="color:#4c8c44">1</i><i style="color:#78b058">S</i><i style="color:#789c50">x</i><i style="color:#283018">:</i>
+<i style="color:#283c1c">^</i><i style="color:#406c34">J</i><i style="color:#90bc60">9</i><i style="color:#6ca050">x</i><i style="color:#609850">o</i><i style="color:#44803c">C</i><i style="color:#649448">e</i><i style="color:#3c4824">+</i> 
+ <i style="color:#202814">'</i><i style="color:#182010">.</i><i style="color:#486034">T</i><i style="color:#70a05c">j</i><i style="color:#305828">*</i><i style="color:#304c28">!</i>  
+<i style="color:#1a1814">░██</i><i style="color:#40482c">!</i><i style="color:#ece894">@</i><i style="color:#343c20">=</i><i style="color:#1a1814">█░</i> 
+ <i style="color:#1a1814">░▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">tree.willow.small</b>9 &times; 7 células · âncora 4,6<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>d5f5bcaf88c5</code><div class="tags"><span class="tag">foliage</span><span class="tag">hanging</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.willow.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:7,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:6},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;d5f5bcaf88c5ac6048259227c919427b6baf51fc&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.willow.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;willow&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;hanging&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#1c2414">.</i><i style="color:#304024">;</i><i style="color:#3c502c">c</i><i style="color:#709450">[</i><i style="color:#445830">z</i><i style="color:#384c2c">r</i><i style="color:#24301c">:</i>   
+ <i style="color:#608448">I</i><i style="color:#6c9048">u</i><i style="color:#d0f884">Q</i><i style="color:#dcff84">@@</i><i style="color:#d0f880">Q</i><i style="color:#b8e878">##</i><i style="color:#b8f080">g</i><i style="color:#88b860">w</i><i style="color:#305028">!</i> 
+<i style="color:#0c1808">.</i><i style="color:#88d068">4V</i><i style="color:#98d868">b</i><i style="color:#a0e070">K</i><i style="color:#a8e070">X</i><i style="color:#a4e070">XX</i><i style="color:#a0dc6c">K</i><i style="color:#98d868">b</i><i style="color:#88d064">4</i><i style="color:#70b054">y</i><i style="color:#38582c">/</i>
+ <i style="color:#589448">t</i><i style="color:#7cb85c">S</i><i style="color:#80bc5c">q</i><i style="color:#94cc64">4</i><i style="color:#98d868">b</i><i style="color:#80bc5c">q</i><i style="color:#64a850">Y</i><i style="color:#68ac54">j</i><i style="color:#68a850">Y</i><i style="color:#70b058">a</i><i style="color:#509048">1</i> 
+ <i style="color:#204020">=</i><i style="color:#70a854">x</i><i style="color:#78a854">x</i><i style="color:#8cbc60">k</i><i style="color:#608444">f</i><i style="color:#88bc60">q</i><i style="color:#488840">}</i><i style="color:#508040">{</i><i style="color:#488440">{</i><i style="color:#5c9048">t</i><i style="color:#305c2c">z</i> 
+ <i style="color:#284c24">+</i><i style="color:#6ca450">Y</i><i style="color:#689448">u</i><i style="color:#80b458">E</i><i style="color:#404c28">r</i><i style="color:#9cc868">4</i><i style="color:#487c3c">F</i><i style="color:#689048">l</i><i style="color:#488840">}</i><i style="color:#588c44">3</i><i style="color:#407038">J</i> 
+ <i style="color:#244020">=</i><i style="color:#6ca450">5</i><i style="color:#689c4c">e</i><i style="color:#74a450">Y</i><i style="color:#405028">*</i><i style="color:#a8d46c">b</i><i style="color:#48783c">F</i><i style="color:#688844">3</i><i style="color:#407838">(</i><i style="color:#508840">f</i><i style="color:#507038">7</i> 
+ <i style="color:#182814">.</i><i style="color:#284820">&gt;</i><i style="color:#508440">C</i><i style="color:#6c984c">n</i><i style="color:#40582c">/</i><i style="color:#b8dc74">H</i><i style="color:#5c8844">I</i><i style="color:#586834">)</i><i style="color:#386c34">v</i><i style="color:#407034">)</i><i style="color:#587038">(</i> 
+   <i style="color:#284824">&lt;</i><i style="color:#14180c">.</i><i style="color:#343820">^</i><i style="color:#c0e478">R</i><i style="color:#688848">1</i><i style="color:#283018">:</i><i style="color:#285028">+</i><i style="color:#20381c">,</i><i style="color:#1c2010">.</i> 
+  <i style="color:#1a1814">░▄█</i><i style="color:#404024">&gt;</i><i style="color:#bcdc78">m</i><i style="color:#485830">z</i><i style="color:#1a1814">█▄░</i>  
+ <i style="color:#1a1814">░███</i><i style="color:#484830">!</i><i style="color:#f8f098">&amp;</i><i style="color:#48442c">!</i><i style="color:#1a1814">███░</i> 
+  <i style="color:#1a1814">░▀█████▀░</i>  </pre></div>
+  <div class="meta"><b class="id">tree.willow.medium</b>13 &times; 11 células · âncora 6,10<br>mancha <code>shadow.disc.r4.8</code><br>hash <code>a7dfe7897973</code><div class="tags"><span class="tag">foliage</span><span class="tag">hanging</span><span class="tag">medium</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.willow.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:13,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:10},&quot;shadow&quot;:&quot;shadow.disc.r4.8&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a7dfe78979732a63fb380c86ae4a96e7afa4e86d&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.willow.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;willow&quot;, &quot;tags&quot;: [&quot;foliage&quot;, &quot;hanging&quot;, &quot;large&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>    <i style="color:#5c7844">f</i><i style="color:#709050">n</i><i style="color:#6c8c4c">u</i><i style="color:#647c40">I</i><i style="color:#648040">3</i><i style="color:#708c48">[</i><i style="color:#88b464">w</i><i style="color:#40542c">s</i><i style="color:#28341c">;</i>    
+<i style="color:#0c1008">.</i><i style="color:#405830">L</i><i style="color:#50783c">{</i><i style="color:#9cc868">V</i><i style="color:#d4f880">Q</i><i style="color:#e0ff84">@@@</i><i style="color:#d8f880">%</i><i style="color:#b8e878">####</i><i style="color:#9cc868">V</i><i style="color:#70ac54">a</i><i style="color:#24381c">&gt;</i> 
+<i style="color:#0c1008">.</i><i style="color:#78bc5c">k</i><i style="color:#84d064">4</i><i style="color:#8cd468">O</i><i style="color:#a0dc6c">K</i><i style="color:#ace470">m</i><i style="color:#b4e874">D</i><i style="color:#b8e874">D</i><i style="color:#b0e874">RR</i><i style="color:#b0e474">8</i><i style="color:#a8e070">H</i><i style="color:#a0dc6c">K</i><i style="color:#8cd468">O</i><i style="color:#84d064">4</i><i style="color:#609848">n</i> 
+<i style="color:#10180c">.</i><i style="color:#549044">u</i><i style="color:#80c860">9</i><i style="color:#84cc60">d</i><i style="color:#78c05c">PP</i><i style="color:#88d064">V</i><i style="color:#80c860">9</i><i style="color:#88cc64">4</i><i style="color:#7cc460">6</i><i style="color:#90d468">G</i><i style="color:#84cc64">4</i><i style="color:#7cc860">h</i><i style="color:#88cc64">4</i><i style="color:#70b858">S</i><i style="color:#64a04c">5</i><i style="color:#0c1408">.</i>
+ <i style="color:#346030">T</i><i style="color:#78a450">j</i><i style="color:#80b85c">w</i><i style="color:#4c8c44">1t</i><i style="color:#90c864">4</i><i style="color:#68a850">y</i><i style="color:#88bc60">P</i><i style="color:#5c9c4c">o</i><i style="color:#bce878">D</i><i style="color:#88bc60">k</i><i style="color:#589848">n</i><i style="color:#98c864">4</i><i style="color:#345828">s</i><i style="color:#6c9048">n</i><i style="color:#080c04">.</i>
+ <i style="color:#3c6030">v</i><i style="color:#648844">t</i><i style="color:#78b058">2</i><i style="color:#509044">l</i><i style="color:#407838">i</i><i style="color:#60783c">}</i><i style="color:#2c5024">*</i><i style="color:#90b860">k</i><i style="color:#346030">v</i><i style="color:#a4c464">4</i><i style="color:#74a050">x</i><i style="color:#486834">7</i><i style="color:#98c864">V</i><i style="color:#243c1c">&lt;</i><i style="color:#6c9048">n</i><i style="color:#080c04">.</i>
+ <i style="color:#4c6834">(</i><i style="color:#486834">7</i><i style="color:#78ac58">]</i><i style="color:#548c44">l</i><i style="color:#407838">i</i><i style="color:#586834">(</i><i style="color:#1c3018">^</i><i style="color:#98c068">9</i><i style="color:#284820">r</i><i style="color:#94b05c">S</i><i style="color:#80ac58">]</i><i style="color:#587c40">f</i><i style="color:#90c060">9</i><i style="color:#2c4420">!</i><i style="color:#70984c">Z</i> 
+ <i style="color:#304c28">*</i><i style="color:#305828">s</i><i style="color:#609048">[</i><i style="color:#588c44">l</i><i style="color:#407838">i</i><i style="color:#60783c">}</i><i style="color:#24381c">&gt;</i><i style="color:#90b860">P</i><i style="color:#244420">!</i><i style="color:#88a454">a</i><i style="color:#8cbc60">6</i><i style="color:#506834">7</i><i style="color:#80b058">E</i><i style="color:#304824">c</i><i style="color:#709c50">5</i> 
+  <i style="color:#305428">?</i><i style="color:#487438">i</i><i style="color:#508040">f</i><i style="color:#386830">)</i><i style="color:#58783c">C</i><i style="color:#181c10">'</i><i style="color:#8cb868">k</i><i style="color:#284824">c</i><i style="color:#809c50">x</i><i style="color:#98c464">d</i><i style="color:#586c38">|</i><i style="color:#446430">J</i><i style="color:#183018">^</i><i style="color:#607840">}</i> 
+  <i style="color:#284824">r</i><i style="color:#446c34">(</i><i style="color:#346030">v</i><i style="color:#386830">J</i><i style="color:#3c4c28">/</i><i style="color:#1c1c10">'</i><i style="color:#8cb470">k</i><i style="color:#38542c">?</i><i style="color:#708844">l</i><i style="color:#a0cc68">p</i><i style="color:#344020">r</i><i style="color:#4c542c">L</i><i style="color:#0c1808">.</i><i style="color:#283c20">&lt;</i> 
+  <i style="color:#101c10">'</i><i style="color:#28381c">&gt;</i><i style="color:#0c1408">.</i><i style="color:#386830">J</i><i style="color:#18180c">.</i><i style="color:#28281c">,</i><i style="color:#bcd088">K</i><i style="color:#303420">&gt;</i><i style="color:#5c6838">|</i><i style="color:#80a454">y</i> <i style="color:#242818">,</i>   
+    <i style="color:#1a1814">░</i><i style="color:#386430">)</i><i style="color:#1a1814">▄</i><i style="color:#383424">&gt;</i><i style="color:#e0e498">0</i><i style="color:#383420">&gt;</i><i style="color:#505c30">v</i><i style="color:#30381c">&lt;</i>     
+  <i style="color:#1a1814">▄████</i><i style="color:#40402c">c</i><i style="color:#fff8a8">@</i><i style="color:#404028">r</i><i style="color:#343820">&lt;</i><i style="color:#1a1814">██▄</i>   
+ <i style="color:#1a1814">▒█████</i><i style="color:#484830">/</i><i style="color:#fff49c">@</i><i style="color:#48482c">/</i><i style="color:#1a1814">████▒</i>  
+  <i style="color:#1a1814">▀██████████▀</i>   
+    <i style="color:#1a1814">░░▀▀▀▀░░</i>     </pre></div>
+  <div class="meta"><b class="id">tree.willow.large</b>17 &times; 14 células · âncora 8,13<br>mancha <code>shadow.disc.r6.43</code><br>hash <code>541cf98123af</code><div class="tags"><span class="tag">foliage</span><span class="tag">hanging</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.willow.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:17,&quot;h&quot;:14,&quot;anchor&quot;:{&quot;x&quot;:8,&quot;y&quot;:13},&quot;shadow&quot;:&quot;shadow.disc.r6.43&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;541cf98123afb8020af139dd8f08ac52a46356e7&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.autumn.small&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;autumn&quot;, &quot;tags&quot;: [&quot;autumn&quot;, &quot;foliage&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre><i style="color:#444010">&lt;</i><i style="color:#585018">?</i><i style="color:#807020">}</i><i style="color:#d8c038">H</i><i style="color:#f0dc3c">&amp;</i><i style="color:#e0bc34">H</i><i style="color:#b47820">n</i><i style="color:#78601c">|</i>
+<i style="color:#d4a030">h</i><i style="color:#f4d43c">N</i><i style="color:#ffd43c">Q</i><i style="color:#ffd840">&amp;</i><i style="color:#ffd03c">W</i><i style="color:#ffd83c">&amp;</i><i style="color:#f8cc38">0</i><i style="color:#e0a030">d</i>
+ <i style="color:#5c3810">+</i><i style="color:#906020">{</i><i style="color:#90581c">|</i><i style="color:#c88834">y</i><i style="color:#704414">/</i><i style="color:#684818">z</i><i style="color:#281808">.</i>
+  <i style="color:#302814">-</i><i style="color:#3c3018">,</i><i style="color:#f0cc6c">M</i><i style="color:#383018">,</i><i style="color:#302414">'</i> 
+   <i style="color:#382c18">_</i><i style="color:#d8b05c">U</i><i style="color:#342814">:</i>  
+   <i style="color:#282414">.</i><i style="color:#ffd870">@</i><i style="color:#241c10">.</i>  
+  <i style="color:#1a1814">▄</i><i style="color:#3c341c">=</i><i style="color:#ffd870">@</i><i style="color:#342818">:</i>  
+ <i style="color:#1a1814">██</i><i style="color:#484020">+</i><i style="color:#ffcc6c">N</i><i style="color:#40341c">=</i><i style="color:#1a1814">█</i> 
+  <i style="color:#1a1814">▀▀▀▀</i>  </pre></div>
+  <div class="meta"><b class="id">tree.autumn.small</b>8 &times; 8 células · âncora 4,7<br>mancha <code>shadow.disc.r3.13</code><br>hash <code>1bf811f21916</code><div class="tags"><span class="tag">autumn</span><span class="tag">foliage</span><span class="tag slot">prop</span><span class="tag">small</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.autumn.small&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:8,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r3.13&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;1bf811f2191660fcc062067e855c5a8f23cd97a0&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.autumn.medium&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;autumn&quot;, &quot;tags&quot;: [&quot;autumn&quot;, &quot;foliage&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#242008">-</i><i style="color:#30300c">=</i><i style="color:#181408">.</i><i style="color:#242008">-</i>   
+<i style="color:#1c1808">.</i><i style="color:#3c3810">&gt;</i><i style="color:#444010">r</i><i style="color:#806820">C</i><i style="color:#f0d03c">#</i><i style="color:#ffe840">@</i><i style="color:#ffec40">@</i><i style="color:#ffdc3c">N</i><i style="color:#ffd43c">0</i><i style="color:#c88428">x</i><i style="color:#78641c">i</i><i style="color:#3c3410">&gt;</i>
+<i style="color:#ffd03c">B</i><i style="color:#ffe040">Q</i><i style="color:#ffe840">@</i><i style="color:#fcdc40">N</i><i style="color:#ffec40">@</i><i style="color:#ffdc3c">N</i><i style="color:#ffd83c">0M</i><i style="color:#ffd038">B</i><i style="color:#fcd03c">$</i><i style="color:#fcc038">m</i><i style="color:#ffc034">m</i>
+<i style="color:#643c10">*</i><i style="color:#90641c">C</i><i style="color:#fca830">V</i><i style="color:#ffb030">U</i><i style="color:#ffc034">H</i><i style="color:#f8a030">d</i><i style="color:#e0982c">q</i><i style="color:#ecac30">V</i><i style="color:#f4b030">G</i><i style="color:#e8a430">9</i><i style="color:#c88024">5</i><i style="color:#744814">L</i>
+  <i style="color:#38200c">_</i><i style="color:#945c20">i</i><i style="color:#784c18">T</i><i style="color:#885418">(</i><i style="color:#c88034">x</i><i style="color:#703814">*</i><i style="color:#40240c">,</i><i style="color:#503818">!</i><i style="color:#181008">.</i> 
+   <i style="color:#382c18">=</i><i style="color:#2c2414">:</i> <i style="color:#f0cc6c">$</i> <i style="color:#302414">_</i><i style="color:#342818">^</i>  
+    <i style="color:#282010">-</i><i style="color:#4c3c20">r</i><i style="color:#f8d070">g</i><i style="color:#4c3c20">r</i><i style="color:#282010">-</i>   
+     <i style="color:#282010">:</i><i style="color:#d8b460">G</i><i style="color:#282010">-</i>    
+     <i style="color:#282410">:</i><i style="color:#ffd870">W</i><i style="color:#241c10">'</i>    
+     <i style="color:#383018">=</i><i style="color:#ffd870">W</i><i style="color:#302414">_</i>    
+  <i style="color:#1a1814">░▄▄</i><i style="color:#443c20">!</i><i style="color:#ffd870">N</i><i style="color:#3c3018">;</i><i style="color:#1a1814">▄▄░</i> 
+  <i style="color:#1a1814">███</i><i style="color:#4c4020">c</i><i style="color:#ffcc6c">B</i><i style="color:#44341c">&lt;</i><i style="color:#1a1814">███</i> 
+  <i style="color:#1a1814">░▀▀███▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">tree.autumn.medium</b>12 &times; 12 células · âncora 6,11<br>mancha <code>shadow.disc.r4.6</code><br>hash <code>21a01effa6ce</code><div class="tags"><span class="tag">autumn</span><span class="tag">foliage</span><span class="tag">medium</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.autumn.medium&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:12,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:11},&quot;shadow&quot;:&quot;shadow.disc.r4.6&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;21a01effa6ce33991f50457c1fc3e01825e52045&quot;}">copiar peça</button></div>
+</article>
+<article class="card prop" data-meta="{&quot;id&quot;: &quot;tree.autumn.large&quot;, &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: &quot;autumn&quot;, &quot;tags&quot;: [&quot;autumn&quot;, &quot;foliage&quot;, &quot;large&quot;, &quot;prop&quot;, &quot;tree&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>        <i style="color:#181808">.</i>       
+    <i style="color:#242008">-</i><i style="color:#b8a830">q</i><i style="color:#a89c28">a</i><i style="color:#f0e840">N</i><i style="color:#f0e43c">0</i><i style="color:#ecd038">m</i><i style="color:#e8c838">X</i><i style="color:#b49c2c">]</i><i style="color:#4c3410">&lt;</i><i style="color:#181004">.</i>  
+<i style="color:#5c5418">T</i><i style="color:#a8a02c">2</i><i style="color:#bcb030">6</i><i style="color:#f8e040">g</i><i style="color:#f8b034">p</i><i style="color:#ffa430">d</i><i style="color:#ffb834">b</i><i style="color:#ffdc3c">B</i><i style="color:#ffcc38">8</i><i style="color:#ffd038">D</i><i style="color:#ffbc34">U</i><i style="color:#ffb834">b</i><i style="color:#f8a430">9</i><i style="color:#b48c28">Y</i><i style="color:#e8c838">X</i><i style="color:#a89028">Y</i>
+<i style="color:#ffb434">G</i><i style="color:#ffc034">A</i><i style="color:#ffd438">D</i><i style="color:#ffd038">D</i><i style="color:#ffe03c">0</i><i style="color:#fff840">@@</i><i style="color:#ffe440">NN</i><i style="color:#fff440">@</i><i style="color:#ffec40">Q</i><i style="color:#ffdc3c">BB</i><i style="color:#ffb834">b</i><i style="color:#ffb434">G</i><i style="color:#ffb030">p</i>
+<i style="color:#683814">c</i><i style="color:#885018">)</i><i style="color:#e48c28">]</i><i style="color:#ffa030">9</i><i style="color:#ffb030">p</i><i style="color:#ffb834">bb</i><i style="color:#fc9c30">P</i><i style="color:#f8a030">6</i><i style="color:#ffb030">p</i><i style="color:#ffb430">OO</i><i style="color:#ffb030">p</i><i style="color:#f49c2c">k</i><i style="color:#b86820">1</i><i style="color:#683814">r</i>
+  <i style="color:#301c08">-</i><i style="color:#904c1c">)</i><i style="color:#d47828">o</i><i style="color:#d88028">Y</i><i style="color:#e8902c">2</i><i style="color:#f08c2c">2</i><i style="color:#b46c20">1</i><i style="color:#b46420">f</i><i style="color:#9c5c1c">i</i><i style="color:#804818">L</i><i style="color:#603410">!</i><i style="color:#40200c">_</i>  
+   <i style="color:#1c140c">.</i><i style="color:#44381c">+</i> <i style="color:#201008">.</i><i style="color:#281008">.</i><i style="color:#e8b860">b</i>   <i style="color:#483820">!</i><i style="color:#181408">.</i>  
+    <i style="color:#100c08">.</i><i style="color:#504020">c</i>  <i style="color:#f0cc6c">8</i>  <i style="color:#504020">c</i><i style="color:#100c08">.</i>   
+      <i style="color:#504020">c</i><i style="color:#20180c">'</i><i style="color:#f8d070">#</i><i style="color:#1c180c">.</i><i style="color:#504020">c</i>     
+       <i style="color:#544424">/</i><i style="color:#e4bc64">U</i><i style="color:#544024">*</i>      
+       <i style="color:#201c10">'</i><i style="color:#f0cc6c">8</i><i style="color:#1c180c">.</i>      
+       <i style="color:#2c2414">_</i><i style="color:#ffd870">g</i><i style="color:#241c10">-</i>      
+       <i style="color:#383018">=</i><i style="color:#ffd870">g</i><i style="color:#302414">_</i>      
+     <i style="color:#1a1814">░▒</i><i style="color:#40381c">&lt;</i><i style="color:#ffd870">g</i><i style="color:#382c18">=</i><i style="color:#1a1814">░</i>     
+  <i style="color:#1a1814">▄▄███</i><i style="color:#484020">c</i><i style="color:#ffd870">B</i><i style="color:#40301c">&gt;</i><i style="color:#1a1814">██▄▒</i>  
+ <i style="color:#1a1814">░█████</i><i style="color:#504424">*</i><i style="color:#ffcc6c">R</i><i style="color:#44381c">+</i><i style="color:#1a1814">████</i>  
+  <i style="color:#1a1814">▀▀████████▀▒</i>  
+     <i style="color:#1a1814">░▒▀▀▒░</i>     </pre></div>
+  <div class="meta"><b class="id">tree.autumn.large</b>16 &times; 16 células · âncora 8,15<br>mancha <code>shadow.disc.r6.16</code><br>hash <code>a23036efedf9</code><div class="tags"><span class="tag">autumn</span><span class="tag">foliage</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.autumn.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:16,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:8,&quot;y&quot;:15},&quot;shadow&quot;:&quot;shadow.disc.r6.16&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a23036efedf95637c4704f6fd43df7b44f2f9b38&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.45&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">░░</i>  
+<i style="color:#1a1814">░████░</i>
+  <i style="color:#1a1814">░░</i>  </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.45</b>6 &times; 3 células · âncora 3,1<br>disco rx 2.45 × ry 0.74 células (2:1 na tela)<br>hash <code>b79d163cbb39</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.45&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:6,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;b79d163cbb398f731527c145d08e0041c1db8fd1&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.58&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">░░░</i>  
+ <i style="color:#1a1814">█████</i> 
+  <i style="color:#1a1814">░░░</i>  </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.58</b>7 &times; 3 células · âncora 3,1<br>disco rx 2.58 × ry 0.78 células (2:1 na tela)<br>hash <code>d1ae0905b98f</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.58&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:7,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;d1ae0905b98f212143359f0c53fd9aca380617c4&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.72&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">░▄░</i>  
+<i style="color:#1a1814">░█████░</i>
+  <i style="color:#1a1814">░▀░</i>  </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.72</b>7 &times; 3 células · âncora 3,1<br>disco rx 2.72 × ry 0.82 células (2:1 na tela)<br>hash <code>0b10b136dcb2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.72&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:7,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;0b10b136dcb21b3074c645b9339ad5c1a3114b3a&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.86&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▒▄▒░</i> 
+<i style="color:#1a1814">░█████░</i>
+ <i style="color:#1a1814">░▒▀▒░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.86</b>7 &times; 3 células · âncora 3,1<br>disco rx 2.86 × ry 0.86 células (2:1 na tela)<br>hash <code>cae4166bc762</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.86&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:7,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;cae4166bc7620a91b284f28ba0a79cc424adad23&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.13&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">▄▄▄▄</i>  
+ <i style="color:#1a1814">██████</i> 
+  <i style="color:#1a1814">▀▀▀▀</i>  </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.13</b>8 &times; 3 células · âncora 4,1<br>disco rx 3.13 × ry 0.94 células (2:1 na tela)<br>hash <code>c20b80bd516f</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.13&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:8,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;c20b80bd516f0d290180e01f184ed81fdb012006&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.26&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄░</i> 
+<i style="color:#1a1814">░██████░</i>
+ <i style="color:#1a1814">░▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.26</b>8 &times; 3 células · âncora 4,1<br>disco rx 3.26 × ry 0.98 células (2:1 na tela)<br>hash <code>cb542f5d07e2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.26&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:8,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;cb542f5d07e2a02b5407fa1633603f50555df9e2&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.6&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄░</i> 
+ <i style="color:#1a1814">███████</i> 
+ <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.6</b>9 &times; 3 células · âncora 4,1<br>disco rx 3.60 × ry 1.08 células (2:1 na tela)<br>hash <code>62f514a9f71d</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.6&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:9,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;62f514a9f71d5ef4580c86b2af539eb951d21763&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.8&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄░</i> 
+<i style="color:#1a1814">░███████░</i>
+ <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.8</b>9 &times; 3 células · âncora 4,1<br>disco rx 3.80 × ry 1.14 células (2:1 na tela)<br>hash <code>275a5c46e88d</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.8&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:9,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;275a5c46e88d0416209b4a59628176dc3bc4b812&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄░</i> 
+<i style="color:#1a1814">▒███████▒</i>
+ <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4</b>9 &times; 3 células · âncora 4,1<br>disco rx 4.00 × ry 1.20 células (2:1 na tela)<br>hash <code>ccd4ab0ba17f</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:9,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;ccd4ab0ba17f0db39a8400c6b856ab0db3005174&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.2&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄▄░</i> 
+<i style="color:#1a1814">░████████</i> 
+ <i style="color:#1a1814">░▀▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.2</b>10 &times; 3 células · âncora 5,1<br>disco rx 4.20 × ry 1.26 células (2:1 na tela)<br>hash <code>6ed13f7ff9f8</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.2&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;6ed13f7ff9f8e1567df16ade2a9cd1eca7d7ca25&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.6&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄███▄▄░</i> 
+ <i style="color:#1a1814">█████████</i> 
+ <i style="color:#1a1814">░▀▀███▀▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.6</b>11 &times; 3 células · âncora 5,1<br>disco rx 4.60 × ry 1.38 células (2:1 na tela)<br>hash <code>b01c742b85ca</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.6&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:11,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;b01c742b85caf0a93ee0a92b7d39e73740dc1dd4&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.8&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄█████▄░</i> 
+<i style="color:#1a1814">░█████████░</i>
+ <i style="color:#1a1814">░▀█████▀░</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.8</b>11 &times; 3 células · âncora 5,1<br>disco rx 4.80 × ry 1.44 células (2:1 na tela)<br>hash <code>a399ab840e72</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.8&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:11,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a399ab840e727f22da50fcf7e0bd4e92878e18b1&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.82&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">▒▄█████▄▒</i> 
+<i style="color:#1a1814">░█████████░</i>
+ <i style="color:#1a1814">▒▀█████▀▒</i> </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.82</b>11 &times; 3 células · âncora 5,1<br>disco rx 4.82 × ry 1.45 células (2:1 na tela)<br>hash <code>682b4dd997b8</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.82&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:11,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;682b4dd997b8c8651eaea79084c44b224d777eb9&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.09&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>            
+ <i style="color:#1a1814">░▄██████▄░</i> 
+ <i style="color:#1a1814">██████████</i> 
+ <i style="color:#1a1814">░▀██████▀░</i> 
+            </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r5.09</b>12 &times; 5 células · âncora 6,2<br>disco rx 5.09 × ry 1.53 células (2:1 na tela)<br>hash <code>19998e96842a</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r5.09&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:12,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;19998e96842aa4a6ce72ee968a6d492cba603c47&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.36&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#1a1814">░░</i>     
+ <i style="color:#1a1814">▄▄██████▄▄</i> 
+<i style="color:#1a1814">░██████████░</i>
+ <i style="color:#1a1814">▀▀██████▀▀</i> 
+     <i style="color:#1a1814">░░</i>     </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r5.36</b>12 &times; 5 células · âncora 6,2<br>disco rx 5.36 × ry 1.61 células (2:1 na tela)<br>hash <code>a302c7d0ac44</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r5.36&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:12,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a302c7d0ac440681bbe5fc1d7638076e40e4ea3e&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.63&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#1a1814">░░░</i>     
+ <i style="color:#1a1814">░▄███████▄░</i> 
+ <i style="color:#1a1814">███████████</i> 
+ <i style="color:#1a1814">░▀███████▀░</i> 
+     <i style="color:#1a1814">░░░</i>     </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r5.63</b>13 &times; 5 células · âncora 6,2<br>disco rx 5.63 × ry 1.69 células (2:1 na tela)<br>hash <code>13891a4ede4d</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r5.63&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:13,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;13891a4ede4d2eb2e6c34cfd37775cae53b1d438&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r6.16&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>    <i style="color:#1a1814">░▒▄▄▒░</i>    
+ <i style="color:#1a1814">▄▄████████▄▒</i> 
+<i style="color:#1a1814">░████████████</i> 
+ <i style="color:#1a1814">▀▀████████▀▒</i> 
+    <i style="color:#1a1814">░▒▀▀▒░</i>    </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r6.16</b>14 &times; 5 células · âncora 7,2<br>disco rx 6.16 × ry 1.85 células (2:1 na tela)<br>hash <code>734a987eb9f2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r6.16&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:14,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;734a987eb9f261ddddcfd5667e9bc174af3c4e6f&quot;}">copiar peça</button></div>
+</article>
+<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r6.43&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#1a1814">░░▄▄▄▄░░</i>   
+ <i style="color:#1a1814">▄██████████▄</i> 
+<i style="color:#1a1814">▒████████████▒</i>
+ <i style="color:#1a1814">▀██████████▀</i> 
+   <i style="color:#1a1814">░░▀▀▀▀░░</i>   </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r6.43</b>14 &times; 5 células · âncora 7,2<br>disco rx 6.43 × ry 1.94 células (2:1 na tela)<br>hash <code>a179f916c3ad</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r6.43&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:14,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a179f916c3ad770eb368f9c14ecf288ae63de72b&quot;}">copiar peça</button></div>
+</article>
+</div>
+<footer>Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · gerado por <code>bank.py</code> · para levar uma peça para outro jogo: <code>bank.py export --tag conifer --out game.json</code></footer>
+</div>
+<script id="data" type="application/json">{"slots": ["mancha", "prop"], "tags": ["autumn", "bare", "conifer", "foliage", "hanging", "large", "mancha", "medium", "pale-bark", "palm", "prop", "shrub", "small", "tree"]}</script>
+<script>
+  var index = JSON.parse(document.getElementById("data").textContent);
+  var state = {slot: null, tag: null, q: ""};
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+
+  function button(label, kind, value) {
+    var b = document.createElement("button");
+    b.className = "f";
+    b.textContent = label;
+    b.dataset.kind = kind;
+    b.dataset.value = value == null ? "" : value;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () {
+      state[kind] = (state[kind] === value) ? null : value;
+      sync();
+    });
+    return b;
+  }
+
+  var slots = document.getElementById("slots");
+  slots.appendChild(button("todos", "slot", null));
+  index.slots.forEach(function (s) { slots.appendChild(button(s, "slot", s)); });
+  var tags = document.getElementById("tags");
+  index.tags.forEach(function (t) { tags.appendChild(button(t, "tag", t)); });
+
+  function matches(meta) {
+    if (state.slot && meta.slot !== state.slot) return false;
+    if (state.tag && meta.tags.indexOf(state.tag) === -1) return false;
+    if (state.q) {
+      var hay = (meta.id + " " + (meta.species || "") + " " + meta.tags.join(" ")).toLowerCase();
+      if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
+    }
+    return true;
+  }
+
+  function sync() {
+    document.querySelectorAll("button.f").forEach(function (b) {
+      var on = state[b.dataset.kind] === (b.dataset.value || null);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    var shown = 0;
+    cards.forEach(function (card) {
+      var meta = JSON.parse(card.dataset.meta);
+      var ok = matches(meta);
+      card.classList.toggle("hidden", !ok);
+      if (ok) shown++;
+    });
+    document.getElementById("count").textContent =
+      shown + " de " + cards.length + " peças no banco";
+  }
+
+  document.getElementById("q").addEventListener("input", function () {
+    state.q = this.value;
+    sync();
+  });
+
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var text = this.dataset.json;
+      var done = function () { b.textContent = "copiado"; setTimeout(function () { b.textContent = "copiar peça"; }, 1200); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done);
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) { /* clipboard blocked */ }
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+  });
+
+  sync();
+</script>
+</div></body></html>
