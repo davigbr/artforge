@@ -190,6 +190,68 @@ conserto — mede o contrário do que eu queria.)
 O eixo que sobrou, e que vale para qualquer redução: **o que a redução come é contraste interno**, e a
 redução não substitui a pequena desenhada.
 
+## O cenário: piso, bloco, prop e mancha
+
+`scenery.py` gera o outro conjunto: o que compõe ambiente, interno ou externo. Quatro slots, que são
+exatamente os que o motor desenha — **piso** (`tile`), **bloco** (`block`, com altura), **prop** (o que
+pisa numa tile) e **mancha** (`decal`, desenhada junto com o piso e que nunca oclui). 35 peças nesta
+primeira rodada: 9 pisos, 6 blocos, 15 props, 5 manchas.
+
+A tile é **12 × 4 células** (79,4 × 44,0 px — 2:1 na tela, a proporção da isometria), então o piso de um
+ambiente se monta com nada além dele mesmo. O bloco tem a altura da parede do motor (4 células) sobre a
+face de cima. O prop ancora no pé, como uma árvore. A mancha carrega o próprio desenho (moita, musgo,
+poça, neve) e é pintada com o piso, antes de qualquer coisa pisar nele.
+
+### Regras que custaram iteração (cenário)
+
+1. **O piso emenda com MEIA tile, não com uma.** Com o escalonamento iso o vizinho de uma tile está a
+   `(+w/2, +h/2)`, então o campo tem de ser periódico em **(6,2)**, não em (12,4): toda pincelada — cada
+   lâmina, cada seixo, cada junta — é desenhada também nos deslocamentos de meia tile. Uma textura com
+   período de uma tile inteira encaixa com um degrau nas bordas, invisível numa tile e visível num piso.
+2. **A checagem da emenda se faz na COMPOSIÇÃO, não na tile.** A primeira versão media a borda esquerda
+   da tile contra a direita — que uma tile iso nunca encosta uma na outra — e devolvia `0,0` para todo
+   piso, inclusive para os que não emendavam. A medida que vale: compor o piso *n×n* e **deslocá-lo de
+   uma tile**; se o campo é periódico, a figura não muda. Medido: **0 de 108 células** mudam no pior
+   piso.
+3. **O piso usa a metade baixa da rampa.** Um piso de contraste cheio compete com tudo que está em cima
+   dele (medido: os degraus internos da tile, p75 42–84 de luminância, eram da ordem de uma tocha contra
+   o chão). O piso é a superfície; o prop é o assunto; a rampa é onde isso se decide.
+4. **O bloco é um cubo, não uma parede pintada de plano.** A face de cima é o losango da própria tile
+   (12 × 4) e as duas faces laterais descem dela. A primeira versão desenhou o losango 12 × 6: não era
+   um losango 2:1, era um bloco em cima de um bloco mais alto.
+5. **Peça de mundo não se centraliza na caixa.** `weapons.to_cells` centra a tinta — certo para um
+   ícone, porque item não tem chão — e por isso cinco props saíram **flutuando**, com a âncora vazia: a
+   centralização empurrava o pé uma linha para cima. `scenery.to_ground` amostra sem deslocar; a caixa é
+   a resolução, e o pé é o pé.
+6. **O pé é desenhado pelo laço, não por cada rotina.** Traço mais fino que uma célula não sobrevive à
+   média de área (haste de cogumelo, ripa de escada) e a peça fica sem contato. O carimbo de contato sai
+   uma vez, para todos os props — e no tom **médio** do material: no tom escuro ele ficava abaixo do
+   nível de tinta da própria peça (cogumelos, flores, juncos) e a última linha voltava vazia.
+7. **A cena compõe na ordem do motor — piso → mancha → sombra → prop — e se verifica pelo encaixe.** A
+   checagem é a célula da âncora do prop na composição ser a célula do próprio prop; procurar um trecho
+   de caractere no texto acusa sobreposição legítima (o que veio depois desenha por cima) como se fosse
+   defeito.
+8. **As sombras de contato são EMPRESTADAS do conjunto das árvores.** O banco recusa duas peças com a
+   mesma arte, e um disco de raio *r* é a mesma arte em qualquer conjunto: o cenário referencia
+   `shadow.disc.rN` do conjunto das árvores em vez de emitir cópias idênticas. Consequência: o conjunto
+   das árvores tem de estar ingerido antes (o `bank.py check` cobra isso).
+
+### Verificado no cenário (28/28)
+
+| medida | resultado |
+|---|---|
+| conjunto | 35 peças (9 piso, 6 bloco, 15 prop, 5 mancha), semente 20261014 |
+| determinismo | duas corridas frescas → **bytes idênticos** |
+| emenda do piso | deslocar o piso composto de uma tile muda **0 de 108** células no pior piso |
+| piso na rampa | nenhum glifo acima de 55% da rampa em 9/9 pisos |
+| bloco | losango da face de cima com a largura máxima no meio e paredes de largura constante, 6/6; altura = tile + parede (8) |
+| pé do prop | âncora tinta e centrada em **15/15**; tinta entre 25% e 65% |
+| sombra | 15/15 props com disco emprestado, todos existindo no banco |
+| arte repetida | 35 peças distintas |
+| composição | 108 × 53 células, 79% de tinta, **todos os props plantados seguram a própria âncora**, sem borda rasgada |
+| banco | ingest ok, 35/35 no índice, slots certos, `bank.py check` passa |
+| página | arquivo único, 220 KB, **sem `<script>`**, 10 quadros, sem overflow a 1440×900 e 390×844 |
+
 ## A peça (contrato)
 
 ```json

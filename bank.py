@@ -465,10 +465,21 @@ def render_res(e, by_id):
         detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>" % (
             e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-")
     elif e["slot"] == "mancha":
-        rows, _ground = compose_decal(piece)
-        detail = ("%s &times; %s células · âncora %d,%d<br>disco rx %.2f × ry %.2f células "
-                  "(2:1 na tela)" % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
-                                     piece["disc"]["rx"], piece["disc"]["ry"]))
+        if piece.get("disc"):
+            rows, _ground = compose_decal(piece)
+            detail = ("%s &times; %s células · âncora %d,%d<br>disco rx %.2f × ry %.2f "
+                      "células (2:1 na tela)"
+                      % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
+                         piece["disc"]["rx"], piece["disc"]["ry"]))
+        else:
+            # A scenery decal is a PATCH, not a disc: it carries its own drawing (a patch
+            # of moss, a puddle, a spread of snow) and is drawn with the floor, so it is
+            # shown as itself, over the floor tone.
+            rows = [{"g": row["g"], "c": row["c"]} for row in piece["cells"]]
+            detail = ("%s &times; %s células · âncora %d,%d (centro)<br>mancha da tile "
+                      "<b>%s</b> células"
+                      % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
+                         " &times; ".join(str(v) for v in piece.get("tile", []))))
     else:
         rows = [{"g": row["g"], "c": row["c"]} for row in piece["cells"]]
         detail = ("%s &times; %s células · âncora %d,%d (centro)<br>resolução <b>%s</b>%s"
@@ -651,10 +662,14 @@ def cmd_export(out, slot=None, tag=None, set_id=None, with_shadows=True, section
                 payload["pieces"].append(p)
     for e in chosen:
         if with_shadows and e.get("shadow") and e["shadow"] not in ids:
-            st = read_json(os.path.join(BANK, e["file"]))
-            for p in st["pieces"]:
-                if p["id"] == e["shadow"] and all(q["id"] != p["id"] for q in payload["pieces"]):
-                    payload["pieces"].append(p)
+            found = None
+            for s in read_json(INDEX)["sets"]:
+                st = read_json(os.path.join(BANK, s["file"]))
+                found = next((p for p in st["pieces"] if p["id"] == e["shadow"]), None)
+                if found:
+                    break
+            if found and all(q["id"] != found["id"] for q in payload["pieces"]):
+                payload["pieces"].append(found)
     write_json(out, payload)
     print("exported %d pieces -> %s (%.0f KB)" % (len(payload["pieces"]),
                                                   os.path.relpath(out, HERE),
@@ -665,6 +680,10 @@ def cmd_check():
     index = read_json(INDEX)
     problems = []
     seen_ids, seen_hashes = {}, {}
+    # The whole bank first, in one pass: a prop's shadow can live in ANOTHER set (the
+    # scenery props borrow the tree set's discs), so resolving it against the index as it
+    # is being walked only works when the other set happens to come first.
+    all_ids = {e["id"] for e in index["pieces"]}
     for e in index["pieces"]:
         if e["id"] in seen_ids:
             problems.append("duplicate id %s" % e["id"])
@@ -684,8 +703,9 @@ def cmd_check():
         if (piece["w"], piece["h"], piece["anchor"]) != (e["w"], e["h"], e["anchor"]):
             problems.append("%s: geometry in the index differs from the set" % e["id"])
         if e["kind"] == "prop":
-            if e.get("shadow") not in seen_ids and e.get("shadow") not in {p["id"] for p in st["pieces"]}:
-                problems.append("%s: shadow %s not in the bank" % (e["id"], e.get("shadow")))
+            sh = e.get("shadow")
+            if sh and sh not in all_ids:
+                problems.append("%s: shadow %s not in the bank" % (e["id"], sh))
             for t in e["tags"]:
                 if t not in index["tags"]:
                     problems.append("%s: tag %s missing from the index" % (e["id"], t))

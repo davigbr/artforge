@@ -76,14 +76,472 @@
 <script>document.documentElement.className = "js";</script>
 </head><body><div class="wrap">
 <h1>artforge — banco de peças</h1>
-<p class="lede"><b>2 conjuntos</b>, <b>126 peças</b> em <b>54 cartões</b>, separadas em <b>duas metades que não se misturam</b>: a <b>cena</b> (paisagem e natureza — piso, bloco, prop, ator, mancha) e os <b>itens</b> (o slot <code>icone</code>). Cada cartão abre na <b>maior resolução</b> e as outras ficam nos botões ao lado. A grade é de <b>célula fixa</b> e a peça fica <b>centrada</b> nela, todas na mesma escala de fonte (<b>10.0 px</b>) — escalar a fonte por cartão deixaria as peças incomparáveis. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile — ou do centro da caixa, num item) e um <b>hash de conteúdo</b>. Sem JavaScript a página mostra o banco inteiro, com todas as resoluções.</p>
+<p class="lede"><b>3 conjuntos</b>, <b>161 peças</b> em <b>89 cartões</b>, separadas em <b>duas metades que não se misturam</b>: a <b>cena</b> (paisagem e natureza — piso, bloco, prop, ator, mancha) e os <b>itens</b> (o slot <code>icone</code>). Cada cartão abre na <b>maior resolução</b> e as outras ficam nos botões ao lado. A grade é de <b>célula fixa</b> e a peça fica <b>centrada</b> nela, todas na mesma escala de fonte (<b>10.0 px</b>) — escalar a fonte por cartão deixaria as peças incomparáveis. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile — ou do centro da caixa, num item) e um <b>hash de conteúdo</b>. Sem JavaScript a página mostra o banco inteiro, com todas as resoluções.</p>
 <div class="bar" id="slots"></div>
 <div class="bar" id="tags"></div>
 <div class="bar"><input class="field" id="q" placeholder="filtrar por id, espécie, tag…" aria-label="filtro"></div>
 <p class="count" id="count"></p>
 <section class="sec" data-section="cena" style="--framh:250px">
-<h2>Cena: paisagem e natureza <span class="n">42 peças em 26 cartões</span></h2>
+<h2>Cena: paisagem e natureza <span class="n">77 peças em 61 cartões</span></h2>
 <div class="grid">
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.grass&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;grass&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.grass">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#1c2410">'</i><i style="color:#405828">L</i><i style="color:#709848">Y</i><i style="color:#a0c85c">y</i><i style="color:#385024">/</i><i style="color:#101808">.</i>   
+<i style="color:#141c0c">.</i><i style="color:#304820">!</i><i style="color:#78a04c">y</i><i style="color:#a4d864">y</i><i style="color:#98cc60">y</i><i style="color:#609048">e</i><i style="color:#78a850">y</i><i style="color:#8cbc58">y</i><i style="color:#90c45c">y</i><i style="color:#78a44c">y</i><i style="color:#4c6430">J</i><i style="color:#141c0c">.</i>
+<i style="color:#142010">.</i><i style="color:#405828">s</i><i style="color:#5c8840">l</i><i style="color:#c0f470">y</i><i style="color:#70a04c">j</i><i style="color:#b0e068">y</i><i style="color:#a4d864">y</i><i style="color:#8cbc58">y</i><i style="color:#a8d864">y</i><i style="color:#749c48">y</i><i style="color:#304824">r</i><i style="color:#182010">.</i>
+   <i style="color:#182010">.</i><i style="color:#44602c">v</i><i style="color:#709848">x</i><i style="color:#709c48">j</i><i style="color:#506830">(</i><i style="color:#182010">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.grass</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>236138725c14</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.grass&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;236138725c142c99b5cad71c81d6495bc8cedbd5&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.dry_grass&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;dry_grass&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.dry_grass">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#282814">.</i><i style="color:#808040">C</i><i style="color:#d8d86c">y</i><i style="color:#d0d068">y</i><i style="color:#7c7c40">{</i><i style="color:#282814">.</i>   
+<i style="color:#282814">.</i><i style="color:#7c7c40">{</i><i style="color:#d4d468">y</i><i style="color:#fcfc80">yyy</i><i style="color:#ffff80">y</i><i style="color:#f8f87c">y</i><i style="color:#ffff80">y</i><i style="color:#d0d068">y</i><i style="color:#7c7c40">{</i><i style="color:#282814">.</i>
+<i style="color:#303018">.</i><i style="color:#848440">f</i><i style="color:#d4d86c">y</i><i style="color:#fcfc80">y</i><i style="color:#ffff80">yyy</i><i style="color:#fcfc80">y</i><i style="color:#ffff80">y</i><i style="color:#d4d468">y</i><i style="color:#808040">}</i><i style="color:#2c2c18">.</i>
+   <i style="color:#303018">'</i><i style="color:#888844">I</i><i style="color:#d8d870">y</i><i style="color:#d8d86c">y</i><i style="color:#787c3c">i</i><i style="color:#2c2c18">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.dry_grass</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>a13b29445e84</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.dry_grass&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;a13b29445e84e3414ba9384b378e973a2244d14e&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.dirt&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;dirt&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.dirt">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#201810">-</i><i style="color:#543c28">i</i><i style="color:#906840">yy</i><i style="color:#584028">}</i><i style="color:#18100c">.</i>   
+<i style="color:#1c140c">.</i><i style="color:#543c24">F</i><i style="color:#8c6440">y</i><i style="color:#987048">y</i><i style="color:#a8784c">y</i><i style="color:#ac7c4c">y</i><i style="color:#946844">y</i><i style="color:#ac7c50">y</i><i style="color:#a47448">y</i><i style="color:#7c5838">y</i><i style="color:#503824">|</i><i style="color:#1c140c">'</i>
+<i style="color:#181008">.</i><i style="color:#543c28">i</i><i style="color:#8c6440">y</i><i style="color:#b48450">y</i><i style="color:#9c7048">y</i><i style="color:#a8784c">yyy</i><i style="color:#986c44">y</i><i style="color:#a07448">y</i><i style="color:#503c24">F</i><i style="color:#1c140c">.</i>
+   <i style="color:#1c140c">.</i><i style="color:#584028">C</i><i style="color:#9c7044">y</i><i style="color:#785438">y</i><i style="color:#5c4028">f</i><i style="color:#181008">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.dirt</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>d94b4d266638</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.dirt&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;d94b4d2666387a574fc9bf7743676f3f16ba8ec1&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.sand&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;sand&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.sand">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#282018">.</i><i style="color:#787454">{</i><i style="color:#d0c890">y</i><i style="color:#ccc488">y</i><i style="color:#78704c">F</i><i style="color:#242014">.</i>   
+<i style="color:#28281c">.</i><i style="color:#808060">I</i><i style="color:#d0d088">y</i><i style="color:#f8f0a4">y</i><i style="color:#f8f0ac">y</i><i style="color:#f8f0a8">y</i><i style="color:#f8f0a0">y</i><i style="color:#f8f0ac">y</i><i style="color:#f8f09c">y</i><i style="color:#d0d090">y</i><i style="color:#7c7c58">f</i><i style="color:#28281c">.</i>
+<i style="color:#303020">-</i><i style="color:#84845c">1</i><i style="color:#d8d890">y</i><i style="color:#f8f4b8">y</i><i style="color:#f8f4ac">yy</i><i style="color:#f8f4a4">y</i><i style="color:#f8f4a8">y</i><i style="color:#f8f4a4">y</i><i style="color:#d4d4a4">y</i><i style="color:#808058">3</i><i style="color:#2c2c20">-</i>
+   <i style="color:#2c2418">.</i><i style="color:#807858">}</i><i style="color:#d4cc8c">y</i><i style="color:#d0c888">y</i><i style="color:#7c7450">{</i><i style="color:#282014">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.sand</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>b094abbd64f7</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.sand&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;b094abbd64f73eb1ffc0545051547fd07fbf2ac1&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.snow&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;snow&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.snow">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#282828">.</i><i style="color:#808080">C</i><i style="color:#d8d8d8">y</i><i style="color:#d0d0d0">y</i><i style="color:#7c7c7c">{</i><i style="color:#282828">.</i>   
+<i style="color:#282828">.</i><i style="color:#808080">{</i><i style="color:#d4d4d4">y</i><i style="color:#ffffff">yyyyyy</i><i style="color:#d0d0d0">y</i><i style="color:#7c7c7c">{</i><i style="color:#282828">.</i>
+<i style="color:#303030">.</i><i style="color:#848484">f</i><i style="color:#d8d8d8">y</i><i style="color:#ffffff">yyyyyy</i><i style="color:#d8d8d8">y</i><i style="color:#808080">}</i><i style="color:#2c2c2c">.</i>
+   <i style="color:#303030">'</i><i style="color:#888888">I</i><i style="color:#dcdcdc">y</i><i style="color:#d8d8d8">y</i><i style="color:#808080">}</i><i style="color:#2c2c2c">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.snow</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>c853ab8b2d8f</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.snow&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;c853ab8b2d8fceb7fe5d87a80bbcf18220096e43&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.stone&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;stone&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.stone">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#181818">.</i><i style="color:#5c5c60">F</i><i style="color:#84848c">jj</i><i style="color:#545458">J</i><i style="color:#141418">.</i>   
+<i style="color:#202020">'</i><i style="color:#686870">3</i><i style="color:#9c9ca4">y</i><i style="color:#b8b8c4">y</i><i style="color:#c0c0c8">y</i><i style="color:#a0a0ac">yy</i><i style="color:#c0c0c8">y</i><i style="color:#b0b0bc">y</i><i style="color:#a0a0a8">y</i><i style="color:#606068">C</i><i style="color:#202020">-</i>
+<i style="color:#242424">-</i><i style="color:#686870">3</i><i style="color:#a8a8b0">y</i><i style="color:#d0d0d4">y</i><i style="color:#c0c0cc">y</i><i style="color:#a0a0ac">y</i><i style="color:#a4a4b0">y</i><i style="color:#bcbcc8">y</i><i style="color:#bcbcc4">y</i><i style="color:#b8b8bc">y</i><i style="color:#68686c">I</i><i style="color:#242428">:</i>
+   <i style="color:#18181c">.</i><i style="color:#606060">i</i><i style="color:#848490">yy</i><i style="color:#54545c">7</i><i style="color:#181818">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.stone</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>90e46c80ad20</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.stone&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;90e46c80ad20189562a92bf81baefd0bc6dbf24d&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.cobble&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;cobble&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.cobble">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#282828">.</i><i style="color:#70706c">i</i><i style="color:#c0bcb8">y</i><i style="color:#b0b0a8">y</i><i style="color:#70706c">{</i><i style="color:#202020">.</i>   
+<i style="color:#242020">.</i><i style="color:#70706c">i</i><i style="color:#aca8a0">y</i><i style="color:#d4d0c8">yy</i><i style="color:#d8d4cc">y</i><i style="color:#d0d0c8">y</i><i style="color:#d8d8d0">y</i><i style="color:#ccc8c0">y</i><i style="color:#aca8a0">y</i><i style="color:#686864">(</i><i style="color:#242020">.</i>
+<i style="color:#282824">.</i><i style="color:#70706c">{</i><i style="color:#b8b4ac">y</i><i style="color:#e8e8e0">y</i><i style="color:#dcd8d0">y</i><i style="color:#e4e0d8">y</i><i style="color:#d8d8cc">y</i><i style="color:#e0e0d8">y</i><i style="color:#d8d4cc">y</i><i style="color:#c0c0b8">y</i><i style="color:#706c68">i</i><i style="color:#282824">.</i>
+   <i style="color:#282828">.</i><i style="color:#6c6c68">F</i><i style="color:#b8b4b0">y</i><i style="color:#b0aca4">y</i><i style="color:#6c6868">|</i><i style="color:#202020">.</i>   </pre></div>
+  <div class="meta"><b class="id">piso.cobble</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>d671c5954a94</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.cobble&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;d671c5954a9428c4a39a2762d6fa3f5f5ce3d359&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.plank&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;plank&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.plank">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#181008">.</i><i style="color:#543c20">s</i><i style="color:#a87844">y</i><i style="color:#8c6038">[</i><i style="color:#583c20">s</i><i style="color:#181008">.</i>   
+<i style="color:#20140c">.</i><i style="color:#745830">f</i><i style="color:#b88848">y</i><i style="color:#d8a058">y</i><i style="color:#e8b060">yy</i><i style="color:#d09c58">y</i><i style="color:#e8b464">y</i><i style="color:#dca458">y</i><i style="color:#b08448">y</i><i style="color:#70502c">{</i><i style="color:#241c10">-</i>
+<i style="color:#20180c">.</i><i style="color:#785830">f</i><i style="color:#b88448">y</i><i style="color:#d4a058">y</i><i style="color:#c89050">y</i><i style="color:#d09450">y</i><i style="color:#ac7840">y</i><i style="color:#cc9050">yy</i><i style="color:#c09050">y</i><i style="color:#745430">}</i><i style="color:#281c10">:</i>
+   <i style="color:#282010">_</i><i style="color:#7c6438">u</i><i style="color:#c89850">y</i><i style="color:#b4884c">y</i><i style="color:#786034">1</i><i style="color:#242010">:</i>   </pre></div>
+  <div class="meta"><b class="id">piso.plank</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>f9094d06a4b7</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.plank&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;f9094d06a4b7a297ae8b275a8bb431e15d08ca7f&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card piso" data-meta="{&quot;ids&quot;: [&quot;piso.water&quot;], &quot;slot&quot;: &quot;piso&quot;, &quot;species&quot;: [&quot;water&quot;], &quot;tags&quot;: [&quot;piso&quot;]}">
+
+<div class="res on" data-id="piso.water">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#182828">-</i><i style="color:#406c80">}</i><i style="color:#60acd8">y</i><i style="color:#5ca0d0">y</i><i style="color:#38647c">|</i><i style="color:#142428">.</i>   
+<i style="color:#101c28">.</i><i style="color:#386080">|</i><i style="color:#5090d4">y</i><i style="color:#70c0ff">y</i><i style="color:#74ccff">y</i><i style="color:#70c4ff">y</i><i style="color:#6cc0ff">y</i><i style="color:#74c8ff">y</i><i style="color:#68b8ff">y</i><i style="color:#5498d0">y</i><i style="color:#30587c">)</i><i style="color:#102028">.</i>
+<i style="color:#102030">.</i><i style="color:#346084">7</i><i style="color:#589cd8">y</i><i style="color:#80d8ff">y</i><i style="color:#70c8ff">y</i><i style="color:#74c8ff">y</i><i style="color:#6cc0ff">yyy</i><i style="color:#68b4d8">y</i><i style="color:#345c80">7</i><i style="color:#10202c">.</i>
+   <i style="color:#182c30">:</i><i style="color:#447488">3</i><i style="color:#60a8dc">y</i><i style="color:#5ca4d8">y</i><i style="color:#3c6880">{</i><i style="color:#18282c">-</i>   </pre></div>
+  <div class="meta"><b class="id">piso.water</b>12 &times; 4 células · âncora 6,2 (centro)<br>resolução <b>única</b><br>hash <code>956b5ec89e76</code><div class="tags"><span class="tag slot">piso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;piso.water&quot;,&quot;kind&quot;:&quot;tile&quot;,&quot;slot&quot;:&quot;piso&quot;,&quot;w&quot;:12,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;956b5ec89e76962712e4ad5c9dfca64a6f37b4ec&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card bloco" data-meta="{&quot;ids&quot;: [&quot;bloco.rock&quot;], &quot;slot&quot;: &quot;bloco&quot;, &quot;species&quot;: [&quot;rock&quot;], &quot;tags&quot;: [&quot;bloco&quot;]}">
+
+<div class="res on" data-id="bloco.rock">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#1c1c1c">.</i><i style="color:#545458">(</i><i style="color:#b8b4bc">N</i><i style="color:#b0acb8">B</i><i style="color:#505054">J</i><i style="color:#181818">.</i>   
+<i style="color:#1c181c">.</i><i style="color:#545058">7</i><i style="color:#8c8890">P</i><i style="color:#a8a4ac">88</i><i style="color:#c0c0c8">@</i><i style="color:#c0bcc4">@</i><i style="color:#a8a4ac">88</i><i style="color:#888890">k</i><i style="color:#505054">J</i><i style="color:#181818">.</i>
+<i style="color:#a8a4ac">888888888888</i>
+<i style="color:#a8a4ac">888888888888</i>
+<i style="color:#a8a4ac">888888888888</i>
+<i style="color:#a8a4ac">888888888888</i>
+<i style="color:#202020">.</i><i style="color:#585458">|</i><i style="color:#908c94">h</i><i style="color:#a8a4ac">888888</i><i style="color:#908c90">6</i><i style="color:#585458">|</i><i style="color:#201c20">.</i>
+   <i style="color:#202020">.</i><i style="color:#58585c">F</i><i style="color:#909094">9</i><i style="color:#908c90">6</i><i style="color:#585458">|</i><i style="color:#1c1c20">.</i>   </pre></div>
+  <div class="meta"><b class="id">bloco.rock</b>12 &times; 8 células · âncora 6,7 (centro)<br>resolução <b>única</b><br>hash <code>e0e7d6bce273</code><div class="tags"><span class="tag slot">bloco</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;bloco.rock&quot;,&quot;kind&quot;:&quot;block&quot;,&quot;slot&quot;:&quot;bloco&quot;,&quot;w&quot;:12,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;e0e7d6bce27318b9225301e08846d49fe03617cb&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card bloco" data-meta="{&quot;ids&quot;: [&quot;bloco.cliff&quot;], &quot;slot&quot;: &quot;bloco&quot;, &quot;species&quot;: [&quot;cliff&quot;], &quot;tags&quot;: [&quot;bloco&quot;]}">
+
+<div class="res on" data-id="bloco.cliff">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#182010">.</i><i style="color:#40642c">F</i><i style="color:#98c85c">g</i><i style="color:#94c058">#</i><i style="color:#40602c">|</i><i style="color:#14200c">.</i>   
+<i style="color:#142010">.</i><i style="color:#40602c">|</i><i style="color:#70a448">h</i><i style="color:#84c858">##</i><i style="color:#9cdc60">@</i><i style="color:#9cd860">@</i><i style="color:#84c858">##</i><i style="color:#6ca448">6</i><i style="color:#40602c">(</i><i style="color:#14200c">.</i>
+<i style="color:#a88c50">k</i><i style="color:#9ca454">O</i><i style="color:#8cbc58">m</i><i style="color:#84c858">######</i><i style="color:#8cbc58">m</i><i style="color:#9ca454">O</i><i style="color:#ac8c50">P</i>
+<i style="color:#b08050">EEE</i><i style="color:#a88c50">P</i><i style="color:#98a454">O</i><i style="color:#8cbc58">mm</i><i style="color:#9ca454">O</i><i style="color:#ac8c50">P</i><i style="color:#b08050">EEE</i>
+<i style="color:#b08050">EEEEEEEEEEEE</i>
+<i style="color:#b08050">EEEEEEEEEEEE</i>
+<i style="color:#201810">.</i><i style="color:#5c4028">?</i><i style="color:#986c44">e</i><i style="color:#b08050">EEEEEE</i><i style="color:#986c40">n</i><i style="color:#584028">z</i><i style="color:#201810">.</i>
+   <i style="color:#201810">.</i><i style="color:#5c4028">?</i><i style="color:#986c44">o</i><i style="color:#986c40">n</i><i style="color:#5c4028">?</i><i style="color:#201810">.</i>   </pre></div>
+  <div class="meta"><b class="id">bloco.cliff</b>12 &times; 8 células · âncora 6,7 (centro)<br>resolução <b>única</b><br>hash <code>7199957b1cb1</code><div class="tags"><span class="tag slot">bloco</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;bloco.cliff&quot;,&quot;kind&quot;:&quot;block&quot;,&quot;slot&quot;:&quot;bloco&quot;,&quot;w&quot;:12,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;7199957b1cb1054b9960297230fcd2e7966dd266&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card bloco" data-meta="{&quot;ids&quot;: [&quot;bloco.cave&quot;], &quot;slot&quot;: &quot;bloco&quot;, &quot;species&quot;: [&quot;cave&quot;], &quot;tags&quot;: [&quot;bloco&quot;]}">
+
+<div class="res on" data-id="bloco.cave">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#1c1c1c">.</i><i style="color:#545458">(</i><i style="color:#b8b4bc">N</i><i style="color:#b0acb8">B</i><i style="color:#505054">J</i><i style="color:#181818">.</i>   
+<i style="color:#1c181c">.</i><i style="color:#545058">7</i><i style="color:#8c8890">P</i><i style="color:#a8a4ac">88</i><i style="color:#c0c0c8">@</i><i style="color:#c0bcc4">@</i><i style="color:#a8a4ac">88</i><i style="color:#888890">k</i><i style="color:#505054">J</i><i style="color:#181818">.</i>
+<i style="color:#a09ca4">U</i><i style="color:#807880">y</i><i style="color:#a8a4ac">m</i><i style="color:#747078">Z</i><i style="color:#a8a4ac">8</i><i style="color:#78747c">5</i><i style="color:#a4a0a8">H</i><i style="color:#807c84">a</i><i style="color:#9c98a0">G</i><i style="color:#88848c">q</i><i style="color:#949098">d</i><i style="color:#a8a4ac">8</i>
+<i style="color:#a8a4ac">8</i><i style="color:#747078">o</i><i style="color:#a8a4ac">8</i><i style="color:#787078">Z</i><i style="color:#a4a0a8">H</i><i style="color:#808088">]</i><i style="color:#9898a0">O</i><i style="color:#8c8890">k</i><i style="color:#908c94">h</i><i style="color:#949098">4</i><i style="color:#88848c">w</i><i style="color:#a8a4ac">8</i>
+<i style="color:#a8a4ac">8</i><i style="color:#78747c">Y</i><i style="color:#a4a0a8">X</i><i style="color:#808088">]</i><i style="color:#9898a0">O</i><i style="color:#908890">6</i><i style="color:#908c94">6</i><i style="color:#98949c">V</i><i style="color:#888088">S</i><i style="color:#a09ca4">A</i><i style="color:#7c7880">j</i><i style="color:#a8a4ac">8</i>
+<i style="color:#a8a4ac">8</i><i style="color:#a09ca4">A</i><i style="color:#a8a4ac">m</i><i style="color:#a0a0a8">K</i><i style="color:#a4a0a8">HHX</i><i style="color:#a8a4ac">m</i><i style="color:#a09ca4">A</i><i style="color:#a8a4ac">8</i><i style="color:#a09ca4">U</i><i style="color:#a8a4ac">8</i>
+<i style="color:#202020">.</i><i style="color:#585458">|</i><i style="color:#908c94">h</i><i style="color:#a8a4ac">888888</i><i style="color:#908c90">6</i><i style="color:#585458">|</i><i style="color:#201c20">.</i>
+   <i style="color:#202020">.</i><i style="color:#58585c">F</i><i style="color:#909094">9</i><i style="color:#908c90">6</i><i style="color:#585458">|</i><i style="color:#1c1c20">.</i>   </pre></div>
+  <div class="meta"><b class="id">bloco.cave</b>12 &times; 8 células · âncora 6,7 (centro)<br>resolução <b>única</b><br>hash <code>b540f5fb6280</code><div class="tags"><span class="tag slot">bloco</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;bloco.cave&quot;,&quot;kind&quot;:&quot;block&quot;,&quot;slot&quot;:&quot;bloco&quot;,&quot;w&quot;:12,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;b540f5fb6280874e650e5298f97a7a7316e62bc4&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card bloco" data-meta="{&quot;ids&quot;: [&quot;bloco.brick&quot;], &quot;slot&quot;: &quot;bloco&quot;, &quot;species&quot;: [&quot;brick&quot;], &quot;tags&quot;: [&quot;bloco&quot;]}">
+
+<div class="res on" data-id="bloco.brick">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#281810">.</i><i style="color:#744838">|</i><i style="color:#d09874">B</i><i style="color:#c89470">R</i><i style="color:#704838">(</i><i style="color:#241810">.</i>   
+<i style="color:#241810">.</i><i style="color:#704838">|</i><i style="color:#c0785c">9</i><i style="color:#e89070">BB</i><i style="color:#f0a47c">@</i><i style="color:#f0a07c">@</i><i style="color:#e89070">BB</i><i style="color:#bc785c">h</i><i style="color:#704838">(</i><i style="color:#241810">.</i>
+<i style="color:#b07054">E</i><i style="color:#b07058">S</i><i style="color:#b87458">kkk</i><i style="color:#b07058">SS</i><i style="color:#b87458">kkk</i><i style="color:#b07058">SS</i>
+<i style="color:#a86850">a</i><i style="color:#a86c54">]</i><i style="color:#b87458">kkk</i><i style="color:#a86850">a</i><i style="color:#a86854">]</i><i style="color:#b87458">kkk</i><i style="color:#a86854">]</i><i style="color:#a86850">a</i>
+<i style="color:#a86850">a</i><i style="color:#a86c54">]</i><i style="color:#b87458">kkk</i><i style="color:#a86850">a</i><i style="color:#a86854">]</i><i style="color:#b87458">kkk</i><i style="color:#b07054">EE</i>
+<i style="color:#ac6c54">E</i><i style="color:#b07058">S</i><i style="color:#b87458">kkk</i><i style="color:#b07054">EE</i><i style="color:#b87458">kkkkk</i>
+<i style="color:#281c14">.</i><i style="color:#784c38">i</i><i style="color:#c47c60">4</i><i style="color:#e89070">BBBBBB</i><i style="color:#c07c5c">4</i><i style="color:#744838">F</i><i style="color:#281814">.</i>
+   <i style="color:#2c1c14">.</i><i style="color:#784c38">i</i><i style="color:#c87c60">V</i><i style="color:#c07c5c">d</i><i style="color:#744838">F</i><i style="color:#281814">.</i>   </pre></div>
+  <div class="meta"><b class="id">bloco.brick</b>12 &times; 8 células · âncora 6,7 (centro)<br>resolução <b>única</b><br>hash <code>0001a49744a2</code><div class="tags"><span class="tag slot">bloco</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;bloco.brick&quot;,&quot;kind&quot;:&quot;block&quot;,&quot;slot&quot;:&quot;bloco&quot;,&quot;w&quot;:12,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;0001a49744a2d20ee98fe45a77176638be747200&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card bloco" data-meta="{&quot;ids&quot;: [&quot;bloco.wall_wood&quot;], &quot;slot&quot;: &quot;bloco&quot;, &quot;species&quot;: [&quot;wall_wood&quot;], &quot;tags&quot;: [&quot;bloco&quot;]}">
+
+<div class="res on" data-id="bloco.wall_wood">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#20180c">.</i><i style="color:#684828">(</i><i style="color:#c89850">0</i><i style="color:#c4904c">#</i><i style="color:#644424">7</i><i style="color:#20140c">.</i>   
+<i style="color:#20180c">.</i><i style="color:#684428">(</i><i style="color:#ac7440">6</i><i style="color:#d08c4c">DD</i><i style="color:#e0a054">@@</i><i style="color:#d08c4c">DD</i><i style="color:#a87440">P</i><i style="color:#644424">7</i><i style="color:#20140c">.</i>
+<i style="color:#b87c44">pppppppppppp</i>
+<i style="color:#a06c3c">EEEEEEEEEEEE</i>
+<i style="color:#a06c3c">EEEEEEEEEEEE</i>
+<i style="color:#b87c44">VVVVVVVVVVVV</i>
+<i style="color:#281810">.</i><i style="color:#6c4828">F</i><i style="color:#b07840">9</i><i style="color:#d08c4c">DDDDDD</i><i style="color:#b07840">h</i><i style="color:#684828">|</i><i style="color:#24180c">.</i>
+   <i style="color:#281810">.</i><i style="color:#6c4828">F</i><i style="color:#b07840">dh</i><i style="color:#684828">|</i><i style="color:#24180c">.</i>   </pre></div>
+  <div class="meta"><b class="id">bloco.wall_wood</b>12 &times; 8 células · âncora 6,7 (centro)<br>resolução <b>única</b><br>hash <code>1738e6c3c9dc</code><div class="tags"><span class="tag slot">bloco</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;bloco.wall_wood&quot;,&quot;kind&quot;:&quot;block&quot;,&quot;slot&quot;:&quot;bloco&quot;,&quot;w&quot;:12,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;1738e6c3c9dc29331ecc4aa393a17674fce55d10&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card bloco" data-meta="{&quot;ids&quot;: [&quot;bloco.plaster&quot;], &quot;slot&quot;: &quot;bloco&quot;, &quot;species&quot;: [&quot;plaster&quot;], &quot;tags&quot;: [&quot;bloco&quot;]}">
+
+<div class="res on" data-id="bloco.plaster">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#282828">.</i><i style="color:#80807c">C</i><i style="color:#d8d8d4">A</i><i style="color:#d0d0d0">G</i><i style="color:#7c7c78">i</i><i style="color:#282828">.</i>   
+<i style="color:#282828">.</i><i style="color:#808078">{</i><i style="color:#d4d4cc">U</i><i style="color:#fffff8">@@@@@@</i><i style="color:#d0d0c8">G</i><i style="color:#7c7c78">i</i><i style="color:#282828">.</i>
+<i style="color:#fffff8">@@@@@@@@@@@@</i>
+<i style="color:#fffff8">@@@@@@@@@@@@</i>
+<i style="color:#fffff8">@@@@@@@@@@@@</i>
+<i style="color:#fffff8">@@@@@@@@@@@@</i>
+<i style="color:#30302c">.</i><i style="color:#848480">f</i><i style="color:#d8d8d4">K</i><i style="color:#fffff8">@@@@@@</i><i style="color:#d8d8d0">A</i><i style="color:#80807c">C</i><i style="color:#2c2c2c">.</i>
+   <i style="color:#303030">.</i><i style="color:#888880">f</i><i style="color:#dcdcd4">X</i><i style="color:#d8d8d0">A</i><i style="color:#808080">}</i><i style="color:#2c2c2c">.</i>   </pre></div>
+  <div class="meta"><b class="id">bloco.plaster</b>12 &times; 8 células · âncora 6,7 (centro)<br>resolução <b>única</b><br>hash <code>07666c79d437</code><div class="tags"><span class="tag slot">bloco</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;bloco.plaster&quot;,&quot;kind&quot;:&quot;block&quot;,&quot;slot&quot;:&quot;bloco&quot;,&quot;w&quot;:12,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;07666c79d437ae2e5779988939609483b93edad8&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.boulder&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;boulder&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.boulder">
+  <div class="art" style="background:#3a352c"><pre>          
+          
+ <i style="color:#100c10">.</i><i style="color:#686468">{</i><i style="color:#a4a0a8">q</i><i style="color:#b8b0bc">V</i><i style="color:#a0a0a4">w</i><i style="color:#848088">e</i><i style="color:#505054">v</i><i style="color:#0c0c0c">.</i> 
+<i style="color:#141414">'</i><i style="color:#c4c0cc">A</i><i style="color:#f0ecf8">@@@</i><i style="color:#ece8f4">@</i><i style="color:#b8b4bc">V</i><i style="color:#a8a4ac">P</i><i style="color:#949098">y</i><i style="color:#101010">.</i>
+<i style="color:#484448">z</i><i style="color:#d4d0dc">D</i><i style="color:#f0ecf8">@@</i><i style="color:#ccc8d4">H</i><i style="color:#807c88">n</i><i style="color:#6c6870">}</i><i style="color:#747078">3</i><i style="color:#908c94">x</i><i style="color:#3c383c">c</i>
+<i style="color:#101010">.</i><i style="color:#949098">y</i><i style="color:#bcb8c0">O</i><i style="color:#c8c4cc">X</i><i style="color:#9c98a0">2</i><i style="color:#6c6870">}}}}</i><i style="color:#0c0c0c">.</i>
+ <i style="color:#080808">.</i><i style="color:#504c50">T</i><i style="color:#949098">y</i><i style="color:#989098">a</i><i style="color:#908c94">x</i><i style="color:#888088">o</i><i style="color:#404044">/</i><i style="color:#1a1814">░</i> 
+ <i style="color:#1a1814">▒█</i><i style="color:#747078">3</i><i style="color:#909098">jj</i><i style="color:#707074">I</i><i style="color:#1a1814">██▒</i>
+  <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">prop.boulder</b>10 &times; 8 células · âncora 5,7<br>mancha <code>shadow.disc.r4</code><br>hash <code>fcabf212a55a</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.boulder&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:10,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r4&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;fcabf212a55ae5cd81edb261288a3eff0664edf7&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.rocks&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;rocks&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.rocks">
+  <div class="art" style="background:#3a352c"><pre>          
+          
+ <i style="color:#38383c">r</i><i style="color:#606064">|</i><i style="color:#403c40">c</i>      
+<i style="color:#3c3c40">r</i><i style="color:#d8d4e0">g</i><i style="color:#ece8f4">@</i><i style="color:#b0acb4">9</i><i style="color:#5c5c60">(</i><i style="color:#646068">i</i><i style="color:#b0b0b8">4</i><i style="color:#68686c">C</i>  
+<i style="color:#101010">.</i><i style="color:#808088">e</i><i style="color:#9c98a0">E</i><i style="color:#909098">y</i><i style="color:#a0a0a8">w</i><i style="color:#b0a8b4">9</i><i style="color:#aca8b0">h</i><i style="color:#908c94">j</i><i style="color:#0c080c">.</i> 
+ <i style="color:#282828">^</i><i style="color:#404044">*</i><i style="color:#747078">3</i><i style="color:#909098">jj</i><i style="color:#707074">I</i><i style="color:#404044">*</i><i style="color:#101010">.</i> 
+  <i style="color:#1a1814">░▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">prop.rocks</b>10 &times; 6 células · âncora 5,5<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>b1084adf2d50</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.rocks&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:10,&quot;h&quot;:6,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:5},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;b1084adf2d5094a7e9a8f187940a2df746659355&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.stump&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;stump&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.stump">
+  <div class="art" style="background:#3a352c"><pre>         
+   <i style="color:#6c542c">7</i><i style="color:#94703c">n</i><i style="color:#6c542c">7</i>   
+  <i style="color:#9c7840">Z</i><i style="color:#e0a058">K</i><i style="color:#a0683c">u</i><i style="color:#e0a058">K</i><i style="color:#9c7840">Z</i>  
+  <i style="color:#b08848">S</i><i style="color:#f8bc60">W</i><i style="color:#e8a858">m</i><i style="color:#e8ac5c">R</i><i style="color:#745430">(</i>  
+  <i style="color:#b08848">S</i><i style="color:#fcc468">@</i><i style="color:#d08c4c">6</i><i style="color:#a87040">e</i><i style="color:#503820">+</i>  
+  <i style="color:#b08848">S</i><i style="color:#fcc468">@</i><i style="color:#d08c4c">6</i><i style="color:#a87040">e</i><i style="color:#503820">+</i>  
+ <i style="color:#1a1814">░</i><i style="color:#b08848">S</i><i style="color:#fcc468">@</i><i style="color:#d08c4c">6</i><i style="color:#a87040">e</i><i style="color:#503820">+</i>  
+<i style="color:#1a1814">░█</i><i style="color:#241c10">.</i><i style="color:#bc8448">E</i><i style="color:#bc8044">]</i><i style="color:#b07840">Y</i><i style="color:#100c08">.</i><i style="color:#1a1814">░</i> 
+ <i style="color:#1a1814">░▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">prop.stump</b>9 &times; 8 células · âncora 4,7<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>6bed153a3ec0</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.stump&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;6bed153a3ec0dc06722e93a18f43be7e899d102f&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.log&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;log&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.log">
+  <div class="art" style="background:#3a352c"><pre>            
+            
+ <i style="color:#100c08">..........</i> 
+<i style="color:#100c08">.</i><i style="color:#e4a458">&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;</i><i style="color:#e0a858">@</i><i style="color:#544020">J</i>
+ <i style="color:#402818">!!!!!!!!!</i><i style="color:#503820">T</i><i style="color:#100c08">.</i>
+   <i style="color:#1a1814">░</i><i style="color:#885c30">e</i><i style="color:#906438">xx</i><i style="color:#885c30">e</i><i style="color:#1a1814">░</i>   
+     <i style="color:#1a1814">░░</i>     </pre></div>
+  <div class="meta"><b class="id">prop.log</b>12 &times; 6 células · âncora 6,5<br>mancha <code>shadow.disc.r2.45</code><br>hash <code>f4bff4c4c757</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.log&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:12,&quot;h&quot;:6,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:5},&quot;shadow&quot;:&quot;shadow.disc.r2.45&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;f4bff4c4c757eef70ed37cadecd76feeae261e4f&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.mushroom&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;mushroom&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.mushroom">
+  <div class="art" style="background:#3a352c"><pre>         
+         
+   <i style="color:#141004">.</i><i style="color:#787038">C</i><i style="color:#a09854">Y</i><i style="color:#9c8c2c">n</i><i style="color:#706418">|</i><i style="color:#0c0804">.</i>
+ <i style="color:#38405c">*</i><i style="color:#505c80">7</i><i style="color:#646880">{</i><i style="color:#d0c884">p</i><i style="color:#fff084">g</i><i style="color:#ffe868">#</i><i style="color:#9c8824">n</i><i style="color:#181404">'</i>
+<i style="color:#1c2034">_</i><i style="color:#7888c0">e</i><i style="color:#a8b8f8">9</i><i style="color:#90a0f0">2</i><i style="color:#7480b8">u</i><i style="color:#fffff8">@@</i><i style="color:#080808">.</i> 
+ <i style="color:#383838">!</i><i style="color:#fffff8">@</i><i style="color:#f8f8f0">Q</i><i style="color:#282828">=</i><i style="color:#fffff8">@@</i><i style="color:#080808">.</i> 
+ <i style="color:#101010">'</i><i style="color:#505050">T</i><i style="color:#b49070">x</i><i style="color:#886440">i</i><i style="color:#b89874">y</i><i style="color:#505050">T</i>  
+  <i style="color:#1a1814">▀▀▀▀</i>   </pre></div>
+  <div class="meta"><b class="id">prop.mushroom</b>9 &times; 7 células · âncora 4,6<br>mancha <code>shadow.disc.r3.13</code><br>hash <code>da06729ad7a0</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.mushroom&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:7,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:6},&quot;shadow&quot;:&quot;shadow.disc.r3.13&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;da06729ad7a07cdf11356e5f0f8c250f9fa3053f&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.flowers&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;flowers&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.flowers">
+  <div class="art" style="background:#3a352c"><pre>         
+         
+<i style="color:#10100c">.</i><i style="color:#b4b87c">@</i><i style="color:#8090a4">G</i><i style="color:#282c30">&lt;</i><i style="color:#a8b078">N</i><i style="color:#849090">O</i><i style="color:#444c58">(</i><i style="color:#747450">y</i><i style="color:#58583c">f</i>
+ <i style="color:#284020">/</i><i style="color:#142010">:-</i><i style="color:#284020">z</i><i style="color:#101c10">'</i><i style="color:#182410">_</i><i style="color:#243818">!</i> 
+<i style="color:#1c2814">=</i><i style="color:#3c5c2c">{{</i><i style="color:#70a84c">K</i><i style="color:#70ac50">m</i><i style="color:#70a84c">X</i><i style="color:#3c5c2c">{{</i><i style="color:#203018">;</i>
+ <i style="color:#1a1814">░▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">prop.flowers</b>9 &times; 5 células · âncora 4,4<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>16a1afcab110</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.flowers&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:4},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;16a1afcab11081d23c8ffa926282e70c0933e830&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.reeds&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;reeds&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.reeds">
+  <div class="art" style="background:#3a352c"><pre>         
+         
+   <i style="color:#282014">,</i><i style="color:#18140c">.</i>  <i style="color:#403420">/</i> 
+ <i style="color:#484024">v</i> <i style="color:#345024">i</i><i style="color:#30341c">c</i><i style="color:#302c18">&lt;</i> <i style="color:#487030">j</i> 
+ <i style="color:#487030">j</i> <i style="color:#3c5c28">3</i><i style="color:#1c2814">=</i><i style="color:#3c5828">I</i> <i style="color:#487030">j</i> 
+ <i style="color:#487030">j</i> <i style="color:#44682c">e</i><i style="color:#0c1408">.</i><i style="color:#40642c">n</i> <i style="color:#487030">j</i> 
+ <i style="color:#487030">j</i> <i style="color:#487030">j</i> <i style="color:#487030">x</i> <i style="color:#487030">j</i> 
+ <i style="color:#486c30">5</i><i style="color:#1a1814">▄</i><i style="color:#487030">j</i><i style="color:#1a1814">▄</i><i style="color:#487030">j</i> <i style="color:#446830">Z</i> 
+<i style="color:#10180c">.</i><i style="color:#3c5c2c">11</i><i style="color:#70a84c">W</i><i style="color:#70ac50">@</i><i style="color:#70a84c">%</i><i style="color:#3c5c2c">11</i><i style="color:#101c10">.</i>
+  <i style="color:#1a1814">▀▀▀▀</i>   </pre></div>
+  <div class="meta"><b class="id">prop.reeds</b>9 &times; 9 células · âncora 4,8<br>mancha <code>shadow.disc.r3.13</code><br>hash <code>06622cc6ce99</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.reeds&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:9,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:8},&quot;shadow&quot;:&quot;shadow.disc.r3.13&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;06622cc6ce99a6d9b61669198edaf5c69aebce95&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.lily&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;lily&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.lily">
+  <div class="art" style="background:#3a352c"><pre>          
+   <i style="color:#243818">-</i><i style="color:#385024">++</i><i style="color:#243418">-</i>   
+ <i style="color:#203018">'</i><i style="color:#9cc864">9</i><i style="color:#dcf89c">%</i><i style="color:#688040">C</i><i style="color:#6c883c">f</i><i style="color:#c0f870">0</i><i style="color:#90c858">6</i><i style="color:#203014">.</i> 
+ <i style="color:#90c858">6</i><i style="color:#d0ff7c">%</i><i style="color:#e0ff98">@</i><i style="color:#506030">?</i><i style="color:#506430">s</i><i style="color:#ccff74">QQ</i><i style="color:#8cc058">k</i> 
+ <i style="color:#88c058">q</i><i style="color:#ccff74">QQ</i><i style="color:#708840">I</i><i style="color:#709040">1</i><i style="color:#ccff74">QQ</i><i style="color:#88bc54">S</i> 
+ <i style="color:#1c2810">.</i><i style="color:#88bc54">S</i><i style="color:#90d0ac">p</i><i style="color:#78c0d4">P</i><i style="color:#7cc0d4">P</i><i style="color:#94d0a8">O</i><i style="color:#88b854">E</i><i style="color:#182810">.</i> 
+  <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">prop.lily</b>10 &times; 6 células · âncora 5,5<br>mancha <code>shadow.disc.r3.6</code><br>hash <code>324f4744a536</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.lily&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:10,&quot;h&quot;:6,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:5},&quot;shadow&quot;:&quot;shadow.disc.r3.6&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;324f4744a536be53cc88103de006679388488324&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.deadbush&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;deadbush&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.deadbush">
+  <div class="art" style="background:#3a352c"><pre>         
+    <i style="color:#3c2818">T</i> <i style="color:#20180c">=</i>  
+  <i style="color:#241810">;</i> <i style="color:#583824">u</i><i style="color:#1c140c">_</i>   
+   <i style="color:#181008">-</i><i style="color:#583824">u</i><i style="color:#100808">.</i><i style="color:#241810">;</i>  
+  <i style="color:#241810">;</i><i style="color:#140c08">.</i><i style="color:#583824">u</i><i style="color:#181008">'</i>   
+   <i style="color:#100c08">.</i><i style="color:#583824">u</i>    
+ <i style="color:#1a1814">░▄▄</i><i style="color:#503820">3</i><i style="color:#1a1814">▄░</i>  
+<i style="color:#1a1814">░█</i><i style="color:#382818">T</i><i style="color:#946844">W</i><i style="color:#987044">@</i><i style="color:#986c44">%</i><i style="color:#382818">T</i><i style="color:#1a1814">░</i> 
+ <i style="color:#1a1814">░▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">prop.deadbush</b>9 &times; 8 células · âncora 4,7<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>8dc669b4b71f</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.deadbush&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;8dc669b4b71f287d15c1cf2098a2c0714ff90391&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.torch&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;torch&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.torch">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#484010">*</i>   
+  <i style="color:#141004">.</i><i style="color:#f0dc58">0</i><i style="color:#181404">'</i>  
+  <i style="color:#282408">^</i><i style="color:#ffec68">@</i><i style="color:#30280c">;</i>  
+  <i style="color:#404448">?</i><i style="color:#9c9c80">S</i><i style="color:#444850">L</i>  
+   <i style="color:#a88860">x</i><i style="color:#08080c">.</i>  
+   <i style="color:#c08848">y</i>   
+   <i style="color:#c08848">y</i>   
+   <i style="color:#c08848">y</i>   
+   <i style="color:#c08848">y</i>   
+   <i style="color:#c08848">y</i>   
+  <i style="color:#1a1814">░</i><i style="color:#c08848">y</i>   
+<i style="color:#1a1814">░█</i><i style="color:#a8a064">w</i><i style="color:#e4d888">0</i><i style="color:#a8a068">q</i><i style="color:#1a1814">░</i> 
+  <i style="color:#1a1814">░░</i>   </pre></div>
+  <div class="meta"><b class="id">prop.torch</b>7 &times; 12 células · âncora 3,11<br>mancha <code>shadow.disc.r2.45</code><br>hash <code>b83040bbee1d</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.torch&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:7,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:11},&quot;shadow&quot;:&quot;shadow.disc.r2.45&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;b83040bbee1d70fdbd34178c468f2bae6bba1850&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.brazier&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;brazier&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.brazier">
+  <div class="art" style="background:#3a352c"><pre>    <i style="color:#585014">z</i>    
+   <i style="color:#786c1c">F</i><i style="color:#ffec68">B</i><i style="color:#84741c">C</i>   
+   <i style="color:#c4b03c">w</i><i style="color:#fff48c">N</i><i style="color:#ccb43c">k</i>   
+ <i style="color:#141414">.</i><i style="color:#f0f0f4">W</i><i style="color:#fffcec">@</i><i style="color:#fff8d8">&amp;</i><i style="color:#fffcec">@</i><i style="color:#f0f0f4">W</i><i style="color:#141414">.</i> 
+  <i style="color:#8c9098">Z</i><i style="color:#e8f0ff">WWW</i><i style="color:#8c9098">Z</i>  
+   <i style="color:#545860">v</i> <i style="color:#545c64">)</i>   
+  <i style="color:#202024">:</i><i style="color:#383840">+</i> <i style="color:#3c4048">r</i><i style="color:#181c20">'</i>  
+  <i style="color:#3c4048">r</i><i style="color:#1c1c20">-</i> <i style="color:#202028">:</i><i style="color:#383840">+</i>  
+ <i style="color:#1a1814">░</i><i style="color:#585c64">)</i><i style="color:#101010">.</i><i style="color:#0c0c0c">.</i><i style="color:#141414">.</i><i style="color:#545860">T</i>  
+<i style="color:#1a1814">░</i><i style="color:#242428">_</i><i style="color:#404044">r</i><i style="color:#8c8890">n</i><i style="color:#909098">o</i><i style="color:#908c94">e</i><i style="color:#404044">r</i><i style="color:#282828">,</i> 
+ <i style="color:#1a1814">░▀▀▀▀░</i>  </pre></div>
+  <div class="meta"><b class="id">prop.brazier</b>9 &times; 10 células · âncora 4,9<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>ea5bb4509694</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.brazier&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:10,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:9},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;ea5bb45096941455e1f88fe4b0fdfb6c8c439bae&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.barrel&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;barrel&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.barrel">
+  <div class="art" style="background:#3a352c"><pre>        
+ <i style="color:#302414">_</i><i style="color:#e4b05c">#</i><i style="color:#f8c064">%Q</i><i style="color:#c89850">V</i><i style="color:#20180c">.</i> 
+ <i style="color:#383834">!</i><i style="color:#a89888">d</i><i style="color:#988c80">w</i><i style="color:#988880">E</i><i style="color:#807878">Z</i><i style="color:#2c2c2c">^</i> 
+ <i style="color:#443420">+</i><i style="color:#f8c468">&amp;</i><i style="color:#d49854">V</i><i style="color:#cc8c50">6</i><i style="color:#886038">f</i><i style="color:#201810">.</i> 
+ <i style="color:#44341c">+</i><i style="color:#ffc868">@</i><i style="color:#d89850">p</i><i style="color:#d08c4c">6</i><i style="color:#8c5c38">f</i><i style="color:#20140c">.</i> 
+ <i style="color:#40382c">+</i><i style="color:#c8a87c">X</i><i style="color:#b09070">P</i><i style="color:#ac886c">w</i><i style="color:#847060">[</i><i style="color:#282420">:</i> 
+ <i style="color:#403828">+</i><i style="color:#d8b474">#</i><i style="color:#bc9064">9</i><i style="color:#b88860">k</i><i style="color:#886850">l</i><i style="color:#242018">-</i> 
+ <i style="color:#44341c">+</i><i style="color:#ffc868">@</i><i style="color:#d89850">p</i><i style="color:#d08c4c">6</i><i style="color:#8c5c38">f</i><i style="color:#20140c">.</i> 
+<i style="color:#1a1814">░</i><i style="color:#1c180c">.</i><i style="color:#886434">1</i><i style="color:#c88848">kq</i><i style="color:#583c20">*</i><i style="color:#1a1814">█░</i>
+ <i style="color:#1a1814">░▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">prop.barrel</b>8 &times; 9 células · âncora 4,8<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>3f12fec26d1f</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.barrel&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:8,&quot;h&quot;:9,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:8},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;3f12fec26d1f0e2e22ce6dac24e6411e82d92b55&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.crate&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;crate&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.crate">
+  <div class="art" style="background:#3a352c"><pre>        
+  <i style="color:#1c140c">....</i>  
+ <i style="color:#382818">=</i><i style="color:#946438">Z</i><i style="color:#9c683c">xx</i><i style="color:#8c5c38">u</i><i style="color:#382418">^</i> 
+ <i style="color:#645028">F</i><i style="color:#a07440">E</i><i style="color:#b87c44">h6</i><i style="color:#805834">1</i><i style="color:#302014">_</i> 
+ <i style="color:#6c542c">}</i><i style="color:#e8ac5c">@</i><i style="color:#8c5c38">u</i><i style="color:#8c6038">[</i><i style="color:#a87040">E</i><i style="color:#302014">_</i> 
+ <i style="color:#68542c">C</i><i style="color:#b08044">h</i><i style="color:#ac7440">S</i><i style="color:#a87040">E</i><i style="color:#845834">t</i><i style="color:#302014">_</i> 
+ <i style="color:#503820">z</i><i style="color:#c8904c">K</i><i style="color:#d08c4c">KK</i><i style="color:#a47040">]</i><i style="color:#382418">^</i> 
+<i style="color:#1a1814">░</i><i style="color:#2c2010">_</i><i style="color:#805c30">l</i><i style="color:#c88848">GG</i><i style="color:#644424">)</i><i style="color:#140c08">.</i><i style="color:#1a1814">░</i>
+ <i style="color:#1a1814">░▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">prop.crate</b>8 &times; 8 células · âncora 4,7<br>mancha <code>shadow.disc.r3.26</code><br>hash <code>d10b1729f1e5</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.crate&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:8,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:7},&quot;shadow&quot;:&quot;shadow.disc.r3.26&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;d10b1729f1e5864ff65a417a3a2070b285a4183e&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.column&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;column&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.column">
+  <div class="art" style="background:#3a352c"><pre>         
+ <i style="color:#141414">.</i><i style="color:#303034">&gt;</i><i style="color:#282830">===</i><i style="color:#303034">&gt;</i><i style="color:#141414">.</i> 
+ <i style="color:#303030">;</i><i style="color:#c8c8d0">W</i><i style="color:#d0d0d8">@</i><i style="color:#c8c8d0">W</i><i style="color:#d0d0d8">@</i><i style="color:#c8c8d0">W</i><i style="color:#303030">;</i> 
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+  <i style="color:#787880">e</i><i style="color:#bcbcc8">#</i><i style="color:#90909c">w</i><i style="color:#c0c0c8">$</i><i style="color:#7c7c88">5</i>  
+ <i style="color:#282830">=</i><i style="color:#787884">Z</i><i style="color:#9898a0">P</i><i style="color:#848490">y</i><i style="color:#9898a0">P</i><i style="color:#7c7c88">5</i><i style="color:#2c2c30">;</i> 
+ <i style="color:#1c1c20">'</i><i style="color:#303038">&lt;</i><i style="color:#a0a0a8">d</i><i style="color:#a8a8b0">G</i><i style="color:#a0a0ac">V</i><i style="color:#303038">&lt;</i><i style="color:#202020">-</i> 
+ <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
+  <div class="meta"><b class="id">prop.column</b>9 &times; 14 células · âncora 4,13<br>mancha <code>shadow.disc.r3.6</code><br>hash <code>ff74e18cbba5</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.column&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:9,&quot;h&quot;:14,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:13},&quot;shadow&quot;:&quot;shadow.disc.r3.6&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;ff74e18cbba56937eee2866daa268fa746a6262b&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card prop" data-meta="{&quot;ids&quot;: [&quot;prop.ladder&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;ladder&quot;], &quot;tags&quot;: [&quot;prop&quot;]}">
+
+<div class="res on" data-id="prop.ladder">
+  <div class="art" style="background:#3a352c"><pre>     <i style="color:#0c0804">.</i><i style="color:#140c08">.</i> 
+     <i style="color:#382814">&lt;</i><i style="color:#543820">T</i> 
+ <i style="color:#1c180c">-</i><i style="color:#685028">fff</i><i style="color:#886838">x</i><i style="color:#584020">J</i> 
+ <i style="color:#1c180c">-</i><i style="color:#685028">fff</i><i style="color:#886838">x</i><i style="color:#584020">J</i> 
+     <i style="color:#382814">&lt;</i><i style="color:#543820">T</i> 
+ <i style="color:#382c18">!</i><i style="color:#d0a054">WWW</i><i style="color:#dca858">@</i><i style="color:#604424">|</i> 
+     <i style="color:#382814">&lt;</i><i style="color:#543820">T</i> 
+ <i style="color:#20180c">:</i><i style="color:#786030">nnn</i><i style="color:#98703c">S</i><i style="color:#584020">J</i> 
+ <i style="color:#181008">.</i><i style="color:#584424">777</i><i style="color:#7c5c30">n</i><i style="color:#584020">)</i> 
+     <i style="color:#382814">&lt;</i><i style="color:#543820">T</i> 
+ <i style="color:#382c18">!</i><i style="color:#d0a054">WWW</i><i style="color:#dca858">@</i><i style="color:#604424">|</i> 
+  <i style="color:#1a1814">▄▄▄</i><i style="color:#382814">&lt;</i><i style="color:#543820">T</i> 
+ <i style="color:#1a1814">█</i><i style="color:#2c1c10">^</i><i style="color:#906438">xx</i><i style="color:#443018">*</i><i style="color:#2c2010">^</i> 
+  <i style="color:#1a1814">▀▀▀▀</i>  </pre></div>
+  <div class="meta"><b class="id">prop.ladder</b>8 &times; 13 células · âncora 4,12<br>mancha <code>shadow.disc.r3.13</code><br>hash <code>fc994fda0153</code><div class="tags"><span class="tag slot">prop</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;prop.ladder&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:8,&quot;h&quot;:13,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:12},&quot;shadow&quot;:&quot;shadow.disc.r3.13&quot;,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;fc994fda0153b2ba6d924419e3b6fdda2c724df0&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card mancha" data-meta="{&quot;ids&quot;: [&quot;mancha.grass&quot;], &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: [&quot;grass&quot;], &quot;tags&quot;: [&quot;mancha&quot;]}">
+
+<div class="res on" data-id="mancha.grass">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#2c401c">+</i><i style="color:#649440">w</i><i style="color:#588038">Z</i><i style="color:#304820">r</i>   
+<i style="color:#1c2810">.</i><i style="color:#487030">3</i><i style="color:#689844">w</i><i style="color:#84c858">w</i><i style="color:#7cb450">w</i><i style="color:#609040">E</i><i style="color:#80c058">w</i><i style="color:#60883c">a</i><i style="color:#4c7030">1</i><i style="color:#182410">.</i>
+<i style="color:#243018">_</i><i style="color:#5c8038">Z</i><i style="color:#60883c">a</i><i style="color:#80c054">w</i><i style="color:#84c058">w</i><i style="color:#7cb050">w</i><i style="color:#90c858">w</i><i style="color:#649040">w</i><i style="color:#4c7030">1</i><i style="color:#182810">.</i>
+   <i style="color:#345024">?</i><i style="color:#6c9c48">w</i><i style="color:#608c40">2</i><i style="color:#385024">s</i><i style="color:#080c04">.</i>  </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>mancha.grass</b>10 &times; 4 células · âncora 5,2 (centro)<br>mancha da tile <b>12 &times; 4</b> células<br>hash <code>52f13a6027e0</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;mancha.grass&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;52f13a6027e0c2686d5c48808fcc6803d4f099f1&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card mancha" data-meta="{&quot;ids&quot;: [&quot;mancha.moss&quot;], &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: [&quot;moss&quot;], &quot;tags&quot;: [&quot;mancha&quot;]}">
+
+<div class="res on" data-id="mancha.moss">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#24381c">&gt;</i><i style="color:#548840">S</i><i style="color:#4c7438">o</i><i style="color:#284020">!</i>   
+<i style="color:#182410">.</i><i style="color:#406430">f</i><i style="color:#588c44">w</i><i style="color:#70b458">w</i><i style="color:#68a850">w</i><i style="color:#548040">]</i><i style="color:#6cb058">w</i><i style="color:#507c3c">j</i><i style="color:#406830">I</i><i style="color:#142010">.</i>
+<i style="color:#203014">:</i><i style="color:#507838">5</i><i style="color:#54803c">a</i><i style="color:#70ac54">w</i><i style="color:#70b054">w</i><i style="color:#68a450">w</i><i style="color:#78bc58">w</i><i style="color:#588840">S</i><i style="color:#406430">f</i><i style="color:#182410">.</i>
+   <i style="color:#2c4824">/</i><i style="color:#5c9044">w</i><i style="color:#508040">a</i><i style="color:#304824">z</i>   </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>mancha.moss</b>10 &times; 4 células · âncora 5,2 (centro)<br>mancha da tile <b>12 &times; 4</b> células<br>hash <code>3d55d850f609</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;mancha.moss&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;3d55d850f6099949d694c44d17abb61440986588&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card mancha" data-meta="{&quot;ids&quot;: [&quot;mancha.dirt_path&quot;], &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: [&quot;dirt_path&quot;], &quot;tags&quot;: [&quot;mancha&quot;]}">
+
+<div class="res on" data-id="mancha.dirt_path">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#382818">&gt;</i><i style="color:#84603c">S</i><i style="color:#745434">o</i><i style="color:#402c1c">!</i>   
+<i style="color:#241810">.</i><i style="color:#64482c">I</i><i style="color:#8c6440">w</i><i style="color:#b48050">w</i><i style="color:#a47848">w</i><i style="color:#805c38">2</i><i style="color:#b07c4c">w</i><i style="color:#7c5838">y</i><i style="color:#64482c">I</i><i style="color:#201810">.</i>
+<i style="color:#2c2014">:</i><i style="color:#745434">Z</i><i style="color:#7c5838">y</i><i style="color:#ac7c4c">w</i><i style="color:#b07c4c">w</i><i style="color:#a07448">w</i><i style="color:#b88450">w</i><i style="color:#84603c">S</i><i style="color:#64482c">I</i><i style="color:#201810">.</i>
+   <i style="color:#483420">z</i><i style="color:#906840">w</i><i style="color:#805c38">a</i><i style="color:#483420">?</i>   </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>mancha.dirt_path</b>10 &times; 4 células · âncora 5,2 (centro)<br>mancha da tile <b>12 &times; 4</b> células<br>hash <code>70db964cc2a8</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;mancha.dirt_path&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;70db964cc2a8c7cff17ee5f8779a13dd743721ce&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card mancha" data-meta="{&quot;ids&quot;: [&quot;mancha.snow&quot;], &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: [&quot;snow&quot;], &quot;tags&quot;: [&quot;mancha&quot;]}">
+
+<div class="res on" data-id="mancha.snow">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#505050">&lt;</i><i style="color:#b4b4b4">S</i><i style="color:#9c9c9c">e</i><i style="color:#585858">r</i>   
+<i style="color:#303030">.</i><i style="color:#909090">t</i><i style="color:#bcbcbc">w</i><i style="color:#ffffff">w</i><i style="color:#e0e0e0">w</i><i style="color:#acacac">a</i><i style="color:#f8f8f8">w</i><i style="color:#a4a4a4">Y</i><i style="color:#909090">t</i><i style="color:#2c2c2c">.</i>
+<i style="color:#383838">'</i><i style="color:#949494">l</i><i style="color:#a0a0a0">Z</i><i style="color:#ececec">ww</i><i style="color:#d8d8d8">w</i><i style="color:#f0f0f0">w</i><i style="color:#b0b0b0">a</i><i style="color:#8c8c8c">3</i><i style="color:#303030">.</i>
+   <i style="color:#686868">s</i><i style="color:#c0c0c0">w</i><i style="color:#b0b0b0">]</i><i style="color:#686868">L</i><i style="color:#101010">.</i>  </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>mancha.snow</b>10 &times; 4 células · âncora 5,2 (centro)<br>mancha da tile <b>12 &times; 4</b> células<br>hash <code>c307e1f371d2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;mancha.snow&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;c307e1f371d2748a02480af444b1b5d81dc766a9&quot;}">copiar peça</button></div>
+</div>
+</article>
+<article class="card mancha" data-meta="{&quot;ids&quot;: [&quot;mancha.puddle&quot;], &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: [&quot;puddle&quot;], &quot;tags&quot;: [&quot;mancha&quot;]}">
+
+<div class="res on" data-id="mancha.puddle">
+  <div class="art" style="background:#3a352c"><pre>   <i style="color:#203850">&gt;</i><i style="color:#4880b4">S</i><i style="color:#40709c">o</i><i style="color:#203c58">!</i>   
+<i style="color:#142430">.</i><i style="color:#346090">f</i><i style="color:#4c88bc">w</i><i style="color:#5ca8ff">w</i><i style="color:#589ce0">w</i><i style="color:#447cac">]</i><i style="color:#58a4f8">w</i><i style="color:#4478a4">y</i><i style="color:#346090">I</i><i style="color:#10202c">.</i>
+<i style="color:#182c38">:</i><i style="color:#407094">Z</i><i style="color:#4478a0">a</i><i style="color:#5ca4ec">w</i><i style="color:#5ca8ec">w</i><i style="color:#589cd8">w</i><i style="color:#64b4f0">w</i><i style="color:#4880b0">S</i><i style="color:#34608c">I</i><i style="color:#102030">.</i>
+   <i style="color:#244468">/</i><i style="color:#4c88c0">w</i><i style="color:#4478b0">a</i><i style="color:#284868">z</i>   </pre></div>
+  <div class="meta"><b class="id"><span class="badge">só a mancha</span>mancha.puddle</b>10 &times; 4 células · âncora 5,2 (centro)<br>mancha da tile <b>12 &times; 4</b> células<br>hash <code>d863cb12d0c4</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;mancha.puddle&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/scenery.json&quot;,&quot;hash&quot;:&quot;d863cb12d0c4bb6c1f5245b0f009a105e5b44257&quot;}">copiar peça</button></div>
+</div>
+</article>
 <article class="card prop" data-meta="{&quot;ids&quot;: [&quot;tree.oak.small&quot;, &quot;tree.oak.medium&quot;, &quot;tree.oak.large&quot;], &quot;slot&quot;: &quot;prop&quot;, &quot;species&quot;: [&quot;oak&quot;], &quot;tags&quot;: [&quot;foliage&quot;, &quot;large&quot;, &quot;medium&quot;, &quot;prop&quot;, &quot;small&quot;, &quot;tree&quot;]}">
 <div class="cap"><b>tree.oak</b><span>3 resoluções</span><span class="rbar"><button class="r" data-target="tree.oak.large">G <small>16×15</small></button><button class="r" data-target="tree.oak.medium">M <small>12×12</small></button><button class="r" data-target="tree.oak.small">P <small>8×8</small></button></span></div>
 <div class="res on" data-id="tree.oak.large">
@@ -2224,7 +2682,7 @@
 </section>
 <footer>Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · gerado por <code>bank.py</code> · para levar uma fatia para outro jogo: <code>bank.py export --section itens --out itens.json</code></footer>
 </div>
-<script id="data" type="application/json">{"slots": ["icone", "mancha", "prop"], "tags": ["adorno", "arma", "armadura", "autumn", "bare", "cabeca", "cap", "chain", "conifer", "contundente", "crown", "curta", "dedo", "defesa", "distancia", "duas-maos", "foliage", "gilded", "great", "hanging", "haste", "hood", "horned", "icone", "iron", "kite", "lamina", "large", "leather", "longa", "magica", "mancha", "medium", "offhand", "pale-bark", "palm", "plate", "prop", "robe", "round", "scale", "shrub", "small", "torso", "tower", "tree"]}</script>
+<script id="data" type="application/json">{"slots": ["bloco", "icone", "mancha", "piso", "prop"], "tags": ["adorno", "arma", "armadura", "autumn", "bare", "bloco", "cabeca", "cap", "chain", "conifer", "contundente", "crown", "curta", "dedo", "defesa", "distancia", "duas-maos", "foliage", "gilded", "great", "hanging", "haste", "hood", "horned", "icone", "iron", "kite", "lamina", "large", "leather", "longa", "magica", "mancha", "medium", "offhand", "pale-bark", "palm", "piso", "plate", "prop", "robe", "round", "scale", "shrub", "small", "torso", "tower", "tree"]}</script>
 <script>
   var index = JSON.parse(document.getElementById("data").textContent);
   var state = {slot: null, tag: null, q: ""};
