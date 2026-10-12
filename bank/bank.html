@@ -23,10 +23,14 @@
   .field { font: inherit; font-size: 12px; color: var(--ink); background: #101721;
            border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; min-width: 190px; }
   .count { color: var(--dim); font-size: 11.5px; margin: 6px 0 14px; }
-  /* A gallery of FIXED cells: the tracks do not resize with the content, and every art
-     area is one height, so the cards line up and the piece sits centred inside it. */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, 300px);
-          grid-auto-rows: 1fr; gap: 14px; justify-content: center; }
+  /* A gallery of FIXED cells: four columns filling the whole panel width, so the first
+     card starts on the same line as the section's heading instead of floating in the
+     middle. Narrow screens drop to two and then one, or four columns of 90px would be
+     four columns of nothing. */
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-auto-rows: 1fr; gap: 14px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .grid { grid-template-columns: minmax(0, 1fr); } }
   .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
           overflow: hidden; display: flex; flex-direction: column; }
   .card.decal { border-color: #2d3a4a; }

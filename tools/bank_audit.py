@@ -107,6 +107,8 @@ def main():
                                   rows[Math.round(r.y)] = (rows[Math.round(r.y)] || 0) + 1; });
                                 return {section: sec.dataset.section, cards: cards.length,
                                         columns: xs.size, rows: ys.size,
+                                        headX: Math.round(sec.querySelector('h2').getBoundingClientRect().x),
+                                        cardX: Math.min.apply(null, Array.from(xs)),
                                         widestRow: Math.max.apply(null, Object.values(rows)),
                                         secWidth: Math.round(sec.getBoundingClientRect().width)}; })""")
                 stacked = [l for l in layout
@@ -115,6 +117,13 @@ def main():
                       not stacked,
                       "; ".join("%s: %d cartões em %d colunas, seção %dpx"
                                 % (l["section"], l["cards"], l["columns"], l["secWidth"])
+                                for l in layout))
+                # Four columns using the whole panel, starting exactly where the heading's
+                # text starts -- a centred grid leaves a gap the eye reads as a mistake.
+                check("four columns, flush with the heading",
+                      all(l["columns"] == 4 and abs(l["cardX"] - l["headX"]) <= 1 for l in layout),
+                      "; ".join("%s: %d colunas, cartão em x=%d, título em x=%d"
+                                % (l["section"], l["columns"], l["cardX"], l["headX"])
                                 for l in layout))
 
                 # A FIXED cell with the piece centred in it: every card in a section the
