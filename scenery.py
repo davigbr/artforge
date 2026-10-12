@@ -25,6 +25,7 @@ Usage:
 
 import argparse
 import importlib
+import inspect
 import json
 import math
 import os
@@ -874,17 +875,40 @@ def build_set(seed):
 
 
 def write_json(pieces, seed, missing_shadows):
+    # The ink transform is DECLARED, not implied. The engine's art functions boost the
+    # colour themselves (`ink()` = `boostColor(sat, gain, lift)`), and this set has already
+    # been boosted at authoring time -- so a consumer that boosts again washes the art out.
+    # The numbers are read off artforge.boost's own defaults, so they cannot drift from the
+    # ones the pixels were made with.
+    params = inspect.signature(af.boost).parameters
+    ink = {"boosted": True, "sat": params["sat"].default, "gain": params["gain"].default,
+           "lift": params["lift"].default, "quant": af.QUANT,
+           "how": "colours are final: pass them straight to the renderer, never through "
+                  "the engine's ink()/boostColor again"}
+    # The margin the engine culls with, in tiles: how far the tallest piece draws OUTSIDE
+    # its own tile. The engine's own fallback is
+    # `ceil(LATTICE_BLEED / min(HALF_TILE_W, HALF_TILE_H)) + 1`, which is 3 with its
+    # defaults -- enough for the cripta's own art (its tallest piece is the 12-cell hero,
+    # 2 tiles) and NOT enough for this set: the column rises 27 cells, 4.5 tiles. A tile of
+    # slack is added on top, the same way the engine's formula does.
+    tallest = max(p["anchor"]["y"] for p in pieces if p["slot"] in ("prop", "ator"))
+    margin_cells = tallest
+    margin_tiles = int(math.ceil(margin_cells / float(TILE_H))) + 1
     payload = {
         "version": 1,
         "generator": "scenery %s (artforge %s)" % (VERSION, af.VERSION),
         "set": "scenery",
-        "label": "Cenário: piso, bloco, prop e mancha",
-        "kinds": ["tile", "block", "prop", "decal"],
+        "label": "Cenário: piso, bloco, prop, ator e mancha",
+        "kinds": ["tile", "block", "prop", "actor", "decal"],
         "seed": seed,
         "cell": {"w": af.CELL_W, "h": af.CELL_H, "aspect": round(af.CELL_ASPECT, 4)},
         "tile": {"w": TILE_W, "h": TILE_H, "px": [round(TILE_W * af.CELL_W, 1),
                                                   round(TILE_H * af.CELL_H, 1)]},
         "wallRows": WALL_ROWS,
+        "art": {"baseTileW": BASE_TILE_W, "scale": ART},
+        "ink": ink,
+        "requiredMarginTiles": margin_tiles,
+        "requiredMarginCells": margin_cells,
         "floorTone": "#3a352c",
         "shadowInk": "#1a1814",
         "ramp": RAMP,

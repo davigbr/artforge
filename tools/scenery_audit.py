@@ -6,7 +6,9 @@ check, and a check that cannot fail is not a check.
     PYTHONPATH= ~/.hermes/hermes-agent/venv/bin/python3 tools/scenery_audit.py
 """
 
+import inspect
 import json
+import math
 import os
 import re
 import subprocess
@@ -71,6 +73,29 @@ def main():
           (sc.TILE_W, sc.TILE_H, sc.WALL_ROWS) == (20, 6, 8),
           "%dx%d, parede %d (cripta: tileCellsW 20, tileCellsH 6, wallHeightCells 8)"
           % (sc.TILE_W, sc.TILE_H, sc.WALL_ROWS))
+
+    # --- what the file DECLARES for whoever consumes it --------------------------
+    # Two numbers the consumer would otherwise have to guess, and both are wrong by default
+    # in the engine: the ink transform (the engine's art boosts, this set is already
+    # boosted) and the culling margin (the engine's fallback is 3 tiles, this set needs 6).
+    ink = data.get("ink") or {}
+    defaults = inspect.signature(af.boost).parameters
+    check("the file declares the ink transform, so a consumer cannot boost twice",
+          ink.get("boosted") is True and
+          all(ink.get(k) == defaults[k].default for k in ("sat", "gain", "lift")) and
+          ink.get("quant") == af.QUANT,
+          "boosted sim, sat %s gain %s lift %s quant %s (os do artforge.boost)"
+          % (ink.get("sat"), ink.get("gain"), ink.get("lift"), ink.get("quant")))
+    tallest = max(p["anchor"]["y"] for p in pieces if p["slot"] in ("prop", "ator"))
+    want_margin = int(math.ceil(tallest / float(sc.TILE_H))) + 1
+    check("the file declares the culling margin the engine needs",
+          data.get("requiredMarginTiles") == want_margin and want_margin > 3,
+          "%s tiles: a peça mais alta sobe %d células = %.1f tiles, e o fallback do motor "
+          "com os padrões dele é 3" % (data.get("requiredMarginTiles"), tallest,
+                                       tallest / float(sc.TILE_H)))
+    check("the file declares the kinds it actually ships",
+          set(data.get("kinds") or []) == {p["kind"] for p in pieces},
+          "declara %s, traz %s" % (data.get("kinds"), sorted({p["kind"] for p in pieces})))
 
     outs, err = fresh()
     check("two fresh runs give the same bytes", outs is not None and outs[0] == outs[1],
