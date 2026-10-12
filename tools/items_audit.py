@@ -353,8 +353,9 @@ def section_c(geometry):
     stale = [f for f in os.listdir(CROPS) if f not in keep]
     for f in stale:
         os.remove(os.path.join(CROPS, f))
-    check("a crop per item for looking, no orphans from an older set",
-          written >= len(items_expected()) and not stale,
+    orphans = [f for f in os.listdir(CROPS) if f not in keep]
+    check("a crop per item for looking, no orphan from an older set",
+          written >= len(items_expected()) and not orphans,
           "%d crops in %s%s" % (written, os.path.relpath(CROPS, HERE),
                                 " (removed %d stale)" % len(stale) if stale else ""))
 
