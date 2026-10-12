@@ -95,6 +95,28 @@ def main():
                       "; ".join("%s: %s" % (k, ",".join(sorted(v)))
                                 for k, v in sorted(sections.items())))
 
+                # A grid nested inside a grid gives the section ONE track (268px) and
+                # the gallery inside it collapses to a single column -- measured, because
+                # counting cards and checking the DOM never caught it.
+                layout = page.evaluate("""() => Array.from(document.querySelectorAll('.sec'))
+                  .map(sec => { const cards = Array.from(sec.querySelectorAll('.card'));
+                                const xs = new Set(cards.map(c => Math.round(c.getBoundingClientRect().x)));
+                                const ys = new Set(cards.map(c => Math.round(c.getBoundingClientRect().y)));
+                                const rows = {};
+                                cards.forEach(c => { const r = c.getBoundingClientRect();
+                                  rows[Math.round(r.y)] = (rows[Math.round(r.y)] || 0) + 1; });
+                                return {section: sec.dataset.section, cards: cards.length,
+                                        columns: xs.size, rows: ys.size,
+                                        widestRow: Math.max.apply(null, Object.values(rows)),
+                                        secWidth: Math.round(sec.getBoundingClientRect().width)}; })""")
+                stacked = [l for l in layout
+                           if l["cards"] >= 4 and (l["columns"] < 3 or l["widestRow"] < 2)]
+                check("each section is a gallery, not a column",
+                      not stacked,
+                      "; ".join("%s: %d cartões em %d colunas, seção %dpx"
+                                % (l["section"], l["cards"], l["columns"], l["secWidth"])
+                                for l in layout))
+
                 # Each card opens on its biggest piece, and the switch works.
                 opens = page.evaluate("""() => Array.from(document.querySelectorAll('.card'))
                   .map(c => { const on = c.querySelector('.res.on');

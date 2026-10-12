@@ -332,9 +332,7 @@ PAGE_HEAD = """<!DOCTYPE html>
 <div class="bar" id="tags"></div>
 <div class="bar"><input class="field" id="q" placeholder="filtrar por id, espécie, tag…" aria-label="filtro"></div>
 <p class="count" id="count"></p>
-<div class="grid" id="grid">
 __CARDS__
-</div>
 <footer>__FOOTER__</footer>
 </div>
 <script id="data" type="application/json">__DATA__</script>
