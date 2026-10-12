@@ -190,7 +190,45 @@ conserto — mede o contrário do que eu queria.)
 O eixo que sobrou, e que vale para qualquer redução: **o que a redução come é contraste interno**, e a
 redução não substitui a pequena desenhada.
 
-## O cenário: piso, bloco, prop e mancha
+## O motor do isoforge: o que ele exige da arte (revisado no motor 0.7.0)
+
+O motor mudou debaixo deste conjunto e duas coisas dele **obrigaram** mudança aqui:
+
+1. **A resolução da tile é parâmetro, e o projeto de teste fixou a dele.** O motor entrega
+   `tileCellsW/tileCellsH/wallHeightCells` e deriva projeção, culling, malha e margem; a
+   **cripta** (o projeto de teste) roda `20 × 6` com parede `8` — `20*3/10` e `20*4/10`. O
+   conjunto estava em `12 × 4` com parede 4, e 12×4 **nem era um losango 2:1** (12 células
+   de largura são 7,2 unidades, 4 de altura são 4: 1,8:1). A regra: `h = w*3/10`. Agora o
+   padrão é 20×6/8, e `--tile 10` gera o 10×3/4 original do motor.
+2. **A arte escala por um fator, não por uma segunda cópia.** A cripta desenha tudo em
+   deslocamentos a partir do centro do tile e multiplica por `ART = tileCellsW / 10`. Este
+   conjunto faz igual: as caixas dos props são autorais numa base de 10 células e
+   multiplicadas por `ART`, então **um desenho serve as duas resoluções**. Uma largura de
+   traço é a exceção — largura está em células, e um traço desenhado para 10 células fica
+   com metade da espessura num tile de 20 (medido: sem corrigir isso, mato seco, juncos,
+   tocha e escada saíram com 19–22% de tinta contra 33–56% do resto).
+3. **O motor tem um slot de ATOR e nada neste projeto produzia um.** O contrato é
+   `art.entity[kind] = function (r, ctx)`, e `ctx.entity` traz `facing` (+1 = direita da
+   tela), com o pintor espelhando o desenho para −1. Então: **o herói, o esqueleto e o
+   carniçal são desenhados de frente para a direita** e a outra face é o espelho.
+4. **O tamanho do herói não foi inventado.** A cripta desenha o dela `A(6)` acima do chão
+   com `A() = 2` — **12 células** de altura num tile de 20. O `ator.heroi` tem 14 linhas de
+   caixa com 12 de tinta. Um ator é uma coisa de tamanho fixo no mundo: ele **não** é
+   reescalado com a tile como um prop é.
+5. **Um prop pode ser coberto por outro, e isso não é defeito.** O motor desenha por
+   profundidade, então props se sobrepõem de verdade numa cena. A checagem de composição
+   aceita a célula da âncora de uma peça **ou** a célula de uma peça desenhada depois cuja
+   caixa cobre aquele ponto — e informa quantas âncoras foram cobertas. Tratar sobreposição
+   legítima como defeito é como uma checagem deixa de significar alguma coisa.
+
+O que **ainda falta para o jogo consumir isto** — e é do lado do jogo, não daqui: o motor
+chama `art.floor / art.block / art.prop[kind] / art.entity[kind]`, e hoje a cripta desenha
+esses callbacks proceduralmente em JS. Este conjunto entrega as mesmas células como dados
+(`assets/scenery.json`, ingestável no banco), então o que falta é um blitter de ~30 linhas
+no `art.js` do jogo que leia a grade e pinte célula a célula. **O motor não precisa mudar
+nada** para isso: o contrato dele já é o certo (ele sabe a ORDEM e o CULLING, não a arte).
+
+## O cenário: piso, bloco, prop, ator e mancha
 
 `scenery.py` gera o outro conjunto: o que compõe ambiente, interno ou externo. Quatro slots, que são
 exatamente os que o motor desenha — **piso** (`tile`), **bloco** (`block`, com altura), **prop** (o que
@@ -236,21 +274,25 @@ poça, neve) e é pintada com o piso, antes de qualquer coisa pisar nele.
    `shadow.disc.rN` do conjunto das árvores em vez de emitir cópias idênticas. Consequência: o conjunto
    das árvores tem de estar ingerido antes (o `bank.py check` cobra isso).
 
-### Verificado no cenário (28/28)
+### Verificado no cenário (36/36)
 
 | medida | resultado |
 |---|---|
-| conjunto | 35 peças (9 piso, 6 bloco, 15 prop, 5 mancha), semente 20261014 |
+| conjunto | 41 peças (9 piso, 6 bloco, 15 prop, 3 atores, 8 manchas), semente 20261014 |
+| resolução | **20 × 6 células com parede de 8** — o `tileCellsW: 20 / tileCellsH: 6 / wallHeightCells: 8` da cripta |
 | determinismo | duas corridas frescas → **bytes idênticos** |
-| emenda do piso | deslocar o piso composto de uma tile muda **0 de 108** células no pior piso |
+| emenda do piso | deslocar o piso composto de uma tile muda **0 de 270** células no pior piso |
 | piso na rampa | nenhum glifo acima de 55% da rampa em 9/9 pisos |
-| bloco | losango da face de cima com a largura máxima no meio e paredes de largura constante, 6/6; altura = tile + parede (8) |
-| pé do prop | âncora tinta e centrada em **15/15**; tinta entre 25% e 65% |
-| sombra | 15/15 props com disco emprestado, todos existindo no banco |
-| arte repetida | 35 peças distintas |
-| composição | 108 × 53 células, 79% de tinta, **todos os props plantados seguram a própria âncora**, sem borda rasgada |
-| banco | ingest ok, 35/35 no índice, slots certos, `bank.py check` passa |
-| página | arquivo único, 220 KB, **sem `<script>`**, 10 quadros, sem overflow a 1440×900 e 390×844 |
+| bloco | losango da face de cima com a largura máxima no meio e paredes de largura constante, 6/6; altura 20×**14** = tile (6) + parede (8) |
+| pé | âncora tinta e centrada em **18/18** props e atores; tinta entre 19,5% e 85% |
+| ator | herói com **12 linhas de tinta** (o `A(6)` da cripta com `A()=2`); 3 atores com `facing ±1` declarado |
+| sombra | todos os discos resolvem: emprestados do conjunto das árvores ou **feitos aqui** (o raio da base dobrada passa do maior disco das árvores) |
+| disco próprio | o único disco novo confere em 2:1 e com o centro na âncora |
+| mancha | 7 manchas de piso na grade da tile; sangue é respingo, ossos são ossos — a primeira versão desenhou os dois como mancha e o banco acusou **arte repetida** |
+| arte repetida | 41 peças distintas |
+| composição | duas cenas (externa 180×71, cripta 160×76, 85% e 76% de tinta), sem borda rasgada, e **toda âncora de prop/ator confere** (o que ficou coberto, ficou por peça desenhada depois) |
+| banco | ingest ok, 41/41 no índice, slots certos com `ator`, `bank.py check` passa |
+| página | arquivo único, 712 KB, **sem `<script>`**, 11 quadros, sem overflow a 1440×900 e 390×844 |
 
 ## A peça (contrato)
 

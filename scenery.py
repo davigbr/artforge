@@ -47,14 +47,53 @@ SS = af.SS
 UX, UY = af.UX, af.UY
 RAMP = af.RAMP
 
-cpoly, crect, cline, cellipse, circle = wk.cpoly, wk.crect, wk.cline, wk.cellipse, wk.circle
+cpoly, crect, cellipse, circle = wk.cpoly, wk.crect, wk.cellipse, wk.circle
+
+
+def cline(d, x0, y0, x1, y1, colour, width=1.0):
+    """The one drawing helper that needs the scale.
+
+    A line width is in CELLS, so a width authored for a 10-cell tile is half as thick on a
+    20-cell one -- and a stroke of half a cell is a stroke the area-average eats. Measured
+    on the rescaled set: the thin props (dead bush, reeds, torch, ladder) came out at 19-21%
+    ink against 33-56% for the rest, because their strokes were sub-cell at the base and
+    stayed sub-cell at the double.
+    """
+    return wk.cline(d, x0, y0, x1, y1, colour, width * ART)
+
+
 pal = wk.pal
 # Sampling is to_ground() below, NOT wk.to_cells: that one centres the ink in the box.
 
-# The tile: 12 calls across is 79.4 px and 4 calls down is 44.0 px -- 2:1 on screen, the
-# isometry's own proportion, so a floor of these interlocks with nothing but itself.
-TILE_W, TILE_H = 12, 4
-WALL_ROWS = 4                       # the engine's WALL_HEIGHT_CELLS
+# The tile, at the engine's own proportion. The floor diamond is 2:1 ON SCREEN, and the
+# cell is ~1,67x taller than wide, so the grid ratio in cells is 10:3 -- which is why the
+# engine's own examples are 10x3 and 20x6 and why a 12x4 tile is NOT a 2:1 diamond
+# (12 cells across is 7,2 units, 4 cells down is 4 units: 1,8:1). The test project
+# (cripta) runs 20x6 with a wall of 8, so that is what this generates by default.
+#
+#   --tile 10  ->  10x3, the engine's original, with the wall at 4
+#   --tile 20  ->  20x6, the cripta's resolution, with the wall at 8
+#
+# Everything else is authored on a BASE of 10 cells across and multiplied by ART, which
+# is exactly the convention the cripta uses for its own art: one drawing serves both
+# resolutions instead of two copies of the code.
+TILE_W, TILE_H = 20, 6
+BASE_TILE_W = 10
+WALL_ROWS = 8                       # the cripta's wallHeightCells = tileCellsW * 4/10
+ART = TILE_W / float(BASE_TILE_W)   # the scale every prop box is authored against
+
+
+def period_rows(h, n=2):
+    """The rows a repeating feature lands on, spaced by HALF the tile's height.
+
+    Half a tile is the stagger: with an iso lattice the neighbour sits at (+w/2, +h/2), so
+    that is the period the texture has to repeat with. Rows have to be whole cells, so the
+    pair is placed as centred as the arithmetic allows -- (1,4) on a 6-row tile, (1,3) on
+    a 4-row one.
+    """
+    ph = max(1, h // 2)
+    r0 = max(0, (h - ph) // 2)
+    return [r0 + k * ph for k in range(n) if r0 + k * ph < h]
 
 
 # --- ground materials ----------------------------------------------------------
@@ -76,6 +115,13 @@ GROUND = {
     "iron": pal(metal=(138, 142, 150), metal_light=(196, 200, 208), metal_dark=(70, 74, 82)),
     "flame": pal(metal=(232, 132, 48), metal_light=(252, 214, 120), metal_dark=(186, 74, 28)),
     "cloth": pal(metal=(74, 84, 132), metal_light=(118, 130, 186), metal_dark=(38, 44, 76)),
+    # the crypt's own materials: what a Diablo-like room is made of
+    "flag": pal(metal=(62, 60, 54), metal_light=(96, 93, 84), metal_dark=(38, 36, 33)),
+    "skin": pal(metal=(226, 190, 148), metal_light=(246, 218, 184), metal_dark=(158, 122, 88)),
+    "bone": pal(metal=(228, 220, 200), metal_light=(248, 244, 230), metal_dark=(150, 142, 124)),
+    "blood": pal(metal=(126, 30, 26), metal_light=(176, 48, 40), metal_dark=(74, 16, 14)),
+    "gold": pal(metal=(200, 164, 92), metal_light=(240, 214, 140), metal_dark=(132, 102, 48)),
+    "cloak": pal(metal=(158, 46, 40), metal_light=(206, 84, 70), metal_dark=(96, 26, 24)),
 }
 
 
@@ -204,9 +250,9 @@ def f_dirt(d, w, h, rng):
 
 
 def f_sand(d, w, h, rng):
-    # ripples land on the stagger's rows: y=1 and y=3 are the same row of the texture's
-    # own period, which is what lets one tile continue into the next
-    for y in (1, 3):
+    # ripples land on the stagger's rows: with an iso lattice the neighbour is HALF a tile
+    # over, so those two rows are the same row of the texture's own period
+    for y in period_rows(h):
         cline(d, 0, y, w, y, g("sand")["metal_dark"], 0.6)
 
 
@@ -214,15 +260,15 @@ def f_snow(d, w, h, rng):
     def drift(dd, x, y, r):
         cellipse(dd, x, y, r.uniform(0.5, 1.0), r.uniform(0.16, 0.30),
                  g("snow")["metal_light"])
-    wrapped(d, w, h, drift, 6, rng)
+    wrapped(d, w, h, drift, max(4, w * h // 8), rng)
 
 
 def f_stone(d, w, h, rng):
-    # slab lines every half tile and every period row: 6 divides the 12 and 2 divides the
-    # 4, so the slabs continue across tiles without a hiccup
-    for x in (6,):
+    # slab lines every half tile across and every half tile down: both divide the tile, so
+    # the slabs continue across tiles without a hiccup
+    for x in (w // 2,):
         cline(d, x, 0, x, h, g("stone")["metal_dark"], 0.8)
-    for y in (1, 3):
+    for y in period_rows(h):
         cline(d, 0, y, w, y, g("stone")["metal_dark"], 0.7)
 
 
@@ -230,23 +276,23 @@ def f_cobble(d, w, h, rng):
     def stone(dd, x, y, r):
         cellipse(dd, x, y, 0.62, 0.44, g("cobble")["metal_dark"])
         cellipse(dd, x - 0.06, y - 0.08, 0.48, 0.30, g("cobble")["metal_light"])
-    for y in (1, 3):
+    for y in period_rows(h):
         for x in range(0, w, 2):
             stone(d, x, y, rng)
 
 
 def f_plank(d, w, h, rng):
-    for y in (1, 3):
+    for y in period_rows(h):
         cline(d, 0, y, w, y, g("plank")["metal_dark"], 1.0)
         cline(d, 0, y + 0.22, w, y + 0.22, g("plank")["metal_light"], 0.5)
 
     def knot(dd, x, y, r):
         cellipse(dd, x, y, 0.3, 0.22, g("plank")["metal_dark"])
-    wrapped(d, w, h, knot, 6, rng)
+    wrapped(d, w, h, knot, max(3, w * h // 12), rng)
 
 
 def f_water(d, w, h, rng):
-    for y in (1, 3):
+    for y in period_rows(h):
         cline(d, 0, y, w, y, g("water")["metal_light"], 0.6)
 
 
@@ -479,6 +525,99 @@ def p_ladder(d, w, h):
         crect(d, w * 0.22, y, w * 0.78, y + 0.8, g("wood")["metal_light"])
 
 
+# --- actors: the thing that walks ------------------------------------------------
+# The engine's art table has a slot for these and nothing in this project produced one:
+# `art.entity[kind] = function (r, ctx)`, with ctx.entity carrying `facing` (+1 = the
+# right of the screen) and the painter flipping the drawing for -1. So each actor is
+# drawn FACING RIGHT and the other side is the mirror -- which is what the game does.
+#
+# The size is not invented: at the cripta's 20x6 tile the game draws its hero A(6) above
+# the ground with A() = 2, which is 12 cells tall. These are authored straight at that
+# size, not scaled, because an actor is a FIXED thing in the world, not a texture.
+def a_hero(d, w, h):
+    """The player: cloak, belt, hood, sword. Twelve cells of a twenty-cell tile."""
+    cx = w / 2.0
+    feet = h - 1.0
+    sh = feet - h * 0.60                       # the shoulder line
+    cpoly(d, [(cx - w * 0.15, sh), (cx + w * 0.15, sh), (cx + w * 0.28, feet),
+              (cx - w * 0.28, feet)], g("cloak")["metal"])
+    cpoly(d, [(cx - w * 0.15, sh), (cx - w * 0.03, sh), (cx - w * 0.03, feet),
+              (cx - w * 0.28, feet)], g("cloak")["metal_light"])
+    cpoly(d, [(cx + w * 0.15, sh), (cx + w * 0.28, feet), (cx + w * 0.16, feet),
+              (cx + w * 0.07, sh)], g("cloak")["metal_dark"])
+    crect(d, cx - w * 0.20, feet - h * 0.30, cx + w * 0.20, feet - h * 0.24,
+          g("gold")["metal"])                  # the belt
+    crect(d, cx - w * 0.16, sh - h * 0.03, cx + w * 0.16, sh + h * 0.02,
+          g("cloak")["metal_dark"])            # shoulders
+    crect(d, cx - w * 0.24, feet - h * 0.06, cx - w * 0.04, feet, g("iron")["metal_dark"])
+    crect(d, cx + w * 0.04, feet - h * 0.06, cx + w * 0.24, feet, g("iron")["metal_dark"])
+    circle(d, cx, sh - h * 0.10, w * 0.17, g("skin")["metal"])
+    circle(d, cx, sh - h * 0.14, w * 0.20, g("cloak")["metal_dark"])
+    circle(d, cx + w * 0.05, sh - h * 0.10, w * 0.13, g("skin")["metal"])
+    # the sword, on the shoulder, pointing up and to the right
+    cline(d, cx + w * 0.24, sh - h * 0.02, cx + w * 0.40, sh - h * 0.30,
+          g("iron")["metal_light"], 0.9)
+    crect(d, cx + w * 0.18, sh - h * 0.06, cx + w * 0.30, sh + h * 0.00,
+          g("gold")["metal_dark"])
+
+
+def a_skeleton(d, w, h):
+    """One of the dead: skull, ribs, and a rusted blade."""
+    cx = w / 2.0
+    feet = h - 1.0
+    top = feet - h * 0.72
+    crect(d, cx - w * 0.07, top, cx + w * 0.07, feet, g("bone")["metal_dark"])
+    for k in range(4):
+        y = top + h * 0.14 + k * h * 0.08
+        half = w * (0.24 - 0.035 * k)
+        cline(d, cx - half, y, cx + half, y, g("bone")["metal"], 0.9)
+    crect(d, cx - w * 0.26, top + h * 0.12, cx - w * 0.18, feet - h * 0.06,
+          g("bone")["metal_dark"])
+    crect(d, cx + w * 0.18, top + h * 0.12, cx + w * 0.26, feet - h * 0.06,
+          g("bone")["metal_dark"])
+    crect(d, cx - w * 0.16, feet - h * 0.22, cx - w * 0.06, feet, g("bone")["metal"])
+    crect(d, cx + w * 0.06, feet - h * 0.22, cx + w * 0.16, feet, g("bone")["metal"])
+    circle(d, cx, top + h * 0.05, w * 0.19, g("bone")["metal_light"])
+    crect(d, cx - w * 0.12, top + h * 0.02, cx + w * 0.12, top + h * 0.10,
+          g("bone")["metal"])
+    circle(d, cx - w * 0.06, top + h * 0.04, w * 0.055, g("flame")["metal_dark"])
+    circle(d, cx + w * 0.06, top + h * 0.04, w * 0.055, g("flame")["metal_dark"])
+    cline(d, cx + w * 0.26, top + h * 0.20, cx + w * 0.40, top - h * 0.02,
+          g("iron")["metal_dark"], 0.8)
+
+
+def a_ghoul(d, w, h):
+    """The other thing down here: hunched, olive, both arms out."""
+    cx = w / 2.0
+    feet = h - 1.0
+    top = feet - h * 0.62
+    cellipse(d, cx - w * 0.02, top + h * 0.30, w * 0.30, h * 0.30,
+             g("moss")["metal_dark"])
+    cellipse(d, cx - w * 0.06, top + h * 0.26, w * 0.22, h * 0.22, g("moss")["metal"])
+    crect(d, cx - w * 0.24, feet - h * 0.26, cx - w * 0.06, feet, g("moss")["metal_dark"])
+    crect(d, cx + w * 0.06, feet - h * 0.26, cx + w * 0.24, feet, g("moss")["metal_dark"])
+    cline(d, cx + w * 0.14, top + h * 0.22, cx + w * 0.40, top + h * 0.06,
+          g("moss")["metal"], 1.0)
+    cline(d, cx + w * 0.12, top + h * 0.34, cx + w * 0.38, top + h * 0.24,
+          g("moss")["metal_dark"], 0.9)
+    circle(d, cx - w * 0.22, top + h * 0.44, w * 0.08, g("moss")["metal"])
+    crect(d, cx - w * 0.26, top + h * 0.16, cx + w * 0.02, top + h * 0.30,
+          g("moss")["metal"])
+    circle(d, cx - w * 0.06, top + h * 0.06, w * 0.19, g("moss")["metal_dark"])
+    circle(d, cx - w * 0.06, top + h * 0.02, w * 0.16, g("moss")["metal"])
+    circle(d, cx - w * 0.02, top + h * 0.00, w * 0.05, g("flame")["metal_light"])
+    crect(d, cx - w * 0.12, top + h * 0.10, cx + w * 0.02, top + h * 0.14,
+          g("bone")["metal_light"])
+
+
+# (id, label, species, (w, h) in cells, routine, shadow radius, material, foot)
+ACTORS = [
+    ("ator.heroi", "Herói", "hero", (9, 14), a_hero, 3.0, "cloak", "dirt"),
+    ("ator.esqueleto", "Esqueleto", "skeleton", (9, 13), a_skeleton, 2.8, "bone", "dirt"),
+    ("ator.ghoul", "Carniçal", "ghoul", (10, 13), a_ghoul, 3.0, "moss", "dirt"),
+]
+
+
 PROPS = [
     ("prop.boulder", "Pedregulho", "boulder", (10, 8), p_boulder, 4.0, "rock", "rock"),
     ("prop.rocks", "Pedras", "rocks", (10, 6), p_rocks, 3.4, "rock", "rock"),
@@ -499,31 +638,61 @@ PROPS = [
 
 
 # --- decals: drawn with the floor, never occluding --------------------------------
-def d_patch(w_cells, h_cells, base, speck, colour, density, size=(0.5, 0.30)):
-    """A patch on the floor: wrapped so it continues across the tile's edge too, or a
-    path of these would show its own repeat."""
+def d_patch(w_cells, h_cells, colour, shape="patch", density=1.0):
+    """A patch on the floor: wrapped so it continues across the tile's edge too, or a path
+    of these would show its own repeat.
+
+    The SHAPE is not decoration: a patch of snow and a scatter of bones are different
+    things, and drawing both as a blob produced the same art under two ids -- the bank
+    caught it (identical pieces) and it is exactly the kind of thing a catalogue must not
+    ship.
+    """
     img = Image.new("RGB", (int(round(w_cells * UX)), int(round(h_cells * UY))), (0, 0, 0))
     d = ImageDraw.Draw(img)
     rng = random.Random(23)
-
-    def blob(dd, x, y, r):
-        cellipse(dd, x, y, size[0] * r.uniform(0.7, 1.3), size[1] * r.uniform(0.7, 1.3),
+    if shape == "bones":
+        def bone(dd, x, y, r):
+            ln = r.uniform(1.1, 2.0)
+            tilt = r.choice((-0.35, 0.35, 0.0))
+            cline(dd, x - ln / 2, y - tilt, x + ln / 2, y + tilt,
+                  colour["metal_light"], 0.7)
+            circle(dd, x - ln / 2, y - tilt, 0.30, colour["metal"])
+            circle(dd, x + ln / 2, y + tilt, 0.30, colour["metal"])
+        wrapped(d, w_cells, h_cells, bone, max(3, int(density * 0.5)), rng)
+        def chip(dd, x, y, r):
+            circle(dd, x, y, r.uniform(0.16, 0.30), colour["metal_dark"])
+        wrapped(d, w_cells, h_cells, chip, max(3, int(density * 0.4)), rng)
+    elif shape == "splash":
+        cellipse(d, w_cells * 0.5, h_cells * 0.55, w_cells * 0.22, h_cells * 0.26,
                  colour["metal"])
-    wrapped(d, w_cells, h_cells, blob, int(density), rng)
+        cellipse(d, w_cells * 0.46, h_cells * 0.50, w_cells * 0.13, h_cells * 0.16,
+                 colour["metal_light"])
+        def drop(dd, x, y, r):
+            circle(dd, x, y, r.uniform(0.10, 0.26), colour["metal_dark"])
+        wrapped(d, w_cells, h_cells, drop, max(4, int(density * 0.8)), rng)
+    else:
+        def blob(dd, x, y, r):
+            cellipse(dd, x, y, 0.52 * r.uniform(0.7, 1.3), 0.32 * r.uniform(0.7, 1.3),
+                     colour["metal"])
+        wrapped(d, w_cells, h_cells, blob, int(density), rng)
 
-    def fleck(dd, x, y, r):
-        circle(dd, x, y, r.uniform(0.1, 0.2), colour["metal_light"])
-    wrapped(d, w_cells, h_cells, fleck, int(density * 0.8), rng)
+        def fleck(dd, x, y, r):
+            circle(dd, x, y, r.uniform(0.1, 0.2), colour["metal_light"])
+        wrapped(d, w_cells, h_cells, fleck, int(density * 0.8), rng)
     return Image.composite(img, Image.new("RGB", img.size, (0, 0, 0)),
                            diamond_mask(w_cells, h_cells))
 
 
+# (id, label, species, material, shape)
 DECALS = [
-    ("mancha.grass", "Moita de capim", "grass", (10, 4), "grass"),
-    ("mancha.moss", "Musgo", "moss", (10, 4), "moss"),
-    ("mancha.dirt_path", "Trilha de terra", "dirt", (10, 4), "dirt"),
-    ("mancha.snow", "Mancha de neve", "snow", (10, 4), "snow"),
-    ("mancha.puddle", "Poça", "water", (10, 4), "water"),
+    ("mancha.grass", "Moita de capim", "grass", "grass", "patch"),
+    ("mancha.moss", "Musgo", "moss", "moss", "patch"),
+    ("mancha.dirt_path", "Trilha de terra", "dirt", "dirt", "patch"),
+    ("mancha.snow", "Mancha de neve", "snow", "snow", "patch"),
+    ("mancha.puddle", "Poça", "water", "water", "patch"),
+    # what a crypt floor is stained with
+    ("mancha.blood", "Sangue", "blood", "blood", "splash"),
+    ("mancha.bones", "Ossos no chão", "bones", "bone", "bones"),
 ]
 
 
@@ -573,6 +742,57 @@ def build_set(seed):
             piece.update(extra)
         pieces.append(piece)
 
+    def standing(piece_id, label, kind, slot, box, routine, shadow_r, material, foot,
+                 scale=1.0, extra=None):
+        """A thing that stands on a tile: prop or actor. Same rule for both -- the box
+        scales with the tile (ART), the routine follows the box, and the foot is inked by
+        the loop so a stroke thinner than a cell cannot leave the piece floating."""
+        w_cells = int(round(box[0] * scale))
+        h_cells = int(round(box[1] * scale))
+        img = Image.new("RGB", (int(round(w_cells * UX)), int(round(h_cells * UY))), (0, 0, 0))
+        d = ImageDraw.Draw(img)
+        routine(d, w_cells, h_cells)
+        crect(d, w_cells * 0.34, h_cells - 0.75, w_cells * 0.66, h_cells - 0.05,
+              GROUND[foot]["metal"])
+        built = to_ground(img, w_cells, h_cells)
+        shadow = pick_disc(discs, shadow_r * scale)
+        if shadow is None:
+            shadow = emit_disc(round(shadow_r * scale, 2))
+        payload = {"shadow": shadow, "material": material}
+        if extra:
+            payload.update(extra)
+        add(piece_id, label, kind, slot, built["rows"], w_cells, h_cells,
+            {"x": w_cells // 2, "y": h_cells - 1}, built["levels"], payload)
+
+    def emit_disc(rx):
+        """A contact shadow of this radius, made HERE when the tree set has none this big.
+
+        At the cripta's 20x6 resolution the props scale up by ART and the borrowed discs
+        run out -- the tree set's biggest is 6.43 cells. The bank refuses two pieces with
+        the same art, so this is only reached for a radius the tree set does not have.
+        """
+        key = round(rx, 2)
+        for p in pieces:
+            if p.get("disc") and round(p["disc"]["rx"], 2) == key:
+                return p["id"]
+        piece = af.build_shadow(key)
+        piece["id"] = "mancha.sombra.r%s" % ("%g" % key)
+        piece["label"] = "Sombra r%s" % ("%g" % key)
+        piece["kind"] = "decal"
+        piece["slot"] = "mancha"
+        piece["species"] = "sombra"
+        piece["family"] = "mancha.sombra"
+        piece["layer"] = "ground"
+        if "stats" not in piece:
+            rows = piece["cells"]
+            piece["stats"] = {
+                "inkedCells": sum(1 for r in rows for ch in r["g"] if ch != " "),
+                "cellCount": piece["w"] * piece["h"],
+                "colors": len({c for r in rows for c in r["c"] if c})}
+        pieces.append(piece)
+        missing_shadows.append(piece["id"])
+        return piece["id"]
+
     for entry in TILES:
         (pid, label, species, base, speck, feat) = entry
         img = tile(TILE_W, TILE_H, base, speck, feat)
@@ -589,34 +809,27 @@ def build_set(seed):
             {"x": TILE_W // 2, "y": h_cells - 1}, built["levels"],
             {"tile": [TILE_W, TILE_H], "wall": WALL_ROWS, "aspect": 2.0})
     for entry in PROPS:
-        (pid, label, species, (w_cells, h_cells), routine, shadow_r, material, foot) = entry
-        img = Image.new("RGB", (int(round(w_cells * UX)), int(round(h_cells * UY))), (0, 0, 0))
-        d = ImageDraw.Draw(img)
-        routine(d, w_cells, h_cells)
-        # The contact patch is drawn HERE, not left to each routine: a prop has to touch
-        # the tile it stands on, and a stroke thinner than a cell does not survive the
-        # sampling -- the first pass had five props floating above their own shadow.
-        # Its tone is the material's MID tone, not its dark one: measured on the first
-        # pass, a dark patch on a bright piece (mushrooms, flowers, reeds) fell below the
-        # ink level of the piece's own tones and the bottom row came out blank.
-        crect(d, w_cells * 0.34, h_cells - 0.75, w_cells * 0.66, h_cells - 0.05,
-              GROUND[foot]["metal"])
-        built = to_ground(img, w_cells, h_cells)
-        shadow = pick_disc(discs, shadow_r)
-        if shadow is None:
-            missing_shadows.append(pid)
-        add(pid, label, "prop", "prop", built["rows"], w_cells, h_cells,
-            {"x": w_cells // 2, "y": h_cells - 1}, built["levels"],
-            {"shadow": shadow, "material": material})
+        (pid, label, species, box, routine, shadow_r, material, foot) = entry
+        standing(pid, label, "prop", "prop", box, routine, shadow_r, material, foot,
+                 scale=ART)
+
+    for entry in ACTORS:
+        (pid, label, species, box, routine, shadow_r, material, foot) = entry
+        # the actor boxes are authored at the 20-cell tile (ART = 2), so they follow the
+        # resolution at ART/2: an actor is a fixed thing in the world, but the WORLD is
+        # what changes size.
+        standing(pid, label, "actor", "ator", box, routine, shadow_r, material, foot,
+                 scale=ART / 2.0, extra={"facing": [1, -1], "layer": "actor"})
 
     for entry in DECALS:
-        (pid, label, species, (w_cells, h_cells), material) = entry
+        (pid, label, species, material, shape) = entry
         colour = g(material)
-        img = d_patch(w_cells, h_cells, colour, colour, colour, w_cells * h_cells * 0.8)
-        built = to_ground(img, w_cells, h_cells)
-        add(pid, label, "decal", "mancha", quiet(built["rows"], 0.62), w_cells, h_cells,
-            {"x": w_cells // 2, "y": h_cells // 2}, built["levels"],
-            {"layer": "ground", "material": material, "tile": [TILE_W, TILE_H]})
+        img = d_patch(TILE_W, TILE_H, colour, shape, TILE_W * TILE_H * 0.10)
+        built = to_ground(img, TILE_W, TILE_H)
+        add(pid, label, "decal", "mancha", quiet(built["rows"], 0.62), TILE_W, TILE_H,
+            {"x": TILE_W // 2, "y": TILE_H // 2}, built["levels"],
+            {"layer": "ground", "material": material, "shape": shape,
+             "tile": [TILE_W, TILE_H]})
 
     return pieces, missing_shadows
 
@@ -700,6 +913,48 @@ def preview_seam(piece, n=4):
 
 
 # --- composing a scene ------------------------------------------------------------
+# Two scenes, one machine. The layout is data: where the floor is, what is painted on it,
+# what stands on it and what walks on it. The draw order is the engine's --
+# floor -> decal -> shadow -> prop/actor -- because that is the order the game uses, and a
+# scene assembled in another order would not prove anything about the game.
+SCENES = {
+    "externo": {
+        "label": "Um ambiente externo",
+        "note": ("Pisos emendados no losango iso, uma trilha de terra por cima, manchas, "
+                 "muros nas duas bordas de trás e props plantados nas suas tiles com a "
+                 "sombra composta embaixo — na MESMA ordem de desenho do motor: "
+                 "<b>piso → mancha → sombra → prop</b>. Nada aqui foi posicionado à mão."),
+        "size": (11, 7), "floor": "piso.grass", "path": "piso.dirt",
+        "pathTiles": {(2, 1), (2, 2), (3, 2), (3, 3), (4, 3), (4, 4), (5, 4)},
+        "decals": [("mancha.grass", 0, 0), ("mancha.moss", 5, 1), ("mancha.puddle", 4, 5)],
+        "walls": [("bloco.rock", i, 6) for i in range(10)] +
+                 [("bloco.cave", 10, j) for j in range(7)],
+        "standing": [("prop.torch", 1, 4), ("prop.torch", 6, 1), ("prop.barrel", 6, 2),
+                     ("prop.crate", 9, 4), ("prop.boulder", 0, 2), ("prop.reeds", 3, 0),
+                     ("prop.flowers", 1, 1), ("prop.column", 5, 5), ("prop.stump", 9, 0)],
+    },
+    "cripta": {
+        "label": "Uma cripta, à moda Diablo",
+        "note": ("A mesma máquina de montar, outro arranjo: laje de pedra, uma faixa de "
+                 "calçamento gasto, muros de tijolo nas duas bordas de trás, tochas neles, "
+                 "sangue e ossos no chão, e <b>os atores</b> — o herói (12 células de "
+                 "altura, o tamanho que a cripta desenha o dela) e três dos mortos, cada "
+                 "um com a sua sombra de contato."),
+        "size": (9, 7), "floor": "piso.stone", "path": "piso.cobble",
+        "pathTiles": {(2, 3), (3, 3), (3, 4), (4, 4), (2, 5), (4, 5), (5, 5)},
+        "decals": [("mancha.blood", 4, 2), ("mancha.bones", 2, 4), ("mancha.moss", 6, 0),
+                   ("mancha.blood", 5, 5)],
+        "walls": [("bloco.brick", i, 6) for i in range(8)] +
+                 [("bloco.brick", 8, j) for j in range(7)],
+        "standing": [("prop.torch", 0, 6), ("prop.torch", 8, 2), ("prop.brazier", 6, 4),
+                     ("prop.column", 1, 1), ("prop.column", 7, 0), ("prop.barrel", 5, 1),
+                     ("prop.crate", 4, 6), ("prop.bones", 0, 3),
+                     ("ator.heroi", 3, 5), ("ator.esqueleto", 5, 3),
+                     ("ator.esqueleto", 1, 4), ("ator.ghoul", 6, 2)],
+    },
+}
+
+
 def blit(canvas, colors, piece, x, y):
     """Place a piece so its ANCHOR lands on (x, y) -- the same rule the engine uses, and
     the only reason a prop sits on a tile instead of near it."""
@@ -720,23 +975,22 @@ def iso_xy(i, j, tw, th):
     return (i - j) * (tw // 2), (i + j) * (th // 2)
 
 
-def scene_cells(by_id, size=(11, 7), floor="piso.grass", path="piso.dirt"):
-    """An environment, composed, as raw cells: a floor of tiles, a path over it, decals,
-    props standing on their tiles with their contact shadows, and walls on the two back
-    edges.
+def scene_cells(by_id, name="externo"):
+    """An environment, composed, as raw cells.
 
     Returns (canvas, colors, placed), where `placed` is what was planted and where -- so a
     check can verify the COMPOSITION (the anchor really holds its cell) instead of hunting
     for a substring that a later piece may legitimately have overdrawn.
 
-    The canvas is sized to the DIAMOND the lattice actually fills, plus headroom: a prop
-    is taller than the tile it stands on, so it rises above the floor and the top of the
-    picture is where the tallest thing is.
+    The canvas is sized to the DIAMOND the lattice actually fills, plus headroom: a prop or
+    an actor is taller than the tile it stands on, so it rises above the floor and the top
+    of the picture is where the tallest thing is.
     """
+    cfg = SCENES[name]
     tw, th = TILE_W, TILE_H
-    cols, rows = size
+    cols, rows = cfg["size"]
     span = cols + rows - 2
-    head = 13
+    head = 24 if name == "cripta" else 13
     width = span * (tw // 2) + tw
     height = head + span * (th // 2) + th + 4
     canvas = [[" "] * width for _ in range(height)]
@@ -754,7 +1008,6 @@ def scene_cells(by_id, size=(11, 7), floor="piso.grass", path="piso.dirt"):
         placed.append((piece_id, at[0], at[1]))
         return piece
 
-    path_tiles = {(2, 1), (2, 2), (3, 2), (3, 3), (4, 3), (4, 4), (5, 4)}
     # The floor is drawn over a lattice range WIDER than the grid: the (i, j) grid is a
     # rectangle in lattice space, and the rhombi of a rectangle do not fill the rectangle
     # of the canvas -- the corners are covered by tiles that are outside the grid's own
@@ -762,23 +1015,18 @@ def scene_cells(by_id, size=(11, 7), floor="piso.grass", path="piso.dirt"):
     for j in range(-3, rows + 4):
         for i in range(-3, cols + 4):
             inside = 0 <= i < cols and 0 <= j < rows
-            pid = path if inside and (i, j) in path_tiles else floor
+            pid = cfg["path"] if inside and (i, j) in cfg["pathTiles"] else cfg["floor"]
             put(pid, i, j)
     # decals go with the floor, before anything stands on it (the engine's draw order)
-    for (pid, i, j) in (("mancha.grass", 0, 0), ("mancha.moss", 5, 1),
-                        ("mancha.puddle", 4, 5)):
+    for (pid, i, j) in cfg["decals"]:
         put(pid, i, j)
     # walls along the two back edges: a block anchors at the tile's FRONT corner
-    for i in range(cols - 1):
-        put("bloco.rock", i, rows - 1, dy=th // 2)
-    for j in range(rows):
-        put("bloco.cave", cols - 1, j, dy=th // 2)
-    # props on their tiles, with the shadow composed underneath. Spaced so no prop's
-    # ANCHOR falls inside a later prop's box: stacking them is allowed in a real scene
+    for (pid, i, j) in cfg["walls"]:
+        put(pid, i, j, dy=th // 2)
+    # props and actors on their tiles, with the shadow composed underneath. Spaced so no
+    # ANCHOR falls inside a later piece's box: stacking them is allowed in a real scene
     # (the engine draws in order), but then the demo cannot show that the anchor holds.
-    for (pid, i, j) in (("prop.torch", 1, 4), ("prop.torch", 6, 1), ("prop.barrel", 6, 2),
-                        ("prop.crate", 9, 4), ("prop.boulder", 0, 2), ("prop.reeds", 3, 0),
-                        ("prop.flowers", 1, 1), ("prop.column", 5, 5), ("prop.stump", 9, 0)):
+    for (pid, i, j) in cfg["standing"]:
         piece = by_id.get(pid)
         if not piece:
             continue
@@ -792,9 +1040,9 @@ def scene_cells(by_id, size=(11, 7), floor="piso.grass", path="piso.dirt"):
     return canvas, colors, placed
 
 
-def compose_scene(by_id, **kw):
+def compose_scene(by_id, name="externo"):
     """The composed environment as run-length markup, plus what was planted where."""
-    (canvas, colors, placed) = scene_cells(by_id, **kw)
+    (canvas, colors, placed) = scene_cells(by_id, name)
     rows_out = [{"g": "".join(r), "c": colors[k]} for k, r in enumerate(canvas)]
     html, _inked = af.run_length_html(rows_out)
     return html, placed
@@ -847,9 +1095,7 @@ PAGE_HEAD = """<!DOCTYPE html>
 </style></head><body><div class="wrap">
 <h1>artforge — cenário</h1>
 <p class="lede">__LEDE__</p>
-<h2>Um ambiente, composto</h2>
-<p class="lede">__SCENENOTE__</p>
-<div class="card"><div class="gridbox"><div class="stage"><pre>__SCENE__</pre></div></div></div>
+__SCENES__
 <h2>O piso emenda consigo mesmo</h2>
 <p class="lede">__SEAMNOTE__</p>
 __TILES__
@@ -861,10 +1107,18 @@ __SHEETS__
 
 def build_html(payload, pieces):
     by_id = {p["id"]: p for p in pieces}
-    scene, _placed = compose_scene(by_id)
+    scenes = []
+    for name in ("cripta", "externo"):
+        cfg = SCENES[name]
+        scene, _placed = compose_scene(by_id, name)
+        scenes.append('<h2>%s</h2>\n<p class="lede">%s</p>\n'
+                      '<div class="card"><div class="gridbox"><div class="stage">'
+                      '<pre>%s</pre></div></div></div>'
+                      % (cfg["label"], cfg["note"], scene))
     tiles = [p for p in pieces if p["slot"] == "piso"]
     sheets = []
-    for (slot, label) in (("bloco", "blocos"), ("prop", "props"), ("mancha", "manchas")):
+    for (slot, label) in (("bloco", "blocos"), ("prop", "props"), ("ator", "atores"),
+                          ("mancha", "manchas")):
         group = [p for p in pieces if p["slot"] == slot]
         if not group:
             continue
@@ -916,19 +1170,19 @@ def build_html(payload, pieces):
     table.append("</table></div>")
 
     fs = 12.0
-    lede = ("<b>%d peças</b> de cenário em <b>quatro slots</b> — %d pisos, %d blocos, "
-            "%d props e %d manchas — para compor ambiente externo ou interno. O piso é "
-            "<b>%d × %d células</b> (%.0f × %.0f px, 2:1 na tela), o bloco tem %d linhas de "
-            "parede, o prop pisa no tile com <b>mancha de contato</b> e a mancha é desenhada "
-            "junto com o piso e nunca oclui."
+    lede = ("<b>%d peças</b> de cenário em <b>cinco slots</b> — %d pisos, %d blocos, "
+            "%d props, %d atores e %d manchas — para compor ambiente externo ou interno, "
+            "na resolução do projeto de teste: o piso é <b>%d × %d células</b> "
+            "(%.0f × %.0f px, 2:1 na tela) e o bloco tem %d linhas de parede, que é o "
+            "<code>tileCellsW: 20, tileCellsH: 6, wallHeightCells: 8</code> da cripta. "
+            "A arte é desenhada sobre uma base de %d células e multiplicada por "
+            "<b>ART = %.1f</b>, exatamente a convenção que a cripta usa para a arte dela: "
+            "um desenho serve as duas resoluções."
             % (len(pieces), len(tiles), sum(1 for p in pieces if p["slot"] == "bloco"),
                sum(1 for p in pieces if p["slot"] == "prop"),
+               sum(1 for p in pieces if p["slot"] == "ator"),
                sum(1 for p in pieces if p["slot"] == "mancha"), TILE_W, TILE_H,
-               TILE_W * af.CELL_W, TILE_H * af.CELL_H, WALL_ROWS))
-    scene_note = ("Pisos emendados no losango iso, uma trilha de terra por cima, manchas, "
-                  "muros nas duas bordas de trás e props plantados nas suas tiles com a "
-                  "sombra composta embaixo — na MESMA ordem de desenho do motor: "
-                  "<b>piso → mancha → sombra → prop</b>. Nada aqui foi posicionado à mão.")
+               TILE_W * af.CELL_W, TILE_H * af.CELL_H, WALL_ROWS, BASE_TILE_W, ART))
     seam_note = ("Cada piso repetido 3×3 nos seus próprios deslocamentos (meia tile de "
                  "largura, meia de altura por passo), que é onde a repetição aparece se "
                  "não emendar. A medida: com o escalonamento iso o vizinho está <b>meia "
@@ -937,17 +1191,19 @@ def build_html(payload, pieces):
                  "figura</b>, e uma textura desenhada sem dar a volta aparece como "
                  "células que mudam.")
     footer = ("Gerado por <code>scenery.py</code> · conjunto em <code>assets/scenery.json</code> · "
-              "peças em <code>bank.py ingest assets/scenery.json</code>")
+              "peças em <code>bank.py ingest assets/scenery.json</code><br>"
+              "Atores: <code>art.entity[kind]</code> do motor — desenhados de frente para a "
+              "<b>direita</b>, porque <code>facing = -1</code> é o espelho do mesmo desenho.")
     html = PAGE_HEAD
     for (marker, value) in (("__FS__", ("%.2f" % fs).rstrip("0").rstrip(".")),
-                            ("__LEDE__", lede), ("__SCENENOTE__", scene_note),
-                            ("__SCENE__", scene), ("__SEAMNOTE__", seam_note),
+                            ("__LEDE__", lede), ("__SCENES__", "\n".join(scenes)),
+                            ("__SEAMNOTE__", seam_note),
                             ("__TILES__", "\n".join(tile_cards)),
                             ("__SHEETS__", "\n".join(sheets) + "\n" + "\n".join(table)),
                             ("__FOOTER__", footer)):
         html = html.replace(marker, value)
-    for marker in ("__FS__", "__LEDE__", "__SCENENOTE__", "__SCENE__", "__SEAMNOTE__",
-                   "__TILES__", "__SHEETS__", "__FOOTER__"):
+    for marker in ("__FS__", "__LEDE__", "__SCENES__", "__SEAMNOTE__", "__TILES__",
+                   "__SHEETS__", "__FOOTER__"):
         if marker in html:
             raise SystemExit("marker survived the build: %s" % marker)
     if "<script" in html:
@@ -958,9 +1214,19 @@ def build_html(payload, pieces):
 
 
 def main():
+    global TILE_W, TILE_H, WALL_ROWS, ART
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    ap.add_argument("--tile", type=int, default=TILE_W,
+                    help="largura da tile em células (10 ou 20). A altura segue a "
+                         "proporção do motor, w*3/10, e a parede, w*4/10 -- que é o "
+                         "tileCellsW/tileCellsH/wallHeightCells da cripta.")
     args = ap.parse_args()
+    if args.tile != TILE_W:
+        TILE_W = args.tile
+        TILE_H = max(2, int(round(args.tile * 0.3)))
+        WALL_ROWS = max(1, int(round(args.tile * 0.4)))
+        ART = TILE_W / float(BASE_TILE_W)
     pieces, missing = build_set(args.seed)
     payload = write_json(pieces, args.seed, missing)
     build_html(payload, pieces)

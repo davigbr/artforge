@@ -459,11 +459,14 @@ def render_res(e, by_id):
     size it against, and a box that hugs its content makes a ragged gallery.
     """
     piece, payload = by_id[e["id"]]
-    if e["slot"] == "prop":
+    if e["slot"] in ("prop", "ator"):
         shadow = by_id.get(e["shadow"], (None, None))[0]
         rows, _ground = compose(piece, shadow, payload.get("floorTone"))
-        detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>" % (
-            e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-")
+        extra = (" · <b>ator</b>: <code>art.entity[kind]</code>, facing ±1"
+                 if e["slot"] == "ator" else "")
+        detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>%s" % (
+            e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-",
+            extra)
     elif e["slot"] == "mancha":
         if piece.get("disc"):
             rows, _ground = compose_decal(piece)
