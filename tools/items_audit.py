@@ -335,7 +335,7 @@ def section_c(geometry):
     bg = img.getpixel((5, 5))
     check("the page paints a panel background", sum(bg) < 200, "corner %s" % (bg,))
     written = 0
-    skipped = []
+    skipped, keep = [], set()
     for entry in geometry:
         if not entry["id"].startswith(("weapon-", "armor-", "jewelry-")):
             continue
@@ -345,11 +345,18 @@ def section_c(geometry):
         if box[2] <= box[0] or box[3] <= box[1]:
             skipped.append("%s %s" % (entry["id"], box))
             continue
-        img.crop(box).save(os.path.join(CROPS, "item-%s.png" % entry["id"]))
+        name = "item-%s.png" % entry["id"]
+        keep.add(name)
+        img.crop(box).save(os.path.join(CROPS, name))
         written += 1
-    check("a crop per item for looking", written >= len(items_expected()),
+    # A crop from a previous run with fewer items is a lie waiting to be looked at.
+    stale = [f for f in os.listdir(CROPS) if f not in keep]
+    for f in stale:
+        os.remove(os.path.join(CROPS, f))
+    check("a crop per item for looking, no orphans from an older set",
+          written >= len(items_expected()) and not stale,
           "%d crops in %s%s" % (written, os.path.relpath(CROPS, HERE),
-                                " skipped: " + "; ".join(skipped[:2]) if skipped else ""))
+                                " (removed %d stale)" % len(stale) if stale else ""))
 
 
 def items_expected():
