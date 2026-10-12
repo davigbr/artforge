@@ -653,6 +653,27 @@ def w_armor(d, w, h, detail, style, metal, leather, fitting, gem=None):
                 cellipse(d, cx, top + h * 0.44, 0.9, 0.9, gem["metal"])
 
 
+# The aspect each piece is meant to have ON SCREEN (ink width / ink height in pixels).
+#
+# A text cell is 1.66x taller than wide, so "the box looks right" in cells says nothing
+# about how the piece reads: the chests sat at 0.60 (a column, not a torso) and the
+# great helm at 0.77 while a helm is about square. Declared here so it can be checked --
+# a number nobody wrote down is a number nobody can regress. (Rounded down to two
+# decimals from the measurement, so the check catches drift, not float noise.)
+ASPECT = {
+    "weapon.dagger": 0.43, "weapon.sword.short": 0.27, "weapon.sword.long": 0.24,
+    "weapon.sword.great": 0.28, "weapon.mace": 0.28, "weapon.warhammer": 0.47,
+    "weapon.axe": 0.34, "weapon.battleaxe": 0.42, "weapon.spear": 0.24,
+    "weapon.halberd": 0.24, "weapon.bow": 0.38, "weapon.staff": 0.24,
+    "armor.helm.cap": 1.08, "armor.helm.iron": 0.92, "armor.helm.great": 0.91,
+    "armor.helm.horned": 1.14, "armor.helm.hood": 0.70, "armor.helm.crown": 1.08,
+    "armor.chest.leather": 1.03, "armor.chest.chain": 1.03, "armor.chest.plate": 1.03,
+    "armor.chest.scale": 1.03, "armor.chest.robe": 0.80, "armor.chest.gilded": 1.03,
+    "armor.shield.round": 1.05, "armor.shield.kite": 0.60, "armor.shield.tower": 0.42,
+    "jewelry.ring": 1.00,
+}
+
+
 def w_ring(d, w, h, detail, metal, gem):
     """A band and a stone, and at this size the two circles ARE the read.
 
@@ -660,7 +681,7 @@ def w_ring(d, w, h, detail, metal, gem):
     and the stone all go through circle() -- drawn in cell units they came out as a tall
     oval, which is exactly what the eye was complaining about."""
     cx = w / 2.0
-    r = max(0.9, min(w * 0.34, h * 0.44))
+    r = max(0.9, min(w * 0.42, h * 0.42))
     band = max(0.5, r * 0.32)
     gem_r = max(0.5, r * 0.40)
     ry = r * af.CELL_W / af.CELL_H
@@ -668,8 +689,10 @@ def w_ring(d, w, h, detail, metal, gem):
     circle(d, cx, cy, r, metal["metal"])                       # the band
     circle(d, cx, cy, r - band, (0, 0, 0))                     # the hole: background
     circle(d, cx - r * 0.34, cy - ry * 0.42, r * 0.24, metal["metal_light"])
-    circle(d, cx, cy - ry - gem_r * 0.55, gem_r, gem["metal"])  # the stone
-    circle(d, cx - gem_r * 0.30, cy - ry - gem_r * 0.85, gem_r * 0.34,
+    # The stone sits IN the band's top, not above it: a ring with the stone sticking out
+    # is 0.6 (a lollipop) where a ring is round, and the band is what reads as round.
+    circle(d, cx, cy - ry * 0.52, gem_r, gem["metal"])
+    circle(d, cx - gem_r * 0.30, cy - ry * 0.52 - gem_r * 0.30, gem_r * 0.34,
            shade(gem["metal"], 1.4))
     if detail:
         for angle in range(0, 360, 45):
@@ -702,7 +725,7 @@ ITEMS = [
      dict(metal="steel", haft="wood", fitting="iron")),
     ("weapon.halberd", "Alabarda", "weapon", None, (6, 14), w_polearm,
      dict(metal="steel", haft="wood", fitting="gold", halberd=True)),
-    ("weapon.bow", "Arco", "weapon", None, (9, 13), w_bow,
+    ("weapon.bow", "Arco", "weapon", None, (10, 9), w_bow,
      dict(wood="wood", string="leather", fitting="iron")),
     ("weapon.staff", "Cajado", "weapon", None, (6, 14), w_staff,
      dict(wood="wood", metal="gold", gem_color=(92, 96, 214))),
@@ -712,26 +735,27 @@ ITEMS = [
      dict(metal="leather", leather="leather", fitting="iron")),
     ("armor.helm.iron", "Elmo de ferro", "armor", "iron", (9, 8), w_helm,
      dict(metal="iron", leather="leather", fitting="iron")),
-    ("armor.helm.great", "Elmo fechado", "armor", "great", (9, 9), w_helm,
+    ("armor.helm.great", "Elmo fechado", "armor", "great", (9, 8), w_helm,
      dict(metal="steel", leather="leather", fitting="gold")),
-    ("armor.helm.horned", "Elmo com chifres", "armor", "horned", (10, 8), w_helm,
+    ("armor.helm.horned", "Elmo com chifres", "armor", "horned", (11, 7), w_helm,
      dict(metal="bronze", leather="leather", fitting="gold")),
-    ("armor.helm.hood", "Capuz", "armor", "hood", (9, 9), w_helm,
+    ("armor.helm.hood", "Capuz", "armor", "hood", (9, 8), w_helm,
      dict(metal="cloth", leather="cloth", fitting="gold")),
     ("armor.helm.crown", "Coroa", "armor", "crown", (9, 7), w_helm,
      dict(metal="gold", leather="leather", fitting="gold", gem_color=(180, 40, 48))),
-    # six chests
-    ("armor.chest.leather", "Gibão de couro", "armor", "leather", (10, 10), w_armor,
+    # six chests. At 10x10 the ink came out 60 x 99 px -- a column, not a torso: the box
+    # was square in CELLS, which is 1.66:1 on screen.
+    ("armor.chest.leather", "Gibão de couro", "armor", "leather", (12, 8), w_armor,
      dict(metal="leather", leather="leather", fitting="iron")),
-    ("armor.chest.chain", "Cota de malha", "armor", "chain", (10, 10), w_armor,
+    ("armor.chest.chain", "Cota de malha", "armor", "chain", (12, 8), w_armor,
      dict(metal="iron", leather="leather", fitting="iron")),
-    ("armor.chest.plate", "Peitoral de placas", "armor", "plate", (10, 10), w_armor,
+    ("armor.chest.plate", "Peitoral de placas", "armor", "plate", (12, 8), w_armor,
      dict(metal="steel", leather="leather", fitting="gold")),
-    ("armor.chest.scale", "Armadura de escamas", "armor", "scale", (10, 10), w_armor,
+    ("armor.chest.scale", "Armadura de escamas", "armor", "scale", (12, 8), w_armor,
      dict(metal="bronze", leather="leather", fitting="gold")),
-    ("armor.chest.robe", "Túnica", "armor", "robe", (10, 11), w_armor,
+    ("armor.chest.robe", "Túnica", "armor", "robe", (12, 9), w_armor,
      dict(metal="cloth", leather="cloth", fitting="gold")),
-    ("armor.chest.gilded", "Peitoral dourado", "armor", "gilded", (10, 10), w_armor,
+    ("armor.chest.gilded", "Peitoral dourado", "armor", "gilded", (12, 8), w_armor,
      dict(metal="steel", leather="leather", fitting="gold", gem_color=(180, 40, 48))),
     # three shield shapes
     ("armor.shield.round", "Escudo redondo", "armor", "round", (9, 6), w_shield,
@@ -897,6 +921,7 @@ def build_set(seed):
                 "species": parts[1],
                 "family": ".".join(parts[:2]),
                 "style": style,
+                "aspect": ASPECT.get(item_id),
                 "size": size_id,
                 "size_label": size_label,
                 "box": [w, h],

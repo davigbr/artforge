@@ -132,6 +132,11 @@ Consequências no código, todas em `weapons.py`:
 6. **O tamanho da caixa responde ao traço, inclusive quando o traço é um buraco.** O anel pequeno em 5×5
    saía como um borrão porque o **furo** ficava com menos de uma célula (a célula tem 6,6 × 11 px, não há
    onde pôr um furo de 3 px). Com 7×7 o furo aparece. Sem grade de slots, quem decide é o traço.
+7. **O aspecto se confere em PIXEL, não em célula.** Uma caixa quadrada **em células** é 1,66:1 **na tela** —
+   foi assim que os seis peitorais ficaram com 60 × 99 px, uma coluna onde vai um torso, e o elmo fechado
+   com 0,77 onde um elmo é ~0,9. Cada item **declara o aspecto pretendido** (`aspect` no JSON) e a auditoria
+   mede a caixa de tinta em pixels contra ele (±18%). Sem o número declarado não há como pegar a regressão:
+   "a caixa parece certa" não diz nada sobre como a peça lê.
 
 ## O tamanho responde à legibilidade, não a um footprint
 
@@ -264,6 +269,7 @@ de altura, e uma célula de texto só sabe ser inteira — meio-bloco existe par
 | ícones: redução | `shrink(grande, 2)` cai na grade da pequena em 28/28; o `shrink` do navegador dá **a mesma grade glifo a glifo** que o do Python; o contraste desenhado (65,6) ganha do reduzido (56,9) com a margem de 5 |
 | página | sem canvas, sem imagem, sem requisição externa; sem overflow em 1440×900 e 390×844 |
 | ícones: redondo | todo círculo declarado no JSON tem `ry/rx = 0,602` (a proporção da célula) — o anel pequeno mede **33 × 33 px de tinta** |
+| ícones: aspecto | o aspecto em **pixels** bate com o declarado por item em 28/28 (±18%): torso **73 × 77 px = 0,95** (era 60 × 99 = 0,60), elmo fechado 0,90, com chifres 1,10, redondo 1,05 |
 | banco | `bank.py check`: 126 peças em 2 conjuntos, 46 tags, **zero arte repetida**; `tools/bank_audit.py`: **19/19** — 54 cartões (um por coisa) segurando as 126 peças, cena e itens em seções separadas, todo cartão abrindo na maior resolução, o botão trocando de verdade (e o «copiar» indo junto), filtros contados **em peças** (conifer → 3, mancha → 18, "palm" → 3, icone → 84), a seção esvaziada levando o título embora, e sem JavaScript as 126 resoluções na página |
 
 Checagem que nunca falhou não prova nada: cada limiar aqui tem o valor da regressão ao lado (o boost fraco

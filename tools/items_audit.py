@@ -155,6 +155,24 @@ def section_a(payload):
           not ovals, ", ".join(ovals[:3]) or
           "%d circles across %d pieces, all at dy/dx = %.3f" % (circles, len(pieces), ratio))
 
+    # The SHAPE each piece declares for the screen (weapons.ASPECT). A box that is square
+    # in CELLS is 1.66:1 on screen, and that is exactly how the six chests ended up
+    # 60 x 99 px -- a column where a torso goes. Measured on the small size, against the
+    # declaration: a number nobody wrote down is a number nobody can regress.
+    off_aspect = []
+    for item_id, group in items.items():
+        want = group["small"].get("aspect")
+        if not want:
+            off_aspect.append(item_id + " (no aspect declared)")
+            continue
+        (bw, bh) = ink_bbox(group["small"])
+        got = (bw * wp.af.CELL_W) / max(1e-6, bh * wp.af.CELL_H)
+        if abs(got / want - 1.0) > 0.18:
+            off_aspect.append("%s %.2f want %.2f" % (item_id, got, want))
+    check("every piece has the on-screen shape it declares",
+          not off_aspect, ", ".join(off_aspect[:3]) or
+          "%d items within 18%% of their declared aspect" % len(items))
+
     off_centre, worst_mass = [], 0.0
     for p in pieces:
         (bw, bh) = ink_bbox(p)
