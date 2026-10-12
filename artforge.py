@@ -158,8 +158,13 @@ def leaf_mass(d, rng, cx, cy, rx, pal):
         px = cx + math.cos(a) * rx * rng.uniform(0.84, 1.10)
         py = cy + math.sin(a) * ry * rng.uniform(0.84, 1.10)
         r = rng.uniform(0.26, 0.55) * UY * 0.5
-        lit = (-math.sin(a) * 0.5) - math.cos(a)
-        col = shade(pal["leaf"], 1.45 if lit > 0.6 else (0.60 if lit < -0.2 else 1.0))
+        # Light from ABOVE, slightly left: the whole top edge of the disc is lit and
+        # the whole bottom edge is in shade. Weighting the right side down instead
+        # (a purely lateral light) is what left the topmost row of the crown dimmer
+        # than the row under it -- and "the top face is the brightest" is the cue
+        # that says the camera is looking down at the mass.
+        lit = -math.sin(a) - math.cos(a) * 0.35
+        col = shade(pal["leaf"], 1.45 if lit > 0.55 else (0.58 if lit < -0.35 else 1.0))
         ell(d, px, py, r, r, col)
 
 
@@ -215,7 +220,11 @@ def sp_pine(d, rng, w, h, PXW, PXH, cx, gy, pal):
         y1 = span_bot - i * band * 0.92
         y0 = max(span_top, y1 - band * 1.50)
         half = (0.52 * w * UX) * (1.0 - f) ** 1.15 + 0.06 * w * UX
-        col = mix(pal["leaf"], pal["leaf_dark"], 0.15 + 0.45 * f)
+        # Lit from above: the TIP is the highest surface, so it is the brightest,
+        # and each tier darkens toward the base -- the tier above shades the one
+        # below. The other way round (dark tip, bright base) reads as a flat
+        # triangle seen head-on.
+        col = mix(pal["leaf_dark"], pal["leaf_light"], 0.25 + 0.55 * f)
         # cone body, lit on the left slope
         poly(d, [(cx - half, y1), (cx + half, y1), (cx + half * 0.18, y0), (cx - half * 0.18, y0)],
              mix(col, pal["leaf_dark"], 0.34))
@@ -525,6 +534,7 @@ def build_shadow(rx_cells):
 
 def build_set(seed):
     pieces = []
+    discs = {}                                   # radius -> decal, shared by every prop
     for (sid, label, routine, base_cells, raw_pal, shadow_rx) in SPECIES:
         pal = {
             "brown": boost(raw_pal["brown"]),
@@ -543,7 +553,29 @@ def build_set(seed):
             inked = sum(1 for r in rows for g in r["g"] if g != " ")
             colors = sorted({c for r in rows for c in r["c"] if c})
             prop_id = "tree.%s.%s" % (sid, size_id)
-            shadow_id = prop_id + ".shadow"
+            # The shadow is a function of the DISC, not of the species: one decal per
+            # distinct radius, shared by every prop that needs it. Emitting one per
+            # tree filled the bank with identical art under different ids -- six
+            # pairs of them on the first run.
+            radius = round(shadow_rx * scale, 2)
+            shadow_id = "shadow.disc.r%g" % radius
+            if shadow_id not in discs:
+                shadow = build_shadow(radius)
+                discs[shadow_id] = {
+                    "id": shadow_id,
+                    "kind": "decal",
+                    "layer": "ground",
+                    "w": shadow["w"],
+                    "h": shadow["h"],
+                    "anchor": shadow["anchor"],
+                    "disc": shadow["disc"],
+                    "frames": 1,
+                    "directions": 1,
+                    "cells": shadow["cells"],
+                    "stats": {"inkedCells": sum(1 for r in shadow["cells"] for g in r["g"]
+                                                if g != " "),
+                              "cellCount": shadow["w"] * shadow["h"], "colors": 1},
+                }
             pieces.append({
                 "id": prop_id,
                 "kind": "prop",
@@ -563,24 +595,7 @@ def build_set(seed):
                 "stats": {"inkedCells": inked, "cellCount": built["w"] * built["h"],
                           "colors": len(colors), "seed": piece_seed},
             })
-            shadow = build_shadow(shadow_rx * scale)
-            pieces.append({
-                "id": shadow_id,
-                "kind": "decal",
-                "layer": "ground",
-                "for": prop_id,
-                "species": sid,
-                "size": size_id,
-                "w": shadow["w"],
-                "h": shadow["h"],
-                "anchor": shadow["anchor"],
-                "disc": shadow["disc"],
-                "frames": 1,
-                "directions": 1,
-                "cells": shadow["cells"],
-                "stats": {"inkedCells": sum(1 for r in shadow["cells"] for g in r["g"] if g != " "),
-                          "cellCount": shadow["w"] * shadow["h"], "colors": 1},
-            })
+    pieces.extend(discs[key] for key in sorted(discs))
     return pieces
 
 
@@ -594,6 +609,7 @@ def write_json(pieces, seed):
         "version": 1,
         "generator": "artforge %s" % VERSION,
         "set": "trees",
+        "label": "Árvores estáticas",
         "kinds": ["prop", "decal"],
         "seed": seed,
         "cell": {"w": CELL_W, "h": CELL_H, "aspect": round(CELL_ASPECT, 4)},

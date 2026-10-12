@@ -47,8 +47,12 @@ def section_a():
     pieces = payload["pieces"]
     props = [p for p in pieces if p["kind"] == "prop"]
     decals = {p["id"]: p for p in pieces if p["kind"] == "decal"}
-    check("catalogue shape", len(props) == 24 and len(decals) == 24,
-          "%d props + %d decals" % (len(props), len(decals)))
+    check("catalogue shape", len(props) == 24 and 0 < len(decals) <= 24,
+          "%d props + %d shared discs" % (len(props), len(decals)))
+    referenced = {p.get("shadow") for p in props}
+    check("every shadow id is a shared disc (no per-prop duplicate art)",
+          all(i.startswith("shadow.disc.") for i in referenced) and referenced == set(decals),
+          "%d distinct discs referenced by %d props" % (len(referenced), len(props)))
 
     bad_rows = []
     floating = []
@@ -243,6 +247,33 @@ def section_a():
     check("shadow anchor is the centre of the disc", not bad_anchor, ", ".join(bad_anchor[:3]))
     check("shadow box is flatter than a circle on screen", not box_flat,
           ", ".join(box_flat[:3]) or "24/24 at least 1.2:1 wide to tall")
+    # --- lit from above -------------------------------------------------------
+    # The strongest cue that the camera is looking DOWN at a mass: its top face is
+    # the brightest. Measured on the crown rows: the top of the window against its
+    # bottom. Only asserted for the round-crowned species -- on a conifer the top
+    # of the piece is a narrow tip and on a palm it is trunk, so the window there
+    # measures cell COVERAGE, not lighting, and the number would be meaningless.
+    gradients = []
+    for p in props:
+        if p["species"] not in ("oak", "birch", "willow", "autumn"):
+            continue
+        cut = max(3, int(p["h"] * 0.55))
+        prof = []
+        for i in range(cut):
+            cs = [0.2126 * int(c[1:3], 16) + 0.7152 * int(c[3:5], 16) + 0.0722 * int(c[5:7], 16)
+                  for c in p["cells"][i]["c"] if c]
+            if cs:
+                prof.append(sum(cs) / len(cs))
+        if len(prof) < 3:
+            continue
+        gradients.append((p["id"], 100 * ((prof[0] + prof[1]) - (prof[-1] + prof[-2]))
+                          / max(1.0, prof[-1] + prof[-2])))
+    mean_gradient = sum(g for _i, g in gradients) / max(1, len(gradients))
+    worst_gradient = min(gradients, key=lambda t: t[1])
+    check("crown is lit from above (top brighter than the crown's base)",
+          mean_gradient >= 15.0,
+          "mean +%.0f%%, worst %s %+.0f%% (crown species only)" % (mean_gradient, *worst_gradient))
+
     floor_lum = 0.2126 * int(payload["floorTone"][1:3], 16) + 0.7152 * int(payload["floorTone"][3:5], 16) \
         + 0.0722 * int(payload["floorTone"][5:7], 16)
     shadow_lum = 0.2126 * int(payload["shadowInk"][1:3], 16) + 0.7152 * int(payload["shadowInk"][3:5], 16) \
