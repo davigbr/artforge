@@ -579,7 +579,7 @@ def cmd_ingest(path):
 def cmd_build():
     index = build_index()
     cards = build_page(index)
-    print("bank: %d sets, %d pieces (%d prop cards)" % (len(index["sets"]), len(index["pieces"]), cards))
+    print("bank: %d sets, %d pieces (%d cards)" % (len(index["sets"]), len(index["pieces"]), cards))
     print("  index : %s" % os.path.relpath(INDEX, HERE))
     print("  page  : %s" % os.path.relpath(PAGE, HERE))
 
