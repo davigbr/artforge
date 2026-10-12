@@ -12,6 +12,13 @@ against 33-56% for the rest before this existed.
 
 `scenery` is imported INSIDE the function: scenery imports these modules while it builds,
 so the import has to be late or the two would chase each other.
+
+ONE THING TO KNOW BEFORE COPYING A SELF-TEST: the modules under props/ were verified with
+`weapons.to_cells`, which CENTRES the ink in the box -- right for an item icon, wrong for a
+piece of the world. The set samples with `scenery.to_ground`, which does not move the
+drawing, because a prop's anchor is its FOOT. A routine authored foot-on-the-last-row is
+correct either way; a self-test that uses the centring sampler is not testing the same
+thing the set ships, so re-check against `to_ground` before believing it.
 """
 
 import weapons as wk

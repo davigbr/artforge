@@ -250,6 +250,26 @@ motor (8 células) sobre a face de cima. O prop ancora no pé, como uma árvore.
 desenhado de frente para a direita porque `facing = −1` é o espelho. A mancha carrega o próprio desenho
 (moita, musgo, poça, neve, sangue, ossos) e é pintada com o piso, antes de qualquer coisa pisar nele.
 
+### Regras que custaram iteração (cenário, segunda rodada)
+
+1. **Quem escala com a tile é a caixa; a largura de traço vai junto.** `ART = tile/10` multiplica as
+   caixas dos props — mas largura de traço está em células, e traço desenhado para 10 células fica com
+   metade da espessura em 20, que é espessura que a média de área come (medido: mato seco, juncos, tocha
+   e escada a 19–22% de tinta contra 33–56% do resto). A largura passa pelo mesmo fator, e é por isso que
+   os props novos pegam o kit em `props/kit.py` e não em `weapons.py`.
+2. **A massa da peça tem de estar sobre a âncora.** O estandarte voltou como mastro à esquerda com o pano
+   à direita: desenho correto, pé errado — a tinta caía duas células ao lado da âncora. Conserto: o pano
+   (a massa) vai em cima da âncora e a haste o atravessa. Foi a checagem de âncora que pegou.
+3. **Ator só lê como criatura em pé com pernas SEPARADAS, em tom médio.** O carniçal lia como mancha: as
+   pernas estavam no tom escuro da paleta (glifo preto em fundo preto) e a massa chegava ao chão, o que lê
+   como poça por melhor que seja a cabeça. Conserto: duas colunas de perna com uma célula de vão entre
+   elas, tronco parando acima delas, cabeça sobre pescoço. E o tamanho não é inventado — a cripta desenha
+   o herói dela `A(6)` com `A()=2`, que são 12 células.
+4. **Para olhar a peça, rasterize a grade — não fotografe a cena.** Um screenshot de uma cena de 160
+   células volta reduzido e o modelo de visão não lê nada: nesta rodada ele descreveu "quatro silhuetas
+   deitadas" onde havia quatro figuras em pé, e "cenário vazio" onde havia os bonecos. `tools/raster.py`
+   desenha a grade em pixels (mono + `ImageDraw.text`) e é a única leitura confiável de arte em texto.
+
 ### Regras que custaram iteração (cenário)
 
 1. **O piso emenda com MEIA tile, não com uma.** Com o escalonamento iso o vizinho de uma tile está a
