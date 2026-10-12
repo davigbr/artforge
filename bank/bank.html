@@ -49,7 +49,7 @@
   code { color: var(--accent); }
 </style></head><body><div class="wrap">
 <h1>artforge — banco de peças</h1>
-<p class="lede"><b>1 conjuntos</b>, <b>42 peças</b> (24 props, 18 manchas), indexadas por <b>slot</b> — o vocabulário por que o motor desenha: piso, bloco, prop, ator, mancha, efeito. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile), sua mancha de contato e um <b>hash de conteúdo</b>, para a mesma peça chegando de dois conjuntos ser reconhecida como uma só. Os filtros são só CSS + JS: sem JavaScript a página mostra o banco inteiro.</p>
+<p class="lede"><b>2 conjuntos</b>, <b>90 peças</b> (24 props, 18 manchas, 48 ícones), indexadas por <b>slot</b> — o vocabulário por que o motor desenha: piso, bloco, prop, ator, mancha, efeito, ícone. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula que vai para o centro do tile — ou do slot, num ícone de inventário) e um <b>hash de conteúdo</b>, para a mesma peça chegando de dois conjuntos ser reconhecida como uma só. Os filtros são só CSS + JS: sem JavaScript a página mostra o banco inteiro.</p>
 <div class="bar" id="slots"></div>
 <div class="bar" id="tags"></div>
 <div class="bar"><input class="field" id="q" placeholder="filtrar por id, espécie, tag…" aria-label="filtro"></div>
@@ -441,85 +441,85 @@
      <i style="color:#1a1814">░▒▀▀▒░</i>     </pre></div>
   <div class="meta"><b class="id">tree.autumn.large</b>16 &times; 16 células · âncora 8,15<br>mancha <code>shadow.disc.r6.16</code><br>hash <code>a23036efedf9</code><div class="tags"><span class="tag">autumn</span><span class="tag">foliage</span><span class="tag">large</span><span class="tag slot">prop</span><span class="tag">tree</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;tree.autumn.large&quot;,&quot;kind&quot;:&quot;prop&quot;,&quot;slot&quot;:&quot;prop&quot;,&quot;w&quot;:16,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:8,&quot;y&quot;:15},&quot;shadow&quot;:&quot;shadow.disc.r6.16&quot;,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a23036efedf95637c4704f6fd43df7b44f2f9b38&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.45&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.45&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">░░</i>  
 <i style="color:#1a1814">░████░</i>
   <i style="color:#1a1814">░░</i>  </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.45</b>6 &times; 3 células · âncora 3,1<br>disco rx 2.45 × ry 0.74 células (2:1 na tela)<br>hash <code>b79d163cbb39</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.45&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:6,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;b79d163cbb398f731527c145d08e0041c1db8fd1&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.58&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.58&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">░░░</i>  
  <i style="color:#1a1814">█████</i> 
   <i style="color:#1a1814">░░░</i>  </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.58</b>7 &times; 3 células · âncora 3,1<br>disco rx 2.58 × ry 0.78 células (2:1 na tela)<br>hash <code>d1ae0905b98f</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.58&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:7,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;d1ae0905b98f212143359f0c53fd9aca380617c4&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.72&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.72&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">░▄░</i>  
 <i style="color:#1a1814">░█████░</i>
   <i style="color:#1a1814">░▀░</i>  </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.72</b>7 &times; 3 células · âncora 3,1<br>disco rx 2.72 × ry 0.82 células (2:1 na tela)<br>hash <code>0b10b136dcb2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.72&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:7,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;0b10b136dcb21b3074c645b9339ad5c1a3114b3a&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.86&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r2.86&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▒▄▒░</i> 
 <i style="color:#1a1814">░█████░</i>
  <i style="color:#1a1814">░▒▀▒░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r2.86</b>7 &times; 3 células · âncora 3,1<br>disco rx 2.86 × ry 0.86 células (2:1 na tela)<br>hash <code>cae4166bc762</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r2.86&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:7,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;cae4166bc7620a91b284f28ba0a79cc424adad23&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.13&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.13&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>  <i style="color:#1a1814">▄▄▄▄</i>  
  <i style="color:#1a1814">██████</i> 
   <i style="color:#1a1814">▀▀▀▀</i>  </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.13</b>8 &times; 3 células · âncora 4,1<br>disco rx 3.13 × ry 0.94 células (2:1 na tela)<br>hash <code>c20b80bd516f</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.13&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:8,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;c20b80bd516f0d290180e01f184ed81fdb012006&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.26&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.26&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄░</i> 
 <i style="color:#1a1814">░██████░</i>
  <i style="color:#1a1814">░▀▀▀▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.26</b>8 &times; 3 células · âncora 4,1<br>disco rx 3.26 × ry 0.98 células (2:1 na tela)<br>hash <code>cb542f5d07e2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.26&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:8,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;cb542f5d07e2a02b5407fa1633603f50555df9e2&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.6&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.6&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄░</i> 
  <i style="color:#1a1814">███████</i> 
  <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.6</b>9 &times; 3 células · âncora 4,1<br>disco rx 3.60 × ry 1.08 células (2:1 na tela)<br>hash <code>62f514a9f71d</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.6&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:9,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;62f514a9f71d5ef4580c86b2af539eb951d21763&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.8&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r3.8&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄░</i> 
 <i style="color:#1a1814">░███████░</i>
  <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r3.8</b>9 &times; 3 células · âncora 4,1<br>disco rx 3.80 × ry 1.14 células (2:1 na tela)<br>hash <code>275a5c46e88d</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r3.8&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:9,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;275a5c46e88d0416209b4a59628176dc3bc4b812&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄░</i> 
 <i style="color:#1a1814">▒███████▒</i>
  <i style="color:#1a1814">░▀▀▀▀▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4</b>9 &times; 3 células · âncora 4,1<br>disco rx 4.00 × ry 1.20 células (2:1 na tela)<br>hash <code>ccd4ab0ba17f</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:9,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;ccd4ab0ba17f0db39a8400c6b856ab0db3005174&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.2&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.2&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄▄▄▄▄░</i> 
 <i style="color:#1a1814">░████████</i> 
  <i style="color:#1a1814">░▀▀▀▀▀▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.2</b>10 &times; 3 células · âncora 5,1<br>disco rx 4.20 × ry 1.26 células (2:1 na tela)<br>hash <code>6ed13f7ff9f8</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.2&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:10,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;6ed13f7ff9f8e1567df16ade2a9cd1eca7d7ca25&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.6&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.6&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄▄███▄▄░</i> 
  <i style="color:#1a1814">█████████</i> 
  <i style="color:#1a1814">░▀▀███▀▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.6</b>11 &times; 3 células · âncora 5,1<br>disco rx 4.60 × ry 1.38 células (2:1 na tela)<br>hash <code>b01c742b85ca</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.6&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:11,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;b01c742b85caf0a93ee0a92b7d39e73740dc1dd4&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.8&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.8&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">░▄█████▄░</i> 
 <i style="color:#1a1814">░█████████░</i>
  <i style="color:#1a1814">░▀█████▀░</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.8</b>11 &times; 3 células · âncora 5,1<br>disco rx 4.80 × ry 1.44 células (2:1 na tela)<br>hash <code>a399ab840e72</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.8&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:11,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a399ab840e727f22da50fcf7e0bd4e92878e18b1&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.82&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r4.82&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre> <i style="color:#1a1814">▒▄█████▄▒</i> 
 <i style="color:#1a1814">░█████████░</i>
  <i style="color:#1a1814">▒▀█████▀▒</i> </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r4.82</b>11 &times; 3 células · âncora 5,1<br>disco rx 4.82 × ry 1.45 células (2:1 na tela)<br>hash <code>682b4dd997b8</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r4.82&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:11,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;682b4dd997b8c8651eaea79084c44b224d777eb9&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.09&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.09&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>            
  <i style="color:#1a1814">░▄██████▄░</i> 
  <i style="color:#1a1814">██████████</i> 
@@ -527,7 +527,7 @@
             </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r5.09</b>12 &times; 5 células · âncora 6,2<br>disco rx 5.09 × ry 1.53 células (2:1 na tela)<br>hash <code>19998e96842a</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r5.09&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:12,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;19998e96842aa4a6ce72ee968a6d492cba603c47&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.36&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.36&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>     <i style="color:#1a1814">░░</i>     
  <i style="color:#1a1814">▄▄██████▄▄</i> 
 <i style="color:#1a1814">░██████████░</i>
@@ -535,7 +535,7 @@
      <i style="color:#1a1814">░░</i>     </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r5.36</b>12 &times; 5 células · âncora 6,2<br>disco rx 5.36 × ry 1.61 células (2:1 na tela)<br>hash <code>a302c7d0ac44</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r5.36&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:12,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a302c7d0ac440681bbe5fc1d7638076e40e4ea3e&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.63&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r5.63&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>     <i style="color:#1a1814">░░░</i>     
  <i style="color:#1a1814">░▄███████▄░</i> 
  <i style="color:#1a1814">███████████</i> 
@@ -543,7 +543,7 @@
      <i style="color:#1a1814">░░░</i>     </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r5.63</b>13 &times; 5 células · âncora 6,2<br>disco rx 5.63 × ry 1.69 células (2:1 na tela)<br>hash <code>13891a4ede4d</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r5.63&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:13,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:6,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;13891a4ede4d2eb2e6c34cfd37775cae53b1d438&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r6.16&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r6.16&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>    <i style="color:#1a1814">░▒▄▄▒░</i>    
  <i style="color:#1a1814">▄▄████████▄▒</i> 
 <i style="color:#1a1814">░████████████</i> 
@@ -551,7 +551,7 @@
     <i style="color:#1a1814">░▒▀▀▒░</i>    </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r6.16</b>14 &times; 5 células · âncora 7,2<br>disco rx 6.16 × ry 1.85 células (2:1 na tela)<br>hash <code>734a987eb9f2</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r6.16&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:14,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;734a987eb9f261ddddcfd5667e9bc174af3c4e6f&quot;}">copiar peça</button></div>
 </article>
-<article class="card decal" data-meta="{&quot;id&quot;: &quot;shadow.disc.r6.43&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
+<article class="card mancha" data-meta="{&quot;id&quot;: &quot;shadow.disc.r6.43&quot;, &quot;slot&quot;: &quot;mancha&quot;, &quot;species&quot;: null, &quot;tags&quot;: [&quot;mancha&quot;]}">
   <div class="art" style="background:#3a352c"><pre>   <i style="color:#1a1814">░░▄▄▄▄░░</i>   
  <i style="color:#1a1814">▄██████████▄</i> 
 <i style="color:#1a1814">▒████████████▒</i>
@@ -559,10 +559,760 @@
    <i style="color:#1a1814">░░▀▀▀▀░░</i>   </pre></div>
   <div class="meta"><b class="id"><span class="badge">só a mancha</span>shadow.disc.r6.43</b>14 &times; 5 células · âncora 7,2<br>disco rx 6.43 × ry 1.94 células (2:1 na tela)<br>hash <code>a179f916c3ad</code><div class="tags"><span class="tag slot">mancha</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;shadow.disc.r6.43&quot;,&quot;kind&quot;:&quot;decal&quot;,&quot;slot&quot;:&quot;mancha&quot;,&quot;w&quot;:14,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/trees.json&quot;,&quot;hash&quot;:&quot;a179f916c3ad770eb368f9c14ecf288ae63de72b&quot;}">copiar peça</button></div>
 </article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.dagger.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;dagger&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;curta&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>  <i style="color:#383c40">.</i><i style="color:#383838">.</i>
+  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i>
+  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i>
+ <i style="color:#585850">z</i><i style="color:#b8b8a0">&amp;%</i>
+ <i style="color:#606030">s</i><i style="color:#c0c070">@</i><i style="color:#bcbc70">&amp;</i></pre></div>
+  <div class="meta"><b class="id">weapon.dagger.small</b>4 &times; 5 células · âncora 2,2 (centro)<br>ocupa 1&times;2 slots de 5&times;6 células<br>hash <code>7d40dc2ddc74</code><div class="tags"><span class="tag">arma</span><span class="tag">curta</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.dagger.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:4,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;7d40dc2ddc74e332fe75358846ce2d3495fa24fa&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.dagger.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;dagger&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;curta&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>      
+   <i style="color:#343434">.</i><i style="color:#303030">.</i> 
+   <i style="color:#686870">L</i><i style="color:#646870">s</i> 
+   <i style="color:#606870">?</i><i style="color:#60646c">z</i> 
+   <i style="color:#606870">?</i><i style="color:#60646c">z</i> 
+   <i style="color:#686c74">L</i><i style="color:#646870">s</i> 
+ <i style="color:#a4a498">Y</i><i style="color:#686860">s</i><i style="color:#acaca8">y</i><i style="color:#a8a8a4">j</i><i style="color:#686860">s</i>
+ <i style="color:#ffffe8">@</i><i style="color:#ffffac">%</i><i style="color:#ffffb0">%%</i><i style="color:#ffffac">%</i></pre></div>
+  <div class="meta"><b class="id">weapon.dagger.medium</b>6 &times; 8 células · âncora 3,4 (centro)<br>ocupa 1&times;2 slots de 5&times;6 células<br>hash <code>99abbf9e0fd3</code><div class="tags"><span class="tag">arma</span><span class="tag">curta</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.dagger.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:6,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;99abbf9e0fd3ba96089c69c99234a09ed594519e&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.dagger.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;dagger&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;curta&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+    <i style="color:#383838">.</i><i style="color:#343434">.</i>  
+    <i style="color:#808088">F</i><i style="color:#787c84">(</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+ <i style="color:#3c3c38">.</i>  <i style="color:#848890">C</i><i style="color:#808488">i</i>  
+ <i style="color:#f8f8e4">&amp;</i><i style="color:#ffffd0">@</i><i style="color:#ffffc8">@@@@</i><i style="color:#ffffd4">@</i>
+ <i style="color:#a0a090">e</i><i style="color:#6c6c48">?</i><i style="color:#686838">/</i><i style="color:#d4d080">4</i><i style="color:#ccc878">6</i><i style="color:#686838">*</i><i style="color:#707048">s</i></pre></div>
+  <div class="meta"><b class="id">weapon.dagger.large</b>8 &times; 10 células · âncora 4,5 (centro)<br>ocupa 1&times;2 slots de 5&times;6 células<br>hash <code>22010c784878</code><div class="tags"><span class="tag">arma</span><span class="tag">curta</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.dagger.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:10,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;22010c7848781e5c39d3882aad090eb1bfdc4b44&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.short.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>    
+  <i style="color:#343438">&gt;</i><i style="color:#303030">;</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+ <i style="color:#101010">.</i><i style="color:#808088">t</i><i style="color:#787c80">1</i>
+ <i style="color:#a8a8a8">E</i><i style="color:#fcfcfc">@@</i></pre></div>
+  <div class="meta"><b class="id">weapon.sword.short.small</b>4 &times; 8 células · âncora 2,4 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>37377a076fd6</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.short.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:4,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;37377a076fd60ebda30f9c4fdc56252282ad1527&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.short.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>      
+   <i style="color:#282828">..</i> 
+   <i style="color:#707078">(</i><i style="color:#686c70">J</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#646870">v</i><i style="color:#60646c">T</i> 
+ <i style="color:#606060">s</i><i style="color:#242424">.</i><i style="color:#84888c">3</i><i style="color:#808088">f</i><i style="color:#242424">.</i>
+ <i style="color:#ffffff">@@@@@</i>
+ <i style="color:#888888">1</i><i style="color:#4c4c4c">+</i><i style="color:#a8a09c">x</i><i style="color:#a8a098">Y</i><i style="color:#4c4c4c">!</i></pre></div>
+  <div class="meta"><b class="id">weapon.sword.short.medium</b>6 &times; 12 células · âncora 3,6 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>328453e2550d</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.short.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:6,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:6},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;328453e2550d61d223099408b3fecd892547c5ec&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.short.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+    <i style="color:#282828">.</i><i style="color:#202020">.</i>  
+    <i style="color:#88888c">3</i><i style="color:#808488">f</i>  
+    <i style="color:#788088">{</i><i style="color:#787884">F</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#787c88">{</i><i style="color:#747880">|</i>  
+ <i style="color:#606060">s</i><i style="color:#343434">-</i><i style="color:#303030">.</i><i style="color:#9ca0a4">Z</i><i style="color:#9898a0">e</i><i style="color:#303030">.</i><i style="color:#343434">-</i>
+ <i style="color:#ffffff">@@@@@@@</i>
+ <i style="color:#747474">(</i><i style="color:#444444">;</i><i style="color:#404040">^</i><i style="color:#887060">|</i><i style="color:#806858">)</i><i style="color:#404040">^</i><i style="color:#444444">;</i>
+    <i style="color:#988c80">t</i><i style="color:#8c8078">}</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.sword.short.large</b>8 &times; 16 células · âncora 4,8 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>e9e35f992081</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.short.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;e9e35f99208136ba14e569bc319b047b94e1751a&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.long.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>  <i style="color:#303034">.</i><i style="color:#303030">.</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+ <i style="color:#3c3c38">:</i><i style="color:#a0a4a0">2</i><i style="color:#a0a09c">]</i>
+ <i style="color:#787848">i</i><i style="color:#f0f098">@</i><i style="color:#ecec98">&amp;</i>
+  <i style="color:#b0b068">q</i><i style="color:#a8a864">E</i></pre></div>
+  <div class="meta"><b class="id">weapon.sword.long.small</b>4 &times; 9 células · âncora 2,4 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>e6c2ca078190</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.long.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:4,&quot;h&quot;:9,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;e6c2ca07819052d7ea9dd3f41af0e30ad233c087&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.long.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>      
+   <i style="color:#242424">,</i><i style="color:#202020">_</i> 
+   <i style="color:#707478">I</i><i style="color:#6c7074">}</i> 
+   <i style="color:#646870">i</i><i style="color:#60646c">F</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#6c7074">}</i><i style="color:#686870">{</i> 
+ <i style="color:#e4e4d0">g</i><i style="color:#a8a898">w</i><i style="color:#d0d0c4">X</i><i style="color:#ccd0c0">K</i><i style="color:#a8a898">w</i>
+ <i style="color:#f8f8e0">@</i><i style="color:#c4c474">p</i><i style="color:#d8d070">A</i><i style="color:#d4d070">U</i><i style="color:#c4c478">p</i>
+ <i style="color:#0c0c08">.</i> <i style="color:#7c704c">}</i><i style="color:#786c48">C</i> </pre></div>
+  <div class="meta"><b class="id">weapon.sword.long.medium</b>6 &times; 14 células · âncora 3,7 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>6f489476511b</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.long.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:6,&quot;h&quot;:14,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;6f489476511b1e406b5d91c48cf0131a02212b08&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.long.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+    <i style="color:#242424">.</i><i style="color:#202020">.</i>  
+    <i style="color:#84888c">[</i><i style="color:#808084">l</i>  
+    <i style="color:#808088">l</i><i style="color:#787c84">1</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#80848c">u</i><i style="color:#7c8088">1</i>  
+ <i style="color:#e4e4d0">N</i><i style="color:#b4b4a0">9</i><i style="color:#b0b098">P</i><i style="color:#d8d8c8">$$</i><i style="color:#b0b098">P</i><i style="color:#b4b4a0">9</i>
+ <i style="color:#e8e8d4">&amp;</i><i style="color:#c0c07c">V</i><i style="color:#b8b864">9</i><i style="color:#e8d878">$</i><i style="color:#d8d070">H</i><i style="color:#b8b864">9</i><i style="color:#c0c080">p</i>
+    <i style="color:#583c28">&lt;</i><i style="color:#503424">=</i>  
+    <i style="color:#9c9060">Z</i><i style="color:#908058">l</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.sword.long.large</b>8 &times; 18 células · âncora 4,9 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>029f9e7a0088</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.long.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:18,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:9},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;029f9e7a0088dcd00ada1c55e6204b46878ca985&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.great.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>   <i style="color:#0c0c0c">.</i><i style="color:#747474">}</i><i style="color:#0c0c0c">.</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+<i style="color:#181814">'</i><i style="color:#dcdca0">HH</i><i style="color:#e4e4ac">R</i><i style="color:#ffffc4">&amp;</i><i style="color:#e4e4ac">R</i><i style="color:#dcdca0">HH</i><i style="color:#181814">'</i>
+ <i style="color:#282818">^^</i><i style="color:#807840">f</i><i style="color:#f8e8a4">#</i><i style="color:#787040">C</i><i style="color:#282818">^^</i> 
+   <i style="color:#808044">3</i><i style="color:#ffffa4">Q</i><i style="color:#808044">3</i>   </pre></div>
+  <div class="meta"><b class="id">weapon.sword.great.small</b>9 &times; 11 células · âncora 4,5 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>45a083ff3900</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.great.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;45a083ff39005d5ad84dd44e16d0eaeba2343601&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.great.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+       <i style="color:#505050">s</i><i style="color:#484848">z</i>     
+      <i style="color:#2c3038">;</i><i style="color:#f8f8fc">&amp;&amp;</i><i style="color:#24282c">,</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#e4e8f0">B</i><i style="color:#e8e8f0">g</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#e0e4ec">$</i><i style="color:#e4e8f0">$</i><i style="color:#282c30">^</i>    
+ <i style="color:#0c0c0c">.</i><i style="color:#6c6c60">i</i><i style="color:#303028">===</i><i style="color:#54585c">v</i><i style="color:#f8f8f8">%%</i><i style="color:#505054">L</i><i style="color:#303028">===</i><i style="color:#686860">i</i>
+ <i style="color:#505048">s</i><i style="color:#ffffe8">@</i><i style="color:#ffffbc">&amp;</i><i style="color:#ffffb8">&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;</i><i style="color:#ffffbc">&amp;</i><i style="color:#ffffe8">@</i>
+ <i style="color:#101010">.</i><i style="color:#7c7c70">3</i><i style="color:#404020">rrr</i><i style="color:#58502c">s</i><i style="color:#ac9054">Z</i><i style="color:#a48850">n</i><i style="color:#504c28">z</i><i style="color:#404020">rrr</i><i style="color:#7c7c70">3</i>
+      <i style="color:#787840">}</i><i style="color:#fcfcb4">%</i><i style="color:#fcfcb0">%</i><i style="color:#74703c">{</i>    </pre></div>
+  <div class="meta"><b class="id">weapon.sword.great.medium</b>14 &times; 16 células · âncora 7,8 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>57d6d7a88887</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.great.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;57d6d7a8888701f028cc579e410f05ab30a24bd5&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.sword.great.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;sword&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+         <i style="color:#484848">_</i><i style="color:#444444">:</i>       
+        <i style="color:#64686c">/</i><i style="color:#ffffff">@@</i><i style="color:#606068">c</i>      
+        <i style="color:#848890">{</i><i style="color:#ffffff">@@</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8e0e8">H</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#f4f4f8">N</i><i style="color:#f4f8f8">W</i><i style="color:#788088">|</i>      
+  <i style="color:#ccccbc">4</i><i style="color:#c8c8b4">d</i><i style="color:#b8b8a4">EEEE</i><i style="color:#dce0c8">X</i><i style="color:#ffffe8">@@</i><i style="color:#dcdcc8">K</i><i style="color:#b8b8a4">EEEE</i><i style="color:#ccccb8">d</i><i style="color:#c4c4b4">6</i>
+  <i style="color:#c8c8b8">h</i><i style="color:#c0c08c">w</i><i style="color:#b0b05c">YYYY</i><i style="color:#dcd070">4</i><i style="color:#f8e07c">H</i><i style="color:#e8d478">O</i><i style="color:#ccc068">k</i><i style="color:#b0b05c">YYYY</i><i style="color:#c0c08c">q</i><i style="color:#c0c0b0">k</i>
+        <i style="color:#604428">,</i><i style="color:#a47048">J</i><i style="color:#906040">z</i><i style="color:#4c3020">.</i>      
+        <i style="color:#645030">=</i><i style="color:#bca45c">Z</i><i style="color:#b8a05c">e</i><i style="color:#544028">:</i>      
+       <i style="color:#202010">.</i><i style="color:#f0f084">$</i><i style="color:#ffffcc">&amp;</i><i style="color:#ffffc8">&amp;</i><i style="color:#f0f080">D</i><i style="color:#1c1c10">.</i>     </pre></div>
+  <div class="meta"><b class="id">weapon.sword.great.large</b>18 &times; 22 células · âncora 9,11 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>2da83dbddf29</code><div class="tags"><span class="tag">arma</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.sword.great.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:22,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:11},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;2da83dbddf296250af7acf345fe21d58bf27e986&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.mace.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;mace&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;contundente&quot;, &quot;icone&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>  <i style="color:#383840">&gt;</i>  
+ <i style="color:#889098">Z</i><i style="color:#c4c8d0">A</i><i style="color:#848898">e</i> 
+ <i style="color:#b8bcc8">p</i><i style="color:#989ca8">a</i><i style="color:#8890a0">Z</i> 
+ <i style="color:#44484c">*</i><i style="color:#b0b8c8">4</i><i style="color:#40444c">c</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4b070">d</i><i style="color:#201810">.</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4a458">P</i><i style="color:#20140c">.</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4a458">P</i><i style="color:#20140c">.</i> 
+ <i style="color:#201810">.</i><i style="color:#e8c094">U</i><i style="color:#201814">.</i> 
+ <i style="color:#48484c">/</i><i style="color:#e8f0ff">@</i><i style="color:#48484c">/</i> </pre></div>
+  <div class="meta"><b class="id">weapon.mace.small</b>5 &times; 9 células · âncora 2,4 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>d8fd5c7b3797</code><div class="tags"><span class="tag">arma</span><span class="tag">contundente</span><span class="tag slot">icone</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.mace.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:5,&quot;h&quot;:9,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;d8fd5c7b3797f1c15d9a325ce7a58864f09dbc42&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.mace.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;mace&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;contundente&quot;, &quot;icone&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+   <i style="color:#2c3034">=</i><i style="color:#444448">c</i><i style="color:#c4c4c4">O</i>  
+ <i style="color:#101418">.</i><i style="color:#888890">n</i><i style="color:#ccd0d8">K</i><i style="color:#ccd4e0">X</i><i style="color:#989ca4">y</i><i style="color:#0c1010">.</i> 
+ <i style="color:#303038">;</i><i style="color:#c4c8d0">b</i><i style="color:#f8f8f8">@</i><i style="color:#b8c0cc">V</i><i style="color:#9ca4b4">2</i><i style="color:#606060">J</i><i style="color:#181818">.</i>
+ <i style="color:#303034">;</i><i style="color:#c8ccd8">U</i><i style="color:#b8bcc8">4</i><i style="color:#7c8494">u</i><i style="color:#808898">u</i><i style="color:#6c6c70">i</i><i style="color:#202020">'</i>
+ <i style="color:#141418">.</i><i style="color:#88909c">Z</i><i style="color:#d4dce8">R</i><i style="color:#acb4c0">6</i><i style="color:#848894">n</i><i style="color:#141418">.</i> 
+   <i style="color:#807060">}</i><i style="color:#807468">f</i><i style="color:#d0d0d0">X</i>  
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#988060">u</i><i style="color:#846c54">{</i>   </pre></div>
+  <div class="meta"><b class="id">weapon.mace.medium</b>8 &times; 14 células · âncora 4,7 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>6780a5d41ba4</code><div class="tags"><span class="tag">arma</span><span class="tag">contundente</span><span class="tag slot">icone</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.mace.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:14,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:7},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;6780a5d41ba43a31b79212adc55aeae881b15b9c&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.mace.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;mace&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;contundente&quot;, &quot;icone&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>          
+    <i style="color:#34383c">=</i><i style="color:#303438">^</i><i style="color:#b0b0b0">w</i><i style="color:#4c4c4c">*</i>  
+  <i style="color:#18181c">.</i><i style="color:#bcc0c4">9</i><i style="color:#bcc0c8">d</i><i style="color:#bcc4d0">4</i><i style="color:#e4e8f0">$</i><i style="color:#181818">.</i>  
+  <i style="color:#848894">l</i><i style="color:#d0d0d8">U</i><i style="color:#ffffff">@</i><i style="color:#f4f8ff">Q</i><i style="color:#bcc4d0">4</i><i style="color:#808894">t</i>  
+  <i style="color:#d0d4e0">K</i><i style="color:#ffffff">@</i><i style="color:#dce0e4">8</i><i style="color:#888c9c">[</i><i style="color:#848c9c">[</i><i style="color:#c4ccd4">O</i><i style="color:#989898">Z</i><i style="color:#303030">_</i>
+  <i style="color:#9ca0ac">j</i><i style="color:#c4ccd8">O</i><i style="color:#a0a8b4">a</i><i style="color:#7c8494">11</i><i style="color:#6c7480">i</i>  
+  <i style="color:#484850">c</i><i style="color:#e0e8f4">#</i><i style="color:#d4dce8">m</i><i style="color:#a8b0c0">w</i><i style="color:#8890a0">n</i><i style="color:#505460">?</i>  
+   <i style="color:#242828">-</i><i style="color:#989494">o</i><i style="color:#787478">{</i><i style="color:#d8d8d8">K</i><i style="color:#282828">-</i>  
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i><i style="color:#383838">=</i><i style="color:#343434">^</i>  
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b89c70">x</i><i style="color:#987c64">3</i>    </pre></div>
+  <div class="meta"><b class="id">weapon.mace.large</b>10 &times; 18 células · âncora 5,9 (centro)<br>ocupa 1&times;3 slots de 5&times;9 células<br>hash <code>2cad6fce39ba</code><div class="tags"><span class="tag">arma</span><span class="tag">contundente</span><span class="tag slot">icone</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.mace.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:10,&quot;h&quot;:18,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:9},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;2cad6fce39bac62363937d29ef50c3c8519f1bec&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.warhammer.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;warhammer&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;contundente&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>         
+<i style="color:#101010">.</i><i style="color:#343434">&lt;&lt;</i><i style="color:#242428">,</i><i style="color:#202028">_</i><i style="color:#202428">,</i><i style="color:#343434">&lt;&lt;</i><i style="color:#101010">.</i>
+<i style="color:#404040">c</i><i style="color:#e8ecf0">%%</i><i style="color:#a8b0c8">9</i><i style="color:#98a4c0">w</i><i style="color:#a4b0c8">6</i><i style="color:#e8ecf0">%%</i><i style="color:#484848">z</i>
+ <i style="color:#202028">__</i><i style="color:#3c3834">!</i><i style="color:#d0a06c">k</i><i style="color:#383030">&lt;</i><i style="color:#202028">__</i><i style="color:#08080c">.</i>
+   <i style="color:#24201c">_</i><i style="color:#e8d0b8">R</i><i style="color:#20201c">:</i>   
+   <i style="color:#281c10">:</i><i style="color:#e0a058">P</i><i style="color:#20140c">'</i>   
+   <i style="color:#281c10">:</i><i style="color:#e0a058">P</i><i style="color:#20140c">'</i>   
+   <i style="color:#282018">_</i><i style="color:#e4c094">U</i><i style="color:#241c14">-</i>   </pre></div>
+  <div class="meta"><b class="id">weapon.warhammer.small</b>9 &times; 8 células · âncora 4,4 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>b22b66848af0</code><div class="tags"><span class="tag">arma</span><span class="tag">contundente</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.warhammer.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;b22b66848af07ccb8bec070b982be0b68b4c142c&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.warhammer.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;warhammer&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;contundente&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+  <i style="color:#303030">:</i><i style="color:#343434">__</i><i style="color:#303034">:</i><i style="color:#202028">....</i><i style="color:#343434">_</i><i style="color:#3c3c3c">=</i><i style="color:#68686c">7</i><i style="color:#545868">s</i>
+  <i style="color:#d8d8e0">#</i><i style="color:#e8ecf0">%%</i><i style="color:#e0e4ec">M</i><i style="color:#98a4c0">2222</i><i style="color:#e8e8f0">Q</i><i style="color:#ecf0f4">@</i><i style="color:#f0f0f4">@</i><i style="color:#8890ac">o</i>
+  <i style="color:#1c2024">.</i><i style="color:#202028">....</i><i style="color:#e4b874">4</i><i style="color:#c49064">x</i><i style="color:#202028">..</i><i style="color:#282c30">'</i><i style="color:#68686c">7</i><i style="color:#545868">s</i>
+       <i style="color:#f0dcc0">B</i><i style="color:#e0c8b8">K</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f4d098">m</i><i style="color:#d8b088">h</i>     </pre></div>
+  <div class="meta"><b class="id">weapon.warhammer.medium</b>14 &times; 12 células · âncora 7,6 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>0f3c8e73019e</code><div class="tags"><span class="tag">arma</span><span class="tag">contundente</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.warhammer.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:6},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;0f3c8e73019edb37f9147e73d353f21cf25725ba&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.warhammer.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;warhammer&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;contundente&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+  <i style="color:#202020">.</i><i style="color:#343434">____</i><i style="color:#28282c">.</i><i style="color:#202028">....</i><i style="color:#28282c">.</i><i style="color:#343434">_</i><i style="color:#383838">_</i><i style="color:#686868">)</i><i style="color:#606874">v</i><i style="color:#343840">,</i>
+  <i style="color:#949494">n</i><i style="color:#ffffff">@@@@</i><i style="color:#b8c0d4">9</i><i style="color:#98a4c0">jjjj</i><i style="color:#bcc4d8">d</i><i style="color:#ffffff">@@@</i><i style="color:#acb4cc">w</i><i style="color:#545c6c">?</i>
+  <i style="color:#343840">,</i><i style="color:#5c6070">LLLL</i><i style="color:#586070">s</i><i style="color:#78787c">i</i><i style="color:#c0ac98">E</i><i style="color:#b09890">5</i><i style="color:#706c78">7</i><i style="color:#586070">s</i><i style="color:#5c6070">L</i><i style="color:#606474">v</i><i style="color:#c4c4c4">4</i><i style="color:#a0a8c0">a</i><i style="color:#505868">z</i>
+        <i style="color:#4c4030">;</i><i style="color:#f0c894">G</i><i style="color:#d8ac84">S</i><i style="color:#382c24">-</i>      
+        <i style="color:#4c402c">;</i><i style="color:#f0c88c">O</i><i style="color:#d8a87c">E</i><i style="color:#382c20">'</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#504430">&lt;</i><i style="color:#f0cc98">b</i><i style="color:#d8b08c">q</i><i style="color:#403024">:</i>      </pre></div>
+  <div class="meta"><b class="id">weapon.warhammer.large</b>18 &times; 16 células · âncora 9,8 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>22c1da380774</code><div class="tags"><span class="tag">arma</span><span class="tag">contundente</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.warhammer.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;22c1da3807744915c4447a0bd2a3661f0a1adedb&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.axe.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;axe&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>         
+  <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i> <i style="color:#181818">-</i>  
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#bcb0a8">P</i><i style="color:#ececec">0</i><i style="color:#d8dce4">8</i><i style="color:#2c2c30">;</i> 
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#f4ece8">0</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i> 
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#2c2418">^</i><i style="color:#606060">|</i><i style="color:#585c60">7</i>  
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>    
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>    
+  <i style="color:#201c14">:</i><i style="color:#e4c094">p</i><i style="color:#241c14">:</i>    </pre></div>
+  <div class="meta"><b class="id">weapon.axe.small</b>9 &times; 8 células · âncora 4,4 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>b9aec63b6ac8</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.axe.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;b9aec63b6ac8888ec30cddd46042d6ab7d68b465&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.axe.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;axe&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+    <i style="color:#504020">!</i><i style="color:#402c18">^</i>        
+    <i style="color:#c4b08c">q</i><i style="color:#b8a088">y</i><i style="color:#505050">z</i><i style="color:#787878">}</i><i style="color:#a0a0a0">j</i><i style="color:#b4b4b8">k</i><i style="color:#202020">'</i>   
+    <i style="color:#c8a060">a</i><i style="color:#e0b48c">6</i><i style="color:#ffffff">@@@</i><i style="color:#e4e8f0">$</i><i style="color:#9098a8">5</i><i style="color:#0c0c0c">.</i>  
+    <i style="color:#c89850">j</i><i style="color:#dcac7c">q</i><i style="color:#ffffff">@@@</i><i style="color:#ecf0f4">0</i><i style="color:#98a4c0">a</i><i style="color:#343840">&lt;</i>  
+    <i style="color:#c89850">j</i><i style="color:#cc9c6c">a</i><i style="color:#e0e0e0">D</i><i style="color:#ffffff">@@</i><i style="color:#d4d8e4">H</i><i style="color:#404854">c</i>   
+    <i style="color:#c8a064">a</i><i style="color:#a07850">3</i> <i style="color:#1c1c1c">.</i><i style="color:#545454">s</i><i style="color:#444848">c</i>    
+    <i style="color:#c4ac88">w</i><i style="color:#a89078">o</i>        
+    <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>        
+    <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>        
+    <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>        
+    <i style="color:#ccb080">q</i><i style="color:#ac8c70">o</i>        </pre></div>
+  <div class="meta"><b class="id">weapon.axe.medium</b>14 &times; 12 células · âncora 7,6 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>e8c3d3e7dc61</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.axe.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:6},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;e8c3d3e7dc61db2bd854635681ada57c9c8debb6&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.axe.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;axe&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+     <i style="color:#644c28">*</i><i style="color:#543820">&gt;</i>           
+     <i style="color:#f0d4ac">X</i><i style="color:#dcbca0">d</i>  <i style="color:#181818">.</i><i style="color:#383838">=</i><i style="color:#545454">z</i><i style="color:#1c1c1c">.</i>     
+     <i style="color:#f4c074">V</i><i style="color:#d49c68">y</i><i style="color:#e0e0e0">8</i><i style="color:#f8f8f8">%</i><i style="color:#ffffff">@@</i><i style="color:#fcfcff">@</i><i style="color:#a0a8b4">a</i><i style="color:#0c0c0c">.</i>    
+     <i style="color:#f8bc60">d</i><i style="color:#d09054">5</i><i style="color:#ffffff">@@@@@</i><i style="color:#a8b0c8">S</i><i style="color:#7c8090">3</i>    
+     <i style="color:#f8bc60">d</i><i style="color:#d09054">5</i><i style="color:#ffffff">@@@@@</i><i style="color:#b0b8d0">P</i><i style="color:#98a4c0">y</i><i style="color:#2c3038">_</i>   
+     <i style="color:#f8bc60">d</i><i style="color:#d09054">5</i><i style="color:#ffffff">@@@@</i><i style="color:#fcfcff">@</i><i style="color:#9ca8c4">]</i><i style="color:#48505c">/</i>    
+     <i style="color:#f8bc60">d</i><i style="color:#d09050">Z</i><i style="color:#a4a4a4">a</i><i style="color:#d0d0d0">U</i><i style="color:#f8f8f8">%</i><i style="color:#ffffff">@</i><i style="color:#e8ecf0">g</i><i style="color:#48505c">/</i>     
+     <i style="color:#f0cc94">b</i><i style="color:#d8ac84">q</i>   <i style="color:#282828">:</i><i style="color:#383c3c">;</i>      
+     <i style="color:#f4c88c">b</i><i style="color:#d8a87c">S</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+    <i style="color:#080808">.</i><i style="color:#f0d098">U</i><i style="color:#d8b088">k</i>           </pre></div>
+  <div class="meta"><b class="id">weapon.axe.large</b>18 &times; 16 células · âncora 9,8 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>5d4776bc9921</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.axe.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;5d4776bc99216eb3443e5e7c40bc4d69b2b59f52&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.battleaxe.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;battleaxe&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;duas-maos&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>   <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i>   
+ <i style="color:#acb0b0">q</i><i style="color:#a4a4a4">2</i><i style="color:#7c786c">I</i><i style="color:#e0a058">S</i><i style="color:#787068">f</i><i style="color:#a4a4a4">2</i><i style="color:#acb0b0">q</i> 
+<i style="color:#4c5058">L</i><i style="color:#d4d8e4">H</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d4d8e4">H</i><i style="color:#50545c">v</i>
+<i style="color:#444c58">?</i><i style="color:#d0d8e4">X</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i>
+ <i style="color:#9498a4">j</i><i style="color:#c4c4c4">p</i><i style="color:#807870">1</i><i style="color:#e0a058">S</i><i style="color:#7c746c">I</i><i style="color:#c4c4c4">p</i><i style="color:#989ca4">j</i> 
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#201c10">:</i><i style="color:#ecc468">O</i><i style="color:#241c10">:</i>   
+   <i style="color:#585830">T</i><i style="color:#ffff88">Q</i><i style="color:#585830">T</i>   </pre></div>
+  <div class="meta"><b class="id">weapon.battleaxe.small</b>9 &times; 11 células · âncora 4,5 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>06717aab8ad1</code><div class="tags"><span class="tag">arma</span><span class="tag">duas-maos</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.battleaxe.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;06717aab8ad16bac4cd19794d4eced9a03a86f60&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.battleaxe.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;battleaxe&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;duas-maos&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+       <i style="color:#504020">r</i><i style="color:#402c18">=</i>     
+   <i style="color:#505050">s</i><i style="color:#343434">&gt;</i><i style="color:#101010">.</i> <i style="color:#ccb460">k</i><i style="color:#b09850">5</i> <i style="color:#101010">.</i><i style="color:#383838">&lt;</i><i style="color:#505050">s</i> 
+  <i style="color:#505054">s</i><i style="color:#e8e8f0">B</i><i style="color:#ffffff">@@</i><i style="color:#e8e8e8">B</i><i style="color:#f0c880">G</i><i style="color:#d8a878">q</i><i style="color:#ececec">g</i><i style="color:#ffffff">@@</i><i style="color:#e4e8f0">$</i><i style="color:#4c4c50">z</i>
+ <i style="color:#141418">.</i><i style="color:#98a0b8">a</i><i style="color:#e8ecf0">g</i><i style="color:#ffffff">@@@</i><i style="color:#f8c884">U</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#e8e8f0">B</i><i style="color:#94a0b4">y</i>
+ <i style="color:#4c5060">s</i><i style="color:#98a4c0">]</i><i style="color:#f0f0f8">N</i><i style="color:#ffffff">@@@</i><i style="color:#f8c884">U</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#f0f0f4">M</i><i style="color:#98a4c0">]</i>
+  <i style="color:#8088a0">u</i><i style="color:#e0e4ec">#</i><i style="color:#ffffff">@@@</i><i style="color:#f8c884">U</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#e0e4ec">D</i><i style="color:#788098">t</i>
+  <i style="color:#14181c">.</i><i style="color:#c4c8d4">O</i><i style="color:#ffffff">@</i><i style="color:#f0f0f0">0</i><i style="color:#b8b8b8">6</i><i style="color:#e4b870">h</i><i style="color:#c49060">Y</i><i style="color:#b8b8b8">6</i><i style="color:#f0f0f0">M</i><i style="color:#ffffff">@</i><i style="color:#c0c8d0">p</i><i style="color:#141418">.</i>
+   <i style="color:#282828">,,</i>  <i style="color:#cca858">S</i><i style="color:#ac8848">n</i>  <i style="color:#282828">,_</i> 
+       <i style="color:#cca858">E</i><i style="color:#a88448">u</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#d0b060">k</i><i style="color:#b0904c">Z</i>     </pre></div>
+  <div class="meta"><b class="id">weapon.battleaxe.medium</b>14 &times; 16 células · âncora 7,8 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>8bbdacba663c</code><div class="tags"><span class="tag">arma</span><span class="tag">duas-maos</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.battleaxe.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;8bbdacba663cfb65e95511381557ce171051e722&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.battleaxe.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;battleaxe&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;duas-maos&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+         <i style="color:#644c28">s</i><i style="color:#543820">r</i>       
+         <i style="color:#f8dc74">m</i><i style="color:#e8c468">V</i>       
+   <i style="color:#505054">L</i><i style="color:#b8b8b8">h</i><i style="color:#9c9c9c">j</i><i style="color:#808080">1</i><i style="color:#606060">7</i><i style="color:#404040">c</i><i style="color:#f8c468">O</i><i style="color:#d49854">a</i><i style="color:#404040">c</i><i style="color:#606060">7</i><i style="color:#808080">t</i><i style="color:#9c9c9c">y</i><i style="color:#b8b8bc">h</i><i style="color:#484848">/</i> 
+  <i style="color:#0c0c0c">.</i><i style="color:#a8b0c0">q</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#a0a8b8">E</i><i style="color:#080808">.</i>
+  <i style="color:#687078">C</i><i style="color:#a8b0c8">q</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#a4b0c8">w</i><i style="color:#60646c">(</i>
+ <i style="color:#202024">_</i><i style="color:#98a4c0">2</i><i style="color:#b0b8d0">h</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#acb8cc">6</i><i style="color:#98a0bc">a</i>
+ <i style="color:#303038">&gt;</i><i style="color:#98a4c0">]</i><i style="color:#b0b8d0">h</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#b0b8cc">6</i><i style="color:#98a4c0">]</i>
+  <i style="color:#586070">7</i><i style="color:#a0a8c4">S</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#9ca8c4">E</i><i style="color:#505868">v</i>
+   <i style="color:#7c849c">u</i><i style="color:#f4f8f8">Q</i><i style="color:#ffffff">@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@</i><i style="color:#f0f4f8">N</i><i style="color:#788098">l</i> 
+   <i style="color:#181820">-</i><i style="color:#dce0e8">R</i><i style="color:#f0f0f0">0</i><i style="color:#c4c4c4">V</i><i style="color:#989898">Y</i><i style="color:#6c6c6c">i</i><i style="color:#f8bc64">V</i><i style="color:#d08c50">Y</i><i style="color:#6c6c6c">{</i><i style="color:#989898">x</i><i style="color:#c4c4c4">V</i><i style="color:#f0f0f0">M</i><i style="color:#d8d8e0">m</i><i style="color:#141818">'</i> 
+    <i style="color:#0c0c10">.</i>    <i style="color:#fce078">R</i><i style="color:#e8cc70">b</i>    <i style="color:#0c0c0c">.</i>  
+         <i style="color:#f8bc64">V</i><i style="color:#d0904c">x</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+        <i style="color:#080804">.</i><i style="color:#f8d470">K</i><i style="color:#e0b460">6</i>       </pre></div>
+  <div class="meta"><b class="id">weapon.battleaxe.large</b>18 &times; 22 células · âncora 9,11 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>aea499fc9620</code><div class="tags"><span class="tag">arma</span><span class="tag">duas-maos</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.battleaxe.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:22,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:11},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;aea499fc96207c32ccea8cb38647b375f839c686&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.spear.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;spear&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;longa&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>  <i style="color:#545454">r</i><i style="color:#505050">+</i>
+ <i style="color:#646464">s</i><i style="color:#ffffff">@@</i>
+  <i style="color:#bcc0c0">P</i><i style="color:#b4b8b8">w</i>
+  <i style="color:#8c7450">|</i><i style="color:#745c40">z</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#48341c">:</i><i style="color:#382814">.</i></pre></div>
+  <div class="meta"><b class="id">weapon.spear.small</b>4 &times; 11 células · âncora 2,5 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>4b966909e7b7</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">longa</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.spear.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:4,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;4b966909e7b78c06657b8dcfb79608aafcf8a557&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.spear.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;spear&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;longa&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>      
+   <i style="color:#484848">?z</i> 
+ <i style="color:#383838">+</i><i style="color:#d8d8d8">H</i><i style="color:#ffffff">@@</i><i style="color:#d8d8d8">X</i>
+  <i style="color:#b8b8b8">6</i><i style="color:#ffffff">@@</i><i style="color:#b0b0b0">k</i>
+  <i style="color:#080808">.</i><i style="color:#ccc8c4">G</i><i style="color:#c8c4c0">p</i><i style="color:#080808">.</i>
+   <i style="color:#908070">u</i><i style="color:#807468">I</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#7c7060">}</i><i style="color:#70645c">F</i> 
+   <i style="color:#585040">L</i><i style="color:#50443c">/</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> </pre></div>
+  <div class="meta"><b class="id">weapon.spear.medium</b>6 &times; 16 células · âncora 3,8 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>d2ea1ac806d7</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">longa</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.spear.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:6,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;d2ea1ac806d764cc77a0f68e9a4d1f5e18db41a3&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.spear.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;spear&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;large&quot;, &quot;longa&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+    <i style="color:#404040">;</i><i style="color:#3c3c3c">^</i>  
+  <i style="color:#404040">=</i><i style="color:#c0c0c0">h</i><i style="color:#ffffff">@@</i><i style="color:#b8b8b8">k</i><i style="color:#383838">_</i>
+ <i style="color:#242424">.</i><i style="color:#f0f0f0">M</i><i style="color:#ffffff">@@@@</i><i style="color:#ececec">g</i>
+  <i style="color:#404040">;</i><i style="color:#f8f8f8">Q</i><i style="color:#ffffff">@@</i><i style="color:#f8f8f8">Q</i><i style="color:#3c3c3c">^</i>
+   <i style="color:#585858">*</i><i style="color:#fcfcfc">@&amp;</i><i style="color:#505050">r</i> 
+    <i style="color:#b4b0a8">E</i><i style="color:#a8a0a0">x</i>  
+    <i style="color:#9c7c4c">}</i><i style="color:#806040">T</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#948068">I</i><i style="color:#80705c">(</i>  
+    <i style="color:#90744c">F</i><i style="color:#785c40">s</i>  
+    <i style="color:#74644c">T</i><i style="color:#645040">*</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.spear.large</b>8 &times; 22 células · âncora 4,11 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>5cbe704f47e5</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">large</span><span class="tag">longa</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.spear.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:22,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:11},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;5cbe704f47e53bd4c4eb47c43b0b2869e1333903&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.halberd.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;halberd&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;longa&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre><i style="color:#141414">.</i><i style="color:#4c4c4c">z</i><i style="color:#707070">C</i><i style="color:#4c4c4c">?</i><i style="color:#141414">.</i>
+<i style="color:#181818">-</i><i style="color:#c8c8c8">O</i><i style="color:#ffffff">@</i><i style="color:#c8c8c8">O</i><i style="color:#181818">-</i>
+ <i style="color:#100c0c">.</i><i style="color:#e8b878">d</i><i style="color:#848484">u</i><i style="color:#101010">.</i>
+  <i style="color:#e4a458">w</i><i style="color:#d8d8d8">H</i><i style="color:#848484">u</i>
+  <i style="color:#f4d874">H</i><i style="color:#101008">.</i> 
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#78582c">)</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.halberd.small</b>5 &times; 11 células · âncora 2,5 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>19c42d8ef2ba</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">longa</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.halberd.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:5,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;19c42d8ef2ba2a960af00dcbc6289cbc267fff04&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.halberd.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;halberd&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;longa&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+   <i style="color:#202020">:</i><i style="color:#606060">7</i><i style="color:#5c5c5c">)</i><i style="color:#1c1c1c">-</i> 
+ <i style="color:#141414">.</i><i style="color:#c4c4c4">V</i><i style="color:#ffffff">@@@@</i><i style="color:#b8b8b8">h</i>
+  <i style="color:#101010">.</i><i style="color:#9c9c9c">j</i><i style="color:#ffffff">@@</i><i style="color:#989898">Y</i><i style="color:#0c0c0c">.</i>
+    <i style="color:#a08458">u</i><i style="color:#c8a88c">w</i><i style="color:#6c6c6c">{</i><i style="color:#282828">^</i>
+    <i style="color:#98743c">f</i><i style="color:#e4c09c">p</i><i style="color:#ffffff">@</i><i style="color:#fcfcfc">&amp;</i>
+    <i style="color:#98743c">f</i><i style="color:#b08864">o</i><i style="color:#c0c0c0">4d</i>
+    <i style="color:#9c8c48">n</i><i style="color:#8c7c40">3</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#9c8c48">n</i><i style="color:#8c7c40">3</i>  
+    <i style="color:#907030">}</i><i style="color:#846028">(</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.halberd.medium</b>8 &times; 16 células · âncora 4,8 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>a59544c5d01d</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">longa</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.halberd.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;a59544c5d01d153185e691232c295de33e0eb1fc&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.halberd.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;halberd&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;lamina&quot;, &quot;large&quot;, &quot;longa&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>          
+   <i style="color:#0c0c0c">.</i><i style="color:#585858">v</i><i style="color:#545454">T</i><i style="color:#0c0c0c">.</i>   
+ <i style="color:#606060">7</i><i style="color:#b0b0b0">k</i><i style="color:#f8f8f8">Q</i><i style="color:#ffffff">@@</i><i style="color:#f8f8f8">Q</i><i style="color:#b0b0b0">q</i><i style="color:#606060">7</i> 
+ <i style="color:#606060">(</i><i style="color:#f4f4f4">W</i><i style="color:#ffffff">@@@@</i><i style="color:#f4f4f4">W</i><i style="color:#606060">7</i> 
+  <i style="color:#282828">=</i><i style="color:#d4d4d4">K</i><i style="color:#ffffff">@@</i><i style="color:#d0d0d0">A</i><i style="color:#282828">^</i>  
+   <i style="color:#080808">.</i><i style="color:#d4b890">9</i><i style="color:#d8b89c">d</i><i style="color:#444444">*</i><i style="color:#080808">.</i>  
+    <i style="color:#c0904c">Y</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#a0a0a0">y</i> 
+    <i style="color:#c0904c">Y</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#646464">(</i>
+    <i style="color:#c0904c">Y</i><i style="color:#cc9868">a</i><i style="color:#e4e4e4">#</i><i style="color:#ffffff">@</i><i style="color:#909090">Z</i> 
+    <i style="color:#c4ac5c">w</i><i style="color:#b09854">j</i> <i style="color:#282828">^</i>  
+    <i style="color:#c09450">x</i><i style="color:#a0703c">I</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0a858">E</i><i style="color:#b09450">Y</i>    
+    <i style="color:#c0984c">j</i><i style="color:#a87c40">t</i>    
+    <i style="color:#b88c40">Z</i><i style="color:#a87834">t</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    </pre></div>
+  <div class="meta"><b class="id">weapon.halberd.large</b>10 &times; 22 células · âncora 5,11 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>7130e5ded2d8</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">lamina</span><span class="tag">large</span><span class="tag">longa</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.halberd.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:10,&quot;h&quot;:22,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:11},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;7130e5ded2d87e83eed256580658353bf5e39f64&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.bow.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;bow&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;distancia&quot;, &quot;icone&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>     <i style="color:#20140c">.</i><i style="color:#201810">.</i>  
+    <i style="color:#382814">^</i><i style="color:#a87044">y</i><i style="color:#885c38">t</i>  
+   <i style="color:#483018">+</i><i style="color:#a87040">y</i><i style="color:#98643c">e</i><i style="color:#583c28">z</i>  
+  <i style="color:#402818">;</i><i style="color:#b87c44">w</i><i style="color:#50381c">c</i><i style="color:#70503c">i</i><i style="color:#604838">)</i>  
+  <i style="color:#b47840">w</i><i style="color:#845830">I</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#d08c4c">O</i><i style="color:#3c2818">=</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#d08c4c">O</i><i style="color:#443018">&lt;</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#a87040">y</i><i style="color:#986838">o</i> <i style="color:#70503c">i</i><i style="color:#604838">)</i>  
+  <i style="color:#302010">_</i><i style="color:#b07840">2</i><i style="color:#684828">J</i><i style="color:#64442c">v</i><i style="color:#583c28">z</i>  
+   <i style="color:#342414">_</i><i style="color:#a8703c">y</i><i style="color:#a87044">j</i><i style="color:#583c28">z</i>  
+    <i style="color:#20140c">.</i><i style="color:#a4703c">j</i><i style="color:#a06c3c">5</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.bow.small</b>9 &times; 11 células · âncora 4,5 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>6aeb0005aaea</code><div class="tags"><span class="tag">arma</span><span class="tag">distancia</span><span class="tag slot">icone</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.bow.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;6aeb0005aaea91d9bf56d4bbcdabfe2f7420028e&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.bow.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;bow&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;distancia&quot;, &quot;icone&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+         <i style="color:#48381c">c</i><i style="color:#342414">=</i>   
+        <i style="color:#2c1c10">_</i><i style="color:#906038">1</i><i style="color:#b07848">j</i>   
+       <i style="color:#382814">;</i><i style="color:#986838">u</i><i style="color:#906038">t</i><i style="color:#805838">C</i>   
+      <i style="color:#846434">1</i><i style="color:#a8703c">5</i><i style="color:#583c20">?</i><i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+     <i style="color:#443018">+</i><i style="color:#b47840">y</i><i style="color:#4c341c">c</i> <i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+    <i style="color:#342414">=</i><i style="color:#b07840">x</i><i style="color:#704c28">7</i>  <i style="color:#38281c">;</i><i style="color:#78583c">C</i>   
+    <i style="color:#ac7c40">a</i><i style="color:#b47840">a</i><i style="color:#100804">.</i>  <i style="color:#54585c">F</i><i style="color:#707884">Z</i>   
+    <i style="color:#c88848">k</i><i style="color:#704c28">7</i>   <i style="color:#949494">P</i><i style="color:#c8d0d8">@</i>   
+    <i style="color:#dc9c54">G</i><i style="color:#583820">z</i>   <i style="color:#949494">P</i><i style="color:#c8d0d8">@</i>   
+    <i style="color:#d0904c">h</i><i style="color:#78502c">i</i>   <i style="color:#54585c">F</i><i style="color:#747884">5</i>   
+    <i style="color:#7c542c">i</i><i style="color:#b87c44">]</i><i style="color:#141008">.</i>  <i style="color:#38281c">;</i><i style="color:#78583c">C</i>   
+    <i style="color:#20140c">.</i><i style="color:#bc8848">q</i><i style="color:#886034">3</i>  <i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+     <i style="color:#382814">;</i><i style="color:#b07840">x</i><i style="color:#644424">T</i> <i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+      <i style="color:#382814">;</i><i style="color:#a06c3c">o</i><i style="color:#6c4828">J</i><i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+       <i style="color:#302010">,</i><i style="color:#b48448">S</i><i style="color:#a87040">5</i><i style="color:#805838">C</i>   </pre></div>
+  <div class="meta"><b class="id">weapon.bow.medium</b>14 &times; 16 células · âncora 7,8 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>f23000180891</code><div class="tags"><span class="tag">arma</span><span class="tag">distancia</span><span class="tag slot">icone</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.bow.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;f23000180891f38d1e08053591f185797c42bd4d&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.bow.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;bow&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;distancia&quot;, &quot;icone&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+            <i style="color:#604828">)</i><i style="color:#281c10">:</i>    
+           <i style="color:#342414">=</i><i style="color:#c88850">P</i><i style="color:#a06c40">o</i>    
+          <i style="color:#48301c">r</i><i style="color:#c88848">P</i><i style="color:#a87044">5</i><i style="color:#503420">*</i>    
+         <i style="color:#9c7440">Y</i><i style="color:#cc8848">6</i><i style="color:#704c28">7</i><i style="color:#704830">7</i><i style="color:#503420">*</i>    
+        <i style="color:#583c20">?</i><i style="color:#cc8848">6</i><i style="color:#684828">)</i> <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+       <i style="color:#503820">/</i><i style="color:#c48448">q</i><i style="color:#704c28">(</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+      <i style="color:#503c20">z</i><i style="color:#d89c54">b</i><i style="color:#8c6034">1</i><i style="color:#140c08">.</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+     <i style="color:#0c0804">.</i><i style="color:#ac7440">x</i><i style="color:#bc8048">E</i><i style="color:#1c140c">.</i>   <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+     <i style="color:#684828">J</i><i style="color:#d08c4c">h</i><i style="color:#684828">)</i>    <i style="color:#684834">7</i><i style="color:#4c3424">*</i>    
+     <i style="color:#c48c4c">6</i><i style="color:#d08c4c">h</i><i style="color:#181008">.</i>    <i style="color:#707480">e</i><i style="color:#585c64">{</i>    
+     <i style="color:#cc884c">6</i><i style="color:#b07840">y</i>     <i style="color:#c8cccc">@</i><i style="color:#9498a0">d</i>    
+     <i style="color:#dc9c54">U</i><i style="color:#a06c38">o</i>     <i style="color:#ccccd0">@</i><i style="color:#9498a0">d</i>    
+     <i style="color:#d09050">4</i><i style="color:#b87c44">]</i>     <i style="color:#707480">o</i><i style="color:#585c64">C</i>    
+     <i style="color:#b07840">j</i><i style="color:#cc884c">6</i><i style="color:#1c1408">.</i>    <i style="color:#684834">7</i><i style="color:#4c3424">*</i>    
+     <i style="color:#583c20">?</i><i style="color:#e4a858">m</i><i style="color:#704c28">(</i>    <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+      <i style="color:#a4703c">Z</i><i style="color:#bc8044">E</i><i style="color:#281810">:</i>   <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+      <i style="color:#342414">^</i><i style="color:#b87c44">]</i><i style="color:#986838">n</i><i style="color:#141008">.</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+       <i style="color:#4c341c">c</i><i style="color:#dca054">U</i><i style="color:#886034">3</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+        <i style="color:#503820">/</i><i style="color:#c88848">P</i><i style="color:#805830">}</i> <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+         <i style="color:#503820">*</i><i style="color:#c88848">P</i><i style="color:#805830">C</i><i style="color:#704830">7</i><i style="color:#503420">*</i>    
+          <i style="color:#402818">&gt;</i><i style="color:#dca054">A</i><i style="color:#b07848">j</i><i style="color:#503420">*</i>    </pre></div>
+  <div class="meta"><b class="id">weapon.bow.large</b>18 &times; 22 células · âncora 9,11 (centro)<br>ocupa 2&times;4 slots de 10&times;12 células<br>hash <code>fc721708df5e</code><div class="tags"><span class="tag">arma</span><span class="tag">distancia</span><span class="tag slot">icone</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.bow.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:22,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:11},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;fc721708df5e6cc08c1a76d9670b05cc12d961d1&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.staff.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;staff&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;magica&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre><i style="color:#1c1c10">:</i><i style="color:#6c7060">t</i><i style="color:#8c94d4">q</i><i style="color:#646460">f</i><i style="color:#1c1c10">:</i>
+<i style="color:#101008">.</i><i style="color:#e0e480">@</i><i style="color:#b0b4cc">K</i><i style="color:#dcdc80">%</i><i style="color:#101008">.</i>
+ <i style="color:#383424">!</i><i style="color:#b8a094">9</i><i style="color:#3c382c">c</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#100c08">.</i><i style="color:#78582c">F</i><i style="color:#100c08">.</i> </pre></div>
+  <div class="meta"><b class="id">weapon.staff.small</b>5 &times; 11 células · âncora 2,5 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>25fecbf35cbf</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">magica</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.staff.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:5,&quot;h&quot;:11,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;25fecbf35cbfaba31e93eb08a276a9f66838a4ca&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.staff.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;staff&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;magica&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+  <i style="color:#4c4c44">r</i><i style="color:#d0d0c8">D</i><i style="color:#747898">3</i><i style="color:#585c8c">v</i><i style="color:#c8c8bc">X</i><i style="color:#404038">&gt;</i>
+  <i style="color:#585830">z</i><i style="color:#e8eca0">@</i><i style="color:#c4d0fc">D</i><i style="color:#98a0f8">w</i><i style="color:#e0e4a0">W</i><i style="color:#4c4c28">r</i>
+   <i style="color:#a8a87c">w</i><i style="color:#c4c8b8">X</i><i style="color:#b8bc94">p</i><i style="color:#989870">j</i> 
+   <i style="color:#202034">.</i><i style="color:#9090dc">y</i><i style="color:#6c6ca0">{</i><i style="color:#141420">.</i> 
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  </pre></div>
+  <div class="meta"><b class="id">weapon.staff.medium</b>8 &times; 16 células · âncora 4,8 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>53b56a671a5c</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">magica</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.staff.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;53b56a671a5cc4f0d4b94987c210f5844fdde141&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;weapon.staff.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;staff&quot;, &quot;tags&quot;: [&quot;arma&quot;, &quot;haste&quot;, &quot;icone&quot;, &quot;large&quot;, &quot;magica&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>          
+   <i style="color:#bcbcac">m</i><i style="color:#707070">l</i><i style="color:#404458">?</i><i style="color:#242840">^</i><i style="color:#5c5c58">i</i><i style="color:#b4b4a4">K</i> 
+  <i style="color:#444430">z</i><i style="color:#c0c080">8</i><i style="color:#b4c0e8">R</i><i style="color:#c4d0ff">Q</i><i style="color:#9ca4ff">p</i><i style="color:#7074bc">n</i><i style="color:#c8c888">$</i><i style="color:#3c3c28">c</i>
+   <i style="color:#989858">S</i><i style="color:#e4e8bc">@</i><i style="color:#b4c0ff">#</i><i style="color:#8088dc">a</i><i style="color:#ccd0b0">M</i><i style="color:#909058">2</i> 
+   <i style="color:#3c4064">/</i><i style="color:#d8dcb0">@</i><i style="color:#acb0bc">U</i><i style="color:#989c98">P</i><i style="color:#c4c490">D</i><i style="color:#303050">+</i> 
+   <i style="color:#0c0c14">.</i><i style="color:#848ce4">E</i><i style="color:#9094f8">P</i><i style="color:#686cb0">t</i><i style="color:#585c98">C</i>  
+    <i style="color:#101018">.</i><i style="color:#bca4a8">p</i><i style="color:#a88c9c">w</i><i style="color:#101018">.</i>  
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   </pre></div>
+  <div class="meta"><b class="id">weapon.staff.large</b>10 &times; 22 células · âncora 5,11 (centro)<br>ocupa 1&times;4 slots de 5&times;12 células<br>hash <code>290f90515b6b</code><div class="tags"><span class="tag">arma</span><span class="tag">haste</span><span class="tag slot">icone</span><span class="tag">large</span><span class="tag">magica</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;weapon.staff.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:10,&quot;h&quot;:22,&quot;anchor&quot;:{&quot;x&quot;:5,&quot;y&quot;:11},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;290f90515b6b9299d7a8acdc760eeb757ef5301d&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.shield.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;shield&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;defesa&quot;, &quot;icone&quot;, &quot;offhand&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>         
+<i style="color:#1c1c1c">'</i><i style="color:#f4f8ff">@@@@@@@</i><i style="color:#1c1c1c">'</i>
+<i style="color:#181008">.</i><i style="color:#f8bc68">O</i><i style="color:#ffb464">V</i><i style="color:#ffcc80">H</i><i style="color:#ffff98">@</i><i style="color:#e8bc6c">p</i><i style="color:#905038">J</i><i style="color:#885c38">(</i><i style="color:#181008">.</i>
+ <i style="color:#483018">&gt;</i><i style="color:#7c4428">?</i><i style="color:#bc6040">}</i><i style="color:#e0a860">P</i><i style="color:#bc6440">f</i><i style="color:#7c4428">?</i><i style="color:#443018">;</i> 
+         </pre></div>
+  <div class="meta"><b class="id">armor.shield.small</b>9 &times; 5 células · âncora 4,2 (centro)<br>ocupa 2&times;2 slots de 10&times;6 células<br>hash <code>e9d438539269</code><div class="tags"><span class="tag">armadura</span><span class="tag">defesa</span><span class="tag slot">icone</span><span class="tag">offhand</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.shield.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:5,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;e9d438539269d18d8a31cf84f288f1a7a296ee2f&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.shield.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;shield&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;defesa&quot;, &quot;icone&quot;, &quot;medium&quot;, &quot;offhand&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+  <i style="color:#94989c">x</i><i style="color:#f4f8ff">@@@@@@@@@@</i><i style="color:#909098">5</i>
+  <i style="color:#886038">|</i><i style="color:#ecf0f8">Q</i><i style="color:#fcd084">H</i><i style="color:#ffc868">AA</i><i style="color:#ffa060">kP</i><i style="color:#fcc468">U</i><i style="color:#886038">(</i><i style="color:#90705c">I</i><i style="color:#e0e0ec">B</i><i style="color:#704c2c">s</i>
+  <i style="color:#886034">|</i><i style="color:#f8d088">m</i><i style="color:#ffc868">A</i><i style="color:#ff8858">a</i><i style="color:#ffd880">R</i><i style="color:#fffca4">@</i><i style="color:#fffc88">&amp;</i><i style="color:#f8cc70">K</i><i style="color:#b84c3c">7</i><i style="color:#785030">T</i><i style="color:#90705c">f</i><i style="color:#6c4828">?</i>
+  <i style="color:#886034">|</i><i style="color:#ececf0">W</i><i style="color:#fccc80">H</i><i style="color:#ff9c5c">q</i><i style="color:#ffac64">d</i><i style="color:#ffb86c">OO</i><i style="color:#c07448">l</i><i style="color:#a44c38">)</i><i style="color:#8c6c54">C</i><i style="color:#d8dce4">D</i><i style="color:#6c4828">?</i>
+  <i style="color:#705840">)</i><i style="color:#d0b490">9</i><i style="color:#e8b060">h</i><i style="color:#f0b860">4</i><i style="color:#f8bc64">O</i><i style="color:#fca860">h</i><i style="color:#f09c58">w</i><i style="color:#885834">7</i><i style="color:#906038">|</i><i style="color:#9c6c44">}</i><i style="color:#b09888">a</i><i style="color:#645038">s</i>
+  <i style="color:#141818">.</i><i style="color:#b8c0d0">p</i><i style="color:#686874">i</i><i style="color:#786c68">C</i><i style="color:#9c8474">n</i><i style="color:#b08868">Z</i><i style="color:#a08064">u</i><i style="color:#988474">[</i><i style="color:#706868">i</i><i style="color:#686c74">i</i><i style="color:#b4bcc8">4</i><i style="color:#101418">.</i>
+   <i style="color:#54585c">T</i><i style="color:#080808">.</i>  <i style="color:#18181c">..</i>  <i style="color:#0c0c0c">.</i><i style="color:#505458">L</i> </pre></div>
+  <div class="meta"><b class="id">armor.shield.medium</b>14 &times; 8 células · âncora 7,4 (centro)<br>ocupa 2&times;2 slots de 10&times;6 células<br>hash <code>227e721095d8</code><div class="tags"><span class="tag">armadura</span><span class="tag">defesa</span><span class="tag slot">icone</span><span class="tag">medium</span><span class="tag">offhand</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.shield.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;227e721095d8dd6ff83dd81f8c2fe5e106bfe08a&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.shield.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;shield&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;defesa&quot;, &quot;icone&quot;, &quot;large&quot;, &quot;offhand&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+  <i style="color:#38383c">;</i><i style="color:#f4f8ff">@@@@@@@@@@@@@@</i><i style="color:#2c3030">,</i>
+  <i style="color:#302014">'</i><i style="color:#ecbc80">p</i><i style="color:#ecf0f8">Q</i><i style="color:#ffc868">AAAA</i><i style="color:#ffa060">kk</i><i style="color:#ffc868">A</i><i style="color:#ecb864">d</i><i style="color:#785034">LL</i><i style="color:#e4e8f4">M</i><i style="color:#a88058">u</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#f0b460">d</i><i style="color:#f8d088">H</i><i style="color:#ffc868">UUU</i><i style="color:#ffd87c">8</i><i style="color:#ffc080">b</i><i style="color:#ffc070">b</i><i style="color:#ffd870">8</i><i style="color:#b88848">e</i><i style="color:#785030">ss</i><i style="color:#90705c">}</i><i style="color:#98683c">i</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#f0b460">9</i><i style="color:#fccc78">K</i><i style="color:#ffc868">U</i><i style="color:#ff7454">o</i><i style="color:#ff7458">o</i><i style="color:#fffc94">@</i><i style="color:#ffff98">@</i><i style="color:#ffff88">@</i><i style="color:#fffc88">@</i><i style="color:#ff7058">e</i><i style="color:#c84840">7</i><i style="color:#785030">s</i><i style="color:#846048">(</i><i style="color:#986838">i</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#ecbc7c">p</i><i style="color:#ecf0f8">Q</i><i style="color:#ffc868">U</i><i style="color:#ffc468">Ub</i><i style="color:#ffcc68">K</i><i style="color:#ffa868">h</i><i style="color:#ffac68">9</i><i style="color:#dcac5c">P</i><i style="color:#785030">sss</i><i style="color:#e4e8f4">M</i><i style="color:#a87c58">t</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#f0b460">9</i><i style="color:#fccc7c">X</i><i style="color:#ffc868">UUUU</i><i style="color:#ff8458">j</i><i style="color:#ff8858">y</i><i style="color:#ac7c44">t</i><i style="color:#785030">sss</i><i style="color:#88644c">|</i><i style="color:#986838">i</i><i style="color:#281810">.</i>
+  <i style="color:#24201c">.</i><i style="color:#a48874">e</i><i style="color:#bc9468">x</i><i style="color:#d4a060">2</i><i style="color:#e8a858">k</i><i style="color:#f0b05c">9</i><i style="color:#f4b860">V</i><i style="color:#fca860">6</i><i style="color:#f4a45c">k</i><i style="color:#906038">|</i><i style="color:#986438">F</i><i style="color:#a47040">}</i><i style="color:#a47850">3</i><i style="color:#a08060">l</i><i style="color:#9c8470">u</i><i style="color:#1c1818">.</i>
+   <i style="color:#303438">^</i><i style="color:#c4ccd8">A</i><i style="color:#383840">&gt;</i><i style="color:#54545c">s</i><i style="color:#7c7068">{</i><i style="color:#a08874">[</i><i style="color:#b08868">o</i><i style="color:#9c7c64">t</i><i style="color:#9c8474">u</i><i style="color:#746c68">i</i><i style="color:#505058">z</i><i style="color:#34383c">=</i><i style="color:#c8d0e0">K</i><i style="color:#202424">'</i> 
+    <i style="color:#101010">.</i>    <i style="color:#18181c">..</i>    <i style="color:#101010">.</i>  </pre></div>
+  <div class="meta"><b class="id">armor.shield.large</b>18 &times; 10 células · âncora 9,5 (centro)<br>ocupa 2&times;2 slots de 10&times;6 células<br>hash <code>3d67a0e81903</code><div class="tags"><span class="tag">armadura</span><span class="tag">defesa</span><span class="tag slot">icone</span><span class="tag">large</span><span class="tag">offhand</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.shield.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:10,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:5},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;3d67a0e819037fe6332f58b972c52df83c377e81&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.helm.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;helm&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;cabeca&quot;, &quot;icone&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>         
+         
+ <i style="color:#101010">.</i><i style="color:#909090">o</i><i style="color:#d4d4d4">K</i><i style="color:#f4f4f4">N</i><i style="color:#d0d0d0">A</i><i style="color:#909090">o</i><i style="color:#101010">.</i> 
+<i style="color:#101010">.</i><i style="color:#e8e8e8">B</i><i style="color:#ffffff">@</i><i style="color:#ecf0f4">0</i><i style="color:#f0f4f8">N</i><i style="color:#c0c8d8">p</i><i style="color:#b0b8cc">6</i><i style="color:#c8ccd4">G</i><i style="color:#101010">.</i>
+<i style="color:#0c0c10">.</i><i style="color:#b8c0d0">d</i><i style="color:#b0acb0">w</i><i style="color:#a8a8b4">S</i><i style="color:#f0f0f4">M</i><i style="color:#a0a0ac">a</i><i style="color:#9494a0">Y</i><i style="color:#a8b0c8">k</i><i style="color:#0c0c10">.</i>
+ <i style="color:#586070">7</i><i style="color:#5c4028">*</i><i style="color:#604c40">s</i><i style="color:#b8b8b4">6</i><i style="color:#604c40">s</i><i style="color:#5c4028">*</i><i style="color:#5c6474">(</i> </pre></div>
+  <div class="meta"><b class="id">armor.helm.small</b>9 &times; 6 células · âncora 4,3 (centro)<br>ocupa 2&times;2 slots de 10&times;6 células<br>hash <code>c37221e81ea9</code><div class="tags"><span class="tag">armadura</span><span class="tag">cabeca</span><span class="tag slot">icone</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.helm.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:6,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:3},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;c37221e81ea9bb40e5f2412bc79338ba814ea0bf&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.helm.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;helm&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;cabeca&quot;, &quot;icone&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+    <i style="color:#303030">'</i><i style="color:#b8b8b8">q</i><i style="color:#d4d4d4">U</i><i style="color:#f0f0f0">00</i><i style="color:#d0d0d0">b</i><i style="color:#b4b4b8">w</i><i style="color:#2c2c2c">'</i>  
+  <i style="color:#808044">C</i><i style="color:#d0d070">p</i><i style="color:#f4f494">g</i><i style="color:#ffffa0">QQQQ</i><i style="color:#f8f898">M</i><i style="color:#f4f898">0</i><i style="color:#f4f490">g</i><i style="color:#d0d070">p</i><i style="color:#7c7c40">i</i>
+  <i style="color:#686868">)</i><i style="color:#fffffc">@@@@</i><i style="color:#e8e8f0">$$</i><i style="color:#d8e0e8">m</i><i style="color:#98a8c0">jj</i><i style="color:#acb8c8">q</i><i style="color:#646464">T</i>
+  <i style="color:#9c9c9c">5</i><i style="color:#ffffff">@@@@</i><i style="color:#e0e4ec">DR</i><i style="color:#e0e0ec">R</i><i style="color:#a8b0c8">EE</i><i style="color:#b8c0d4">h</i><i style="color:#989898">e</i>
+  <i style="color:#4c5060">r</i><i style="color:#98a8c0">j</i><i style="color:#807470">F</i><i style="color:#7c706c">((</i><i style="color:#c0c0c8">h</i><i style="color:#b8b8c0">q</i><i style="color:#7c706c">((</i><i style="color:#807474">i</i><i style="color:#98a8c0">j</i><i style="color:#484c58">!</i>
+  <i style="color:#202428">.</i><i style="color:#a0acbc">]</i><i style="color:#8c7c70">}</i><i style="color:#887c70">CC</i><i style="color:#c4c4c0">d</i><i style="color:#c0bcb8">6</i><i style="color:#887c70">CC</i><i style="color:#8c8074">f</i><i style="color:#a0acbc">]</i><i style="color:#1c2024">.</i>
+  <i style="color:#080804">.</i><i style="color:#a8b078">a</i><i style="color:#b0b480">EEE</i><i style="color:#b8bc88">qq</i><i style="color:#b0b480">EEE</i><i style="color:#a8ac78">y</i> 
+              </pre></div>
+  <div class="meta"><b class="id">armor.helm.medium</b>14 &times; 9 células · âncora 7,4 (centro)<br>ocupa 2&times;2 slots de 10&times;6 células<br>hash <code>8e075ca9d6db</code><div class="tags"><span class="tag">armadura</span><span class="tag">cabeca</span><span class="tag slot">icone</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.helm.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:9,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;8e075ca9d6db8e42df27f7d2babada1b3b92797c&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.helm.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;helm&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;cabeca&quot;, &quot;icone&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+                  
+     <i style="color:#101010">.</i><i style="color:#a8a8a8">2</i><i style="color:#c8c8c8">O</i><i style="color:#e0e0e0">8</i><i style="color:#f0f0f0">NN</i><i style="color:#dcdcdc">8</i><i style="color:#c4c4c8">V</i><i style="color:#a0a0a0">y</i><i style="color:#0c0c0c">.</i>   
+  <i style="color:#303018">^</i><i style="color:#d0d070">OO</i><i style="color:#e8e884">8</i><i style="color:#ffffa0">QQQQQQ</i><i style="color:#f0f094">B</i><i style="color:#f8f898">N</i><i style="color:#e4e480">m</i><i style="color:#d0d070">OO</i><i style="color:#282814">:</i>
+   <i style="color:#1c1c18">'</i><i style="color:#d4d4d0">K</i><i style="color:#fffffc">@@@@@@@</i><i style="color:#a8b0c8">w</i><i style="color:#98a8c0">]]]</i><i style="color:#242828">_</i> 
+  <i style="color:#101010">.</i><i style="color:#d4d4d4">A</i><i style="color:#ffffff">@@@@@</i><i style="color:#e8ecf0">gg</i><i style="color:#ffffff">@</i><i style="color:#a4b0c8">w</i><i style="color:#98a4c0">aaa</i><i style="color:#b8b8c0">h</i><i style="color:#0c0c0c">.</i>
+  <i style="color:#3c3c3c">+</i><i style="color:#ffffff">@@@@@@</i><i style="color:#e0e4ec">#D</i><i style="color:#ffffff">@</i><i style="color:#a4b0c8">w</i><i style="color:#98a4c0">aaa</i><i style="color:#ececf4">0</i><i style="color:#303030">=</i>
+  <i style="color:#303434">;</i><i style="color:#e0e4ec">######</i><i style="color:#d8dce8">8m</i><i style="color:#e0e4ec">#</i><i style="color:#b4bcd0">h</i><i style="color:#acb8cc">PPP</i><i style="color:#d8dce8">m</i><i style="color:#282828">_</i>
+   <i style="color:#94a0bc">y</i><i style="color:#94a0b8">j</i><i style="color:#705040">T</i><i style="color:#6c5040">sss</i><i style="color:#b8b8b8">6</i><i style="color:#b0acb0">w</i><i style="color:#6c5040">sss</i><i style="color:#705040">T</i><i style="color:#98a0bc">y</i><i style="color:#94a0b8">j</i> 
+   <i style="color:#788098">1</i><i style="color:#98a0bc">a</i><i style="color:#9090a0">oooo</i><i style="color:#c4c8d4">p</i><i style="color:#bcc0d0">4</i><i style="color:#9090a0">oooo</i><i style="color:#98a4c0">a</i><i style="color:#747c90">I</i> 
+   <i style="color:#586068">)</i><i style="color:#a0acbc">EEEEE</i><i style="color:#ccd0d4">U</i><i style="color:#c8ccd0">G</i><i style="color:#a0acbc">EEEEE</i><i style="color:#545860">T</i> 
+   <i style="color:#505034">z</i><i style="color:#b0b480">wwwww</i><i style="color:#b8bc88">6P</i><i style="color:#b0b480">wwwww</i><i style="color:#48482c">c</i> </pre></div>
+  <div class="meta"><b class="id">armor.helm.large</b>18 &times; 12 células · âncora 9,6 (centro)<br>ocupa 2&times;2 slots de 10&times;6 células<br>hash <code>808a8bfed211</code><div class="tags"><span class="tag">armadura</span><span class="tag">cabeca</span><span class="tag slot">icone</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.helm.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:6},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;808a8bfed2110b605f87d3099d366e0c87d667e0&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.breastplate.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;breastplate&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;icone&quot;, &quot;small&quot;, &quot;torso&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>         
+<i style="color:#282828">^</i><i style="color:#1c1c1c">-</i> <i style="color:#303030">&gt;</i><i style="color:#343434">&gt;</i><i style="color:#303030">&gt;</i> <i style="color:#1c1c1c">-</i><i style="color:#303030">=</i>
+<i style="color:#f0f0f0">M</i><i style="color:#ececec">g</i><i style="color:#f4f4f4">N</i><i style="color:#ffffff">@@</i><i style="color:#e4e8f0">$</i><i style="color:#b0b8cc">h</i><i style="color:#e4e4e8">#</i><i style="color:#f8f8f8">%</i>
+<i style="color:#585858">)</i><i style="color:#ffffff">@@</i><i style="color:#f4f4f8">W</i><i style="color:#f0f4f8">N</i><i style="color:#c8d0e0">U</i><i style="color:#98a4c0">]</i><i style="color:#b8c0d4">4</i><i style="color:#646464">(</i>
+ <i style="color:#d0d0d0">U</i><i style="color:#ffffff">@</i><i style="color:#e4e8f0">$</i><i style="color:#fcfcff">@</i><i style="color:#ccd0e0">A</i><i style="color:#98a4c0">]</i><i style="color:#949cac">j</i> 
+ <i style="color:#888888">u</i><i style="color:#ffffff">@</i><i style="color:#dce0e8">R</i><i style="color:#e8ecf0">g</i><i style="color:#c0c8d8">O</i><i style="color:#98a4c0">]</i><i style="color:#6c7078">{</i> 
+ <i style="color:#684c30">s</i><i style="color:#f0b074">hhh</i><i style="color:#e4a870">k</i><i style="color:#e0a86c">q</i><i style="color:#705034">T</i> 
+ <i style="color:#583824">r</i><i style="color:#c08050">nnnnn</i><i style="color:#5c4028">c</i> </pre></div>
+  <div class="meta"><b class="id">armor.breastplate.small</b>9 &times; 8 células · âncora 4,4 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>d0771a01cb2c</code><div class="tags"><span class="tag">armadura</span><span class="tag slot">icone</span><span class="tag">small</span><span class="tag">torso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.breastplate.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:9,&quot;h&quot;:8,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:4},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;d0771a01cb2cab446e46b39b24ce9eb31bfb9dfc&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.breastplate.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;breastplate&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;icone&quot;, &quot;medium&quot;, &quot;torso&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>              
+ <i style="color:#282828">:</i><i style="color:#4c4c4c">/</i>  <i style="color:#101010">.</i><i style="color:#343434">;;;;</i><i style="color:#101010">.</i>  <i style="color:#4c4c4c">/</i>
+ <i style="color:#f8f8f8">W</i><i style="color:#ffffff">@</i><i style="color:#c0c0c0">9</i><i style="color:#c4c4c4">4</i><i style="color:#fcfcfc">&amp;</i><i style="color:#ffffff">@@@</i><i style="color:#f8f8fc">%</i><i style="color:#c0c8d8">O</i><i style="color:#a8acb4">S</i><i style="color:#c0c0c4">4</i><i style="color:#ffffd8">&amp;</i>
+ <i style="color:#f8f8f8">W</i><i style="color:#ffffff">@@@@@@@</i><i style="color:#e8ecf0">g</i><i style="color:#98a4c0">aa</i><i style="color:#d8dce8">m</i><i style="color:#ffffd8">&amp;</i>
+ <i style="color:#282828">:</i><i style="color:#cccccc">G</i><i style="color:#ffffff">@@@</i><i style="color:#f8f8f8">Q</i><i style="color:#fcfcec">&amp;</i><i style="color:#fcfcf0">%</i><i style="color:#d8dce8">m</i><i style="color:#98a4c0">aa</i><i style="color:#98a8c0">]</i><i style="color:#a8acb4">S</i>
+  <i style="color:#747474">C</i><i style="color:#ffffff">@@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#d0d8e0">K</i><i style="color:#f8f8ac">W</i><i style="color:#f8f8b0">W</i><i style="color:#ccd0e0">U</i><i style="color:#98a4c0">aaa</i><i style="color:#646468">7</i>
+  <i style="color:#282828">_</i><i style="color:#ffffff">@@</i><i style="color:#fcfcf0">&amp;</i><i style="color:#e8ecc0">B</i><i style="color:#ffffc8">&amp;</i><i style="color:#ffffcc">&amp;</i><i style="color:#e8e8c0">#</i><i style="color:#a4b0b8">S</i><i style="color:#98a4c0">a</i><i style="color:#acb4cc">k</i><i style="color:#282828">:</i>
+   <i style="color:#dcdcdc">m</i><i style="color:#ffffff">@</i><i style="color:#fcfcf0">&amp;</i><i style="color:#e8e8c8">#</i><i style="color:#ffffd8">&amp;&amp;</i><i style="color:#e0e8c8">D</i><i style="color:#a0acbc">E</i><i style="color:#98a4c0">a</i><i style="color:#a8b0bc">w</i> 
+   <i style="color:#949494">o</i><i style="color:#ffffff">@</i><i style="color:#ffffe4">@</i><i style="color:#f0f0a0">g</i><i style="color:#f0f4a0">gg</i><i style="color:#e4e898">D</i><i style="color:#acb4b4">k</i><i style="color:#98a4c0">a</i><i style="color:#808084">1</i> 
+   <i style="color:#a07448">f</i><i style="color:#ecac6c">k</i><i style="color:#f0bc74">4</i><i style="color:#ffe084">RRR</i><i style="color:#f8dc80">m</i><i style="color:#e8b470">h</i><i style="color:#e4a868">w</i><i style="color:#a07048">f</i> 
+   <i style="color:#885c38">J</i><i style="color:#c08050">[</i><i style="color:#c48854">e</i><i style="color:#cc985c">jjjj</i><i style="color:#c48854">e</i><i style="color:#c08050">[</i><i style="color:#885838">)</i> 
+   <i style="color:#885c38">J</i><i style="color:#c08050">[[[[[[[[</i><i style="color:#885838">)</i> </pre></div>
+  <div class="meta"><b class="id">armor.breastplate.medium</b>14 &times; 12 células · âncora 7,6 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>cd7cc03a8aff</code><div class="tags"><span class="tag">armadura</span><span class="tag slot">icone</span><span class="tag">medium</span><span class="tag">torso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.breastplate.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:14,&quot;h&quot;:12,&quot;anchor&quot;:{&quot;x&quot;:7,&quot;y&quot;:6},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;cd7cc03a8affe8b00391d0fbbb6f803516d7573d&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;armor.breastplate.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;breastplate&quot;, &quot;tags&quot;: [&quot;armadura&quot;, &quot;icone&quot;, &quot;large&quot;, &quot;torso&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>                  
+ <i style="color:#1c1c1c">-</i><i style="color:#585858">v</i><i style="color:#202020">:</i>   <i style="color:#303030">=</i><i style="color:#343434">&gt;&gt;&gt;&gt;</i><i style="color:#2c2c2c">=</i>   <i style="color:#202020">:</i><i style="color:#585858">T</i>
+ <i style="color:#f0f0f0">M</i><i style="color:#ffffff">@</i><i style="color:#f4f4f4">N</i><i style="color:#6c6c6c">i</i><i style="color:#a4a4a4">]</i><i style="color:#ececec">g</i><i style="color:#ffffff">@@@@@</i><i style="color:#e8e8f0">B</i><i style="color:#d0d4d8">K</i><i style="color:#a0a0a0">a</i><i style="color:#707070">C</i><i style="color:#f8f8f8">Q</i><i style="color:#ffffe8">@</i>
+ <i style="color:#ffffff">@@@@@@@@@@@</i><i style="color:#c8ccdc">b</i><i style="color:#98a4c0">]</i><i style="color:#a0acc4">S</i><i style="color:#d8dce8">m</i><i style="color:#ffffec">@</i><i style="color:#ffff8c">Q</i>
+ <i style="color:#d8d8d8">H</i><i style="color:#ffffff">@@@@@@@@@@</i><i style="color:#b8c0d4">4</i><i style="color:#98a4c0">]]</i><i style="color:#a4b0c8">w</i><i style="color:#f4f4f8">W</i><i style="color:#fffffc">@</i>
+  <i style="color:#848484">l</i><i style="color:#ffffff">@@@@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#f8fcfc">&amp;</i><i style="color:#fcfcf8">&amp;&amp;</i><i style="color:#f8fcfc">&amp;</i><i style="color:#acb4cc">P</i><i style="color:#98a4c0">]]]</i><i style="color:#9ca8c4">2</i><i style="color:#7c7c7c">3</i>
+  <i style="color:#2c2c2c">^</i><i style="color:#ffffff">@@@@</i><i style="color:#c8ccdc">b</i><i style="color:#e4e8f0">$</i><i style="color:#f4f4a8">0</i><i style="color:#f0f4ac">0</i><i style="color:#e4e8f0">$</i><i style="color:#a0a8c4">E</i><i style="color:#98a4c0">]]]</i><i style="color:#b0b8d0">h</i><i style="color:#282828">^</i>
+   <i style="color:#e0e0e0">D</i><i style="color:#ffffff">@@@</i><i style="color:#c8d0e0">U</i><i style="color:#ffffff">@</i><i style="color:#fffff0">@@</i><i style="color:#ffffff">@</i><i style="color:#a0acc4">S</i><i style="color:#98a4c0">]]]</i><i style="color:#b4b8c4">6</i> 
+   <i style="color:#9c9c9c">j</i><i style="color:#ffffff">@@@</i><i style="color:#f0f0a0">g</i><i style="color:#ffffa8">%%%%</i><i style="color:#e0e498">R</i><i style="color:#98a4c0">]]]</i><i style="color:#888c90">n</i> 
+   <i style="color:#585858">v</i><i style="color:#ffffff">@@@</i><i style="color:#c8d0e0">U</i><i style="color:#ffffff">@@@@</i><i style="color:#a0acc4">S</i><i style="color:#98a4c0">]]</i><i style="color:#a8b0c8">q</i><i style="color:#505050">s</i> 
+   <i style="color:#141414">.</i><i style="color:#fcfcfc">@</i><i style="color:#ffffff">@@</i><i style="color:#f0f0a0">g</i><i style="color:#ffffa8">%%%%</i><i style="color:#e0e498">R</i><i style="color:#98a4c0">]]</i><i style="color:#c0c8d8">p</i><i style="color:#101010">.</i> 
+    <i style="color:#cccccc">G</i><i style="color:#ffffff">@@</i><i style="color:#d0d8e0">X</i><i style="color:#ecf0f4">000</i><i style="color:#e0e8ec">$</i><i style="color:#9ca8c4">E</i><i style="color:#98a4c0">]]</i><i style="color:#a8a8b0">E</i>  
+   <i style="color:#18100c">.</i><i style="color:#e8a464">w</i><i style="color:#e8a864">qq</i><i style="color:#f0e07c">mmmmm</i><i style="color:#ecdc7c">H</i><i style="color:#e8a464">ww</i><i style="color:#e8a460">w</i><i style="color:#100c08">.</i> 
+   <i style="color:#141008">.</i><i style="color:#c08050">nnnnnnnnnnnn</i><i style="color:#100808">.</i> 
+   <i style="color:#141008">.</i><i style="color:#c08050">nnnnnnnnnnnn</i><i style="color:#100808">.</i> 
+   <i style="color:#141008">.</i><i style="color:#c08050">nnnnnnnnnnnn</i><i style="color:#100808">.</i> </pre></div>
+  <div class="meta"><b class="id">armor.breastplate.large</b>18 &times; 16 células · âncora 9,8 (centro)<br>ocupa 2&times;3 slots de 10&times;9 células<br>hash <code>d62f11b8141e</code><div class="tags"><span class="tag">armadura</span><span class="tag slot">icone</span><span class="tag">large</span><span class="tag">torso</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;armor.breastplate.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:18,&quot;h&quot;:16,&quot;anchor&quot;:{&quot;x&quot;:9,&quot;y&quot;:8},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;d62f11b8141ecf0b2309f5e1fb59006c634d76c9&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;jewelry.ring.small&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;ring&quot;, &quot;tags&quot;: [&quot;adorno&quot;, &quot;dedo&quot;, &quot;icone&quot;, &quot;small&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>  <i style="color:#c44044">|</i><i style="color:#c0383c">v</i>
+ <i style="color:#3c3c20">-</i><i style="color:#b0a070">@</i><i style="color:#807440">j</i>
+  <i style="color:#505028">/</i><i style="color:#4c4c28">c</i></pre></div>
+  <div class="meta"><b class="id">jewelry.ring.small</b>4 &times; 3 células · âncora 2,1 (centro)<br>ocupa 1&times;1 slot de 5&times;3 células<br>hash <code>2e21ec0fd5a6</code><div class="tags"><span class="tag">adorno</span><span class="tag">dedo</span><span class="tag slot">icone</span><span class="tag">small</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;jewelry.ring.small&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:4,&quot;h&quot;:3,&quot;anchor&quot;:{&quot;x&quot;:2,&quot;y&quot;:1},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;2e21ec0fd5a65fe77850d91f6171cc781c99eb2d&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;jewelry.ring.medium&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;ring&quot;, &quot;tags&quot;: [&quot;adorno&quot;, &quot;dedo&quot;, &quot;icone&quot;, &quot;medium&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>      
+  <i style="color:#200808">.</i><i style="color:#ec4c50">a</i><i style="color:#ec4448">5</i><i style="color:#200808">.</i>
+  <i style="color:#b09440">H</i><i style="color:#e8a088">@</i><i style="color:#88402c">C</i><i style="color:#a8903c">b</i>
+  <i style="color:#b09440">H</i><i style="color:#6c602c">[</i><i style="color:#6c6030">n</i><i style="color:#a8903c">b</i></pre></div>
+  <div class="meta"><b class="id">jewelry.ring.medium</b>6 &times; 4 células · âncora 3,2 (centro)<br>ocupa 1&times;1 slot de 5&times;3 células<br>hash <code>0f3f1772f5ae</code><div class="tags"><span class="tag">adorno</span><span class="tag">dedo</span><span class="tag slot">icone</span><span class="tag">medium</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;jewelry.ring.medium&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:6,&quot;h&quot;:4,&quot;anchor&quot;:{&quot;x&quot;:3,&quot;y&quot;:2},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;0f3f1772f5ae7311c4b30e0ea4f0bc66b888c7f8&quot;}">copiar peça</button></div>
+</article>
+<article class="card icone" data-meta="{&quot;id&quot;: &quot;jewelry.ring.large&quot;, &quot;slot&quot;: &quot;icone&quot;, &quot;species&quot;: &quot;ring&quot;, &quot;tags&quot;: [&quot;adorno&quot;, &quot;dedo&quot;, &quot;icone&quot;, &quot;large&quot;]}">
+  <div class="art" style="background:#2a231c"><pre>        
+   <i style="color:#581418">:</i><i style="color:#f8485c">3</i><i style="color:#f43c4c">C</i><i style="color:#501418">-</i> 
+   <i style="color:#b04c34">F</i><i style="color:#f85850">n</i><i style="color:#f85048">u</i><i style="color:#b04c34">i</i> 
+  <i style="color:#6c6430">{</i><i style="color:#e8dc8c">@</i><i style="color:#ecc0b0">B</i><i style="color:#502020">^</i><i style="color:#c8bc60">X</i><i style="color:#686030">F</i>
+  <i style="color:#6c6430">{</i><i style="color:#c0b85c">A</i><i style="color:#18180c">..</i><i style="color:#c8bc60">X</i><i style="color:#686030">F</i>
+   <i style="color:#70602c">i</i><i style="color:#c0b85c">AU</i><i style="color:#6c6028">|</i> </pre></div>
+  <div class="meta"><b class="id">jewelry.ring.large</b>8 &times; 6 células · âncora 4,3 (centro)<br>ocupa 1&times;1 slot de 5&times;3 células<br>hash <code>3a5b11eaaefe</code><div class="tags"><span class="tag">adorno</span><span class="tag">dedo</span><span class="tag slot">icone</span><span class="tag">large</span></div><button class="copy" data-json="{&quot;id&quot;:&quot;jewelry.ring.large&quot;,&quot;kind&quot;:&quot;item&quot;,&quot;slot&quot;:&quot;icone&quot;,&quot;w&quot;:8,&quot;h&quot;:6,&quot;anchor&quot;:{&quot;x&quot;:4,&quot;y&quot;:3},&quot;shadow&quot;:null,&quot;file&quot;:&quot;sets/weapons.json&quot;,&quot;hash&quot;:&quot;3a5b11eaaefe800c3aa604cf7abb47e0a955ff4e&quot;}">copiar peça</button></div>
+</article>
 </div>
 <footer>Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · gerado por <code>bank.py</code> · para levar uma peça para outro jogo: <code>bank.py export --tag conifer --out game.json</code></footer>
 </div>
-<script id="data" type="application/json">{"slots": ["mancha", "prop"], "tags": ["autumn", "bare", "conifer", "foliage", "hanging", "large", "mancha", "medium", "pale-bark", "palm", "prop", "shrub", "small", "tree"]}</script>
+<script id="data" type="application/json">{"slots": ["icone", "mancha", "prop"], "tags": ["adorno", "arma", "armadura", "autumn", "bare", "cabeca", "conifer", "contundente", "curta", "dedo", "defesa", "distancia", "duas-maos", "foliage", "hanging", "haste", "icone", "lamina", "large", "longa", "magica", "mancha", "medium", "offhand", "pale-bark", "palm", "prop", "shrub", "small", "torso", "tree"]}</script>
 <script>
   var index = JSON.parse(document.getElementById("data").textContent);
   var state = {slot: null, tag: null, q: ""};

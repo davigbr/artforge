@@ -59,10 +59,25 @@ TAG_RULES = {
     "palm": ["tree", "palm"],
     "bush": ["shrub", "foliage"],
     "dead": ["tree", "bare"],
+    # inventory items (the icone slot): the species is the weapon/armour family
+    "dagger": ["arma", "lamina", "curta"],
+    "sword": ["arma", "lamina"],
+    "mace": ["arma", "contundente"],
+    "warhammer": ["arma", "contundente", "haste"],
+    "axe": ["arma", "lamina", "haste"],
+    "battleaxe": ["arma", "lamina", "haste", "duas-maos"],
+    "spear": ["arma", "haste", "longa"],
+    "halberd": ["arma", "haste", "longa", "lamina"],
+    "bow": ["arma", "distancia"],
+    "staff": ["arma", "magica", "haste"],
+    "shield": ["armadura", "defesa", "offhand"],
+    "helm": ["armadura", "cabeca"],
+    "breastplate": ["armadura", "torso"],
+    "ring": ["adorno", "dedo"],
 }
 
 SLOT_OF_KIND = {"prop": "prop", "decal": "mancha", "tile": "piso", "block": "bloco",
-                "actor": "ator", "fx": "efeito"}
+                "actor": "ator", "fx": "efeito", "item": "icone"}
 
 SIZE_ORDER = {"small": 0, "medium": 1, "large": 2, None: 3}
 
@@ -363,11 +378,21 @@ def build_page(index):
             rows, ground = compose(piece, shadow, payload.get("floorTone"))
             detail = "%s &times; %s células · âncora %d,%d<br>mancha <code>%s</code>" % (
                 e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"], e.get("shadow") or "-")
-        else:
+        elif e["slot"] == "mancha":
             rows, ground = compose_decal(piece)
             detail = ("%s &times; %s células · âncora %d,%d<br>disco rx %.2f × ry %.2f células "
                       "(2:1 na tela)" % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
                                          piece["disc"]["rx"], piece["disc"]["ry"]))
+        else:
+            # An icon has no floor under it and no shadow: it is centred in a slot, so
+            # it is drawn exactly as it is stored.
+            rows, ground = [{"g": row["g"], "c": row["c"]} for row in piece["cells"]], None
+            detail = ("%s &times; %s células · âncora %d,%d (centro)<br>ocupa %d&times;%d slot%s "
+                      "de %d&times;%d células"
+                      % (e["w"], e["h"], e["anchor"]["x"], e["anchor"]["y"],
+                         piece.get("footprint", [0, 0])[0], piece.get("footprint", [0, 0])[1],
+                         "" if piece.get("footprint", [0, 0])[0] * piece.get("footprint", [0, 0])[1] == 1 else "s",
+                         piece.get("footprint", [0, 0])[0] * 5, piece.get("footprint", [0, 0])[1] * 3))
         body, _inked = af.run_length_html(rows)
         meta = json.dumps({"id": e["id"], "slot": e["slot"], "species": e["species"],
                            "tags": e["tags"]}, ensure_ascii=False).replace('"', "&quot;")
@@ -382,9 +407,9 @@ def build_page(index):
             '<div class="tags">%s</div>'
             '<button class="copy" data-json="%s">copiar peça</button></div>\n'
             '</article>'
-            % ("decal" if e["slot"] != "prop" else "prop", meta,
-               payload.get("floorTone", "#3a352c"), body,
-               ('<span class="badge">só a mancha</span>' if e["slot"] != "prop" else "") + e["id"],
+            % (e["slot"], meta,
+               payload.get("floorTone", "#2a231c" if e["slot"] == "icone" else "#3a352c"), body,
+               ('<span class="badge">só a mancha</span>' if e["slot"] == "mancha" else "") + e["id"],
                detail, e["hash"][:12],
                "".join('<span class="tag%s">%s</span>'
                        % (" slot" if t == e["slot"] else "", t) for t in e["tags"]),
@@ -392,13 +417,15 @@ def build_page(index):
 
     total_props = sum(1 for e in index["pieces"] if e["slot"] == "prop")
     total_shadows = sum(1 for e in index["pieces"] if e["slot"] == "mancha")
-    lede = ("<b>%d conjuntos</b>, <b>%d peças</b> (%d props, %d manchas), indexadas por "
+    total_icons = sum(1 for e in index["pieces"] if e["slot"] == "icone")
+    lede = ("<b>%d conjuntos</b>, <b>%d peças</b> (%d props, %d manchas, %d ícones), indexadas por "
             "<b>slot</b> — o vocabulário por que o motor desenha: piso, bloco, prop, ator, "
-            "mancha, efeito. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula "
-            "que vai para o centro do tile), sua mancha de contato e um <b>hash de conteúdo</b>, "
+            "mancha, efeito, ícone. Cada peça carrega o tamanho em células, a <b>âncora</b> (a célula "
+            "que vai para o centro do tile — ou do slot, num ícone de inventário) e um "
+            "<b>hash de conteúdo</b>, "
             "para a mesma peça chegando de dois conjuntos ser reconhecida como uma só. "
             "Os filtros são só CSS + JS: sem JavaScript a página mostra o banco inteiro."
-            % (len(index["sets"]), len(index["pieces"]), total_props, total_shadows))
+            % (len(index["sets"]), len(index["pieces"]), total_props, total_shadows, total_icons))
     footer = ("Índice em <code>bank/index.json</code> · conjuntos em <code>bank/sets/</code> · "
               "gerado por <code>bank.py</code> · para levar uma peça para outro jogo: "
               "<code>bank.py export --tag conifer --out game.json</code>")

@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>artforge — armas e armaduras</title>
+<style>
+  :root {
+    --panelw: min(1240px, calc(100vw - 40px));
+    --fs: 15px;
+    --bg: #05070a; --panel: #0b0f14; --line: #1c2430; --slot: #171c24;
+    --ink: #e9e5d8; --dim: #8b8f92; --accent: #cfa855;
+    --mono: "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 30px 20px 52px; color: var(--ink); font-family: var(--mono);
+         line-height: 1.5; background: radial-gradient(120% 70% at 50% 0%, #111a26 0%, var(--bg) 58%, #030405 100%); }
+  .wrap { width: var(--panelw); margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  h2 { font-size: 13px; margin: 26px 0 10px; color: var(--accent); font-weight: 600; }
+  .lede { color: var(--dim); font-size: 12.5px; margin: 0 0 18px; max-width: 98ch; }
+  .lede b { color: var(--accent); font-weight: 600; }
+  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
+          margin-bottom: 16px; overflow: hidden; }
+  .cap { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; padding: 9px 14px;
+         border-bottom: 1px solid var(--line); font-size: 11.5px; color: var(--dim); }
+  .cap b { color: var(--accent); font-weight: 600; }
+  .arts { display: flex; flex-wrap: wrap; gap: 18px; padding: 12px 14px 14px; align-items: flex-end; }
+  .pane { }
+  .pane .name { color: var(--dim); font-size: 10.5px; margin-bottom: 4px; }
+  pre { margin: 0; font-family: var(--mono); font-size: var(--fs); line-height: 1;
+        white-space: pre; font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+  pre i { font-style: normal; }
+  .gridbox { padding: 14px; overflow-x: auto; }
+  .slots { border: 1px solid var(--line); border-radius: 8px; padding: 6px; background: #0e1219; }
+  footer { color: var(--dim); font-size: 11.5px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 18px; }
+  code { color: var(--accent); }
+  table { border-collapse: collapse; font-size: 11.5px; margin-top: 8px; }
+  th, td { border: 1px solid var(--line); padding: 3px 9px; text-align: right; color: var(--dim); }
+  th { color: var(--ink); font-weight: 600; }
+  td.id { text-align: left; color: var(--ink); }
+  .bar { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 10px; }
+  button.f { font: inherit; font-size: 11.5px; color: var(--ink); background: #101721;
+             border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  button.f[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+</style></head><body><div class="wrap">
+<h1>artforge — armas e armaduras</h1>
+<p class="lede"><b>16 itens</b> — 12 armas e 4 peças de armadura/adorno — cada um em <b>três resoluções</b> (pequena, média, grande), semente <b>20261013</b>. Um item de inventário não tem pé no chão: ele é <b>centralizado</b> no slot, então a âncora é o centro da caixa e o que tem de sobreviver é a <b>silhueta</b>.</p>
+<h2>O inventário</h2>
+<p class="lede">Um slot é um bloco quadrado de <b>5 × 3 células</b> (33 × 33 px — o slot sai quadrado na tela). O <b>footprint</b> diz quantos slots o item ocupa, e é ele que manda no tamanho pequeno: a espada longa é 1×3, o peitoral 2×3. Cada item está desenhado no seu tamanho de inventário.</p>
+<div class="card"><div class="gridbox"><div class="slots"><pre><i style="color:#2b3340">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>   <i style="color:#0c0c0c">.</i><i style="color:#747474">}</i><i style="color:#0c0c0c">.</i>     <i style="color:#2b3340">░</i>   <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i>     <i style="color:#2b3340">░</i>     <i style="color:#20140c">.</i><i style="color:#201810">.</i>    <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>     <i style="color:#2b3340">░</i> <i style="color:#acb0b0">q</i><i style="color:#a4a4a4">2</i><i style="color:#7c786c">I</i><i style="color:#e0a058">S</i><i style="color:#787068">f</i><i style="color:#a4a4a4">2</i><i style="color:#acb0b0">q</i>   <i style="color:#2b3340">░</i>    <i style="color:#382814">^</i><i style="color:#a87044">y</i><i style="color:#885c38">t</i>    <i style="color:#2b3340">░</i><i style="color:#282828">^</i><i style="color:#1c1c1c">-</i> <i style="color:#303030">&gt;</i><i style="color:#343434">&gt;</i><i style="color:#303030">&gt;</i> <i style="color:#1c1c1c">-</i><i style="color:#303030">=</i>  <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>     <i style="color:#2b3340">░</i><i style="color:#4c5058">L</i><i style="color:#d4d8e4">H</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d4d8e4">H</i><i style="color:#50545c">v</i>  <i style="color:#2b3340">░</i>   <i style="color:#483018">+</i><i style="color:#a87040">y</i><i style="color:#98643c">e</i><i style="color:#583c28">z</i>    <i style="color:#2b3340">░</i><i style="color:#f0f0f0">M</i><i style="color:#ececec">g</i><i style="color:#f4f4f4">N</i><i style="color:#ffffff">@@</i><i style="color:#e4e8f0">$</i><i style="color:#b0b8cc">h</i><i style="color:#e4e4e8">#</i><i style="color:#f8f8f8">%</i>  <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░░░░░░░░░░</i><i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i><i style="color:#2b3340">░░░░░░</i><i style="color:#444c58">?</i><i style="color:#d0d8e4">X</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i><i style="color:#2b3340">░░░░░</i><i style="color:#402818">;</i><i style="color:#b87c44">w</i><i style="color:#50381c">c</i><i style="color:#70503c">i</i><i style="color:#604838">)</i><i style="color:#2b3340">░░░░░</i><i style="color:#585858">)</i><i style="color:#ffffff">@@</i><i style="color:#f4f4f8">W</i><i style="color:#f0f4f8">N</i><i style="color:#c8d0e0">U</i><i style="color:#98a4c0">]</i><i style="color:#b8c0d4">4</i><i style="color:#646464">(</i><i style="color:#2b3340">░░░░░░░░░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>  <i style="color:#303034">.</i><i style="color:#303030">.</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>     <i style="color:#2b3340">░</i><i style="color:#141414">.</i><i style="color:#4c4c4c">z</i><i style="color:#707070">C</i><i style="color:#4c4c4c">?</i><i style="color:#141414">.</i><i style="color:#7c746c">I</i><i style="color:#c4c4c4">p</i><i style="color:#989ca4">j</i>   <i style="color:#2b3340">░</i>  <i style="color:#b47840">w</i><i style="color:#845830">I</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>    <i style="color:#2b3340">░</i> <i style="color:#d0d0d0">U</i><i style="color:#ffffff">@</i><i style="color:#e4e8f0">$</i><i style="color:#fcfcff">@</i><i style="color:#ccd0e0">A</i><i style="color:#98a4c0">]</i><i style="color:#949cac">j</i>   <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>     <i style="color:#2b3340">░</i><i style="color:#181818">-</i><i style="color:#c8c8c8">O</i><i style="color:#ffffff">@</i><i style="color:#c8c8c8">O</i><i style="color:#181818">-</i><i style="color:#20140c">-</i>     <i style="color:#2b3340">░</i>  <i style="color:#d08c4c">O</i><i style="color:#3c2818">=</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>    <i style="color:#2b3340">░</i> <i style="color:#888888">u</i><i style="color:#ffffff">@</i><i style="color:#dce0e8">R</i><i style="color:#e8ecf0">g</i><i style="color:#c0c8d8">O</i><i style="color:#98a4c0">]</i><i style="color:#6c7078">{</i>   <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>     <i style="color:#2b3340">░</i> <i style="color:#100c0c">.</i><i style="color:#e8b878">d</i><i style="color:#848484">u</i><i style="color:#101010">.</i><i style="color:#20140c">-</i>     <i style="color:#2b3340">░</i>  <i style="color:#d08c4c">O</i><i style="color:#443018">&lt;</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>    <i style="color:#2b3340">░</i> <i style="color:#684c30">s</i><i style="color:#f0b074">hhh</i><i style="color:#e4a870">k</i><i style="color:#e0a86c">q</i><i style="color:#705034">T</i>   <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░░░░░░░░░</i><i style="color:#70747c">F</i><i style="color:#6c7078">(</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i><i style="color:#2b3340">░░░░░░░░</i><i style="color:#e4a458">w</i><i style="color:#d8d8d8">H</i><i style="color:#848484">u</i><i style="color:#20140c">-</i><i style="color:#2b3340">░░░░░░░░</i><i style="color:#a87040">y</i><i style="color:#986838">o</i><i style="color:#2b3340">░</i><i style="color:#70503c">i</i><i style="color:#604838">)</i><i style="color:#2b3340">░░░░░░</i><i style="color:#583824">r</i><i style="color:#c08050">nnnnn</i><i style="color:#5c4028">c</i><i style="color:#2b3340">░░░░░░░░░░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i><i style="color:#181814">'</i><i style="color:#dcdca0">H</i><i style="color:#70747c">F</i><i style="color:#6c7078">(</i><i style="color:#ffffc4">&amp;</i><i style="color:#e4e4ac">R</i><i style="color:#dcdca0">HH</i><i style="color:#181814">'</i>  <i style="color:#2b3340">░</i>  <i style="color:#f4d874">H</i><i style="color:#101008">.</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>     <i style="color:#2b3340">░</i>  <i style="color:#302010">_</i><i style="color:#b07840">2</i><i style="color:#684828">J</i><i style="color:#64442c">v</i><i style="color:#583c28">z</i>    <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i> <i style="color:#282818">^</i><i style="color:#70747c">F</i><i style="color:#6c7078">(</i><i style="color:#f8e8a4">#</i><i style="color:#787040">C</i><i style="color:#282818">^^</i>   <i style="color:#2b3340">░</i>  <i style="color:#e4a458">w</i><i style="color:#201c10">:</i><i style="color:#ecc468">O</i><i style="color:#241c10">:</i>     <i style="color:#2b3340">░</i><i style="color:#1c1c1c">'</i><i style="color:#f4f8ff">@@@@@@@</i><i style="color:#1c1c1c">'</i>  <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i> <i style="color:#3c3c38">:</i><i style="color:#a0a4a0">2</i><i style="color:#a0a09c">]</i><i style="color:#ffffa4">Q</i><i style="color:#808044">3</i>     <i style="color:#2b3340">░</i>  <i style="color:#e4a458">w</i><i style="color:#585830">T</i><i style="color:#ffff88">Q</i><i style="color:#585830">T</i>     <i style="color:#2b3340">░</i><i style="color:#181008">.</i><i style="color:#f8bc68">O</i><i style="color:#ffb464">V</i><i style="color:#ffcc80">H</i><i style="color:#ffff98">@</i><i style="color:#e8bc6c">p</i><i style="color:#905038">J</i><i style="color:#885c38">(</i><i style="color:#181008">.</i>  <i style="color:#2b3340">░</i> <i style="color:#101010">.</i><i style="color:#909090">o</i><i style="color:#d4d4d4">K</i><i style="color:#f4f4f4">N</i><i style="color:#d0d0d0">A</i><i style="color:#909090">o</i><i style="color:#101010">.</i>   <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░░░░░░░░</i><i style="color:#787848">i</i><i style="color:#f0f098">@</i><i style="color:#ecec98">&amp;</i><i style="color:#2b3340">░░░░░░░░░░</i><i style="color:#e4a458">w</i><i style="color:#2b3340">░░░░░░░░░░</i><i style="color:#483018">&gt;</i><i style="color:#7c4428">?</i><i style="color:#bc6040">}</i><i style="color:#e0a860">P</i><i style="color:#bc6440">f</i><i style="color:#7c4428">?</i><i style="color:#443018">;</i><i style="color:#2b3340">░░░░</i><i style="color:#101010">.</i><i style="color:#e8e8e8">B</i><i style="color:#ffffff">@</i><i style="color:#ecf0f4">0</i><i style="color:#f0f4f8">N</i><i style="color:#c0c8d8">p</i><i style="color:#b0b8cc">6</i><i style="color:#c8ccd4">G</i><i style="color:#101010">.</i><i style="color:#2b3340">░░░░░░░░░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>  <i style="color:#383840">&gt;</i><i style="color:#a8a864">E</i> <i style="color:#2b3340">░</i><i style="color:#1c1c10">:</i><i style="color:#6c7060">t</i><i style="color:#8c94d4">q</i><i style="color:#646460">f</i><i style="color:#1c1c10">:</i><i style="color:#2b3340">░</i>  <i style="color:#e4a458">w</i>  <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i><i style="color:#0c0c10">.</i><i style="color:#b8c0d0">d</i><i style="color:#b0acb0">w</i><i style="color:#a8a8b4">S</i><i style="color:#f0f0f4">M</i><i style="color:#a0a0ac">a</i><i style="color:#9494a0">Y</i><i style="color:#a8b0c8">k</i><i style="color:#383c40">.</i><i style="color:#383838">.</i> <i style="color:#2b3340">░</i>  <i style="color:#c44044">|</i><i style="color:#c0383c">v</i> <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i> <i style="color:#889098">Z</i><i style="color:#c4c8d0">A</i><i style="color:#848898">e</i> <i style="color:#2b3340">░</i><i style="color:#101008">.</i><i style="color:#e0e480">@</i><i style="color:#b0b4cc">K</i><i style="color:#dcdc80">%</i><i style="color:#101008">.</i><i style="color:#2b3340">░</i>  <i style="color:#e4a458">w</i>  <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i> <i style="color:#586070">7</i><i style="color:#5c4028">*</i><i style="color:#604c40">s</i><i style="color:#b8b8b4">6</i><i style="color:#604c40">s</i><i style="color:#5c4028">*</i><i style="color:#5c6474">(</i><i style="color:#70747c">t</i><i style="color:#6c7078">f</i> <i style="color:#2b3340">░</i> <i style="color:#3c3c20">-</i><i style="color:#b0a070">@</i><i style="color:#807440">j</i> <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i> <i style="color:#b8bcc8">p</i><i style="color:#989ca8">a</i><i style="color:#8890a0">Z</i> <i style="color:#2b3340">░</i> <i style="color:#383424">!</i><i style="color:#b8a094">9</i><i style="color:#3c382c">c</i> <i style="color:#2b3340">░</i>  <i style="color:#78582c">)</i>  <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>     <i style="color:#2b3340">░</i>  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i> <i style="color:#2b3340">░</i>  <i style="color:#505028">/</i><i style="color:#4c4c28">c</i> <i style="color:#2b3340">░</i>
+<i style="color:#2b3340">░░░░░░░░</i><i style="color:#44484c">*</i><i style="color:#b0b8c8">4</i><i style="color:#40444c">c</i><i style="color:#2b3340">░░░</i><i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i><i style="color:#2b3340">░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</i><i style="color:#585850">z</i><i style="color:#b8b8a0">&amp;%</i><i style="color:#2b3340">░░░░░░░░</i></pre></div></div></div>
+<h2>As três resoluções</h2>
+<p class="lede">As três na <b>mesma escala de fonte</b>: a grande é literalmente o dobro da pequena. A cadeia é 1× / 1,5× / 2× de propósito — assim a grande reduzida por 2 cai <b>exatamente</b> na grade da pequena, e as duas podem ser comparadas célula a célula.</p>
+<section class="card" id="weapon-dagger">
+  <div class="cap"><span><b>Adaga</b> · weapon.dagger</span><span>footprint 1×2 slots</span><span>pequena 4×5 · média 6×8 · grande 8×10</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 4×5 · âncora 2,2</div><pre>  <i style="color:#383c40">.</i><i style="color:#383838">.</i>
+  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i>
+  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i>
+ <i style="color:#585850">z</i><i style="color:#b8b8a0">&amp;%</i>
+ <i style="color:#606030">s</i><i style="color:#c0c070">@</i><i style="color:#bcbc70">&amp;</i></pre></div><div class="pane"><div class="name">média · 6×8 · âncora 3,4</div><pre>      
+   <i style="color:#343434">.</i><i style="color:#303030">.</i> 
+   <i style="color:#686870">L</i><i style="color:#646870">s</i> 
+   <i style="color:#606870">?</i><i style="color:#60646c">z</i> 
+   <i style="color:#606870">?</i><i style="color:#60646c">z</i> 
+   <i style="color:#686c74">L</i><i style="color:#646870">s</i> 
+ <i style="color:#a4a498">Y</i><i style="color:#686860">s</i><i style="color:#acaca8">y</i><i style="color:#a8a8a4">j</i><i style="color:#686860">s</i>
+ <i style="color:#ffffe8">@</i><i style="color:#ffffac">%</i><i style="color:#ffffb0">%%</i><i style="color:#ffffac">%</i></pre></div><div class="pane"><div class="name">grande · 8×10 · âncora 4,5</div><pre>        
+    <i style="color:#383838">.</i><i style="color:#343434">.</i>  
+    <i style="color:#808088">F</i><i style="color:#787c84">(</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+    <i style="color:#747884">7</i><i style="color:#707480">)</i>  
+ <i style="color:#3c3c38">.</i>  <i style="color:#848890">C</i><i style="color:#808488">i</i>  
+ <i style="color:#f8f8e4">&amp;</i><i style="color:#ffffd0">@</i><i style="color:#ffffc8">@@@@</i><i style="color:#ffffd4">@</i>
+ <i style="color:#a0a090">e</i><i style="color:#6c6c48">?</i><i style="color:#686838">/</i><i style="color:#d4d080">4</i><i style="color:#ccc878">6</i><i style="color:#686838">*</i><i style="color:#707048">s</i></pre></div></div>
+</section>
+<section class="card" id="weapon-sword-short">
+  <div class="cap"><span><b>Espada curta</b> · weapon.sword.short</span><span>footprint 1×3 slots</span><span>pequena 4×8 · média 6×12 · grande 8×16</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 4×8 · âncora 2,4</div><pre>    
+  <i style="color:#343438">&gt;</i><i style="color:#303030">;</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+ <i style="color:#101010">.</i><i style="color:#808088">t</i><i style="color:#787c80">1</i>
+ <i style="color:#a8a8a8">E</i><i style="color:#fcfcfc">@@</i></pre></div><div class="pane"><div class="name">média · 6×12 · âncora 3,6</div><pre>      
+   <i style="color:#282828">..</i> 
+   <i style="color:#707078">(</i><i style="color:#686c70">J</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#606870">v</i><i style="color:#60646c">T</i> 
+   <i style="color:#646870">v</i><i style="color:#60646c">T</i> 
+ <i style="color:#606060">s</i><i style="color:#242424">.</i><i style="color:#84888c">3</i><i style="color:#808088">f</i><i style="color:#242424">.</i>
+ <i style="color:#ffffff">@@@@@</i>
+ <i style="color:#888888">1</i><i style="color:#4c4c4c">+</i><i style="color:#a8a09c">x</i><i style="color:#a8a098">Y</i><i style="color:#4c4c4c">!</i></pre></div><div class="pane"><div class="name">grande · 8×16 · âncora 4,8</div><pre>        
+    <i style="color:#282828">.</i><i style="color:#202020">.</i>  
+    <i style="color:#88888c">3</i><i style="color:#808488">f</i>  
+    <i style="color:#788088">{</i><i style="color:#787884">F</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#747884">i</i><i style="color:#707480">|</i>  
+    <i style="color:#787c88">{</i><i style="color:#747880">|</i>  
+ <i style="color:#606060">s</i><i style="color:#343434">-</i><i style="color:#303030">.</i><i style="color:#9ca0a4">Z</i><i style="color:#9898a0">e</i><i style="color:#303030">.</i><i style="color:#343434">-</i>
+ <i style="color:#ffffff">@@@@@@@</i>
+ <i style="color:#747474">(</i><i style="color:#444444">;</i><i style="color:#404040">^</i><i style="color:#887060">|</i><i style="color:#806858">)</i><i style="color:#404040">^</i><i style="color:#444444">;</i>
+    <i style="color:#988c80">t</i><i style="color:#8c8078">}</i>  </pre></div></div>
+</section>
+<section class="card" id="weapon-sword-long">
+  <div class="cap"><span><b>Espada longa</b> · weapon.sword.long</span><span>footprint 1×3 slots</span><span>pequena 4×9 · média 6×14 · grande 8×18</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 4×9 · âncora 2,4</div><pre>  <i style="color:#303034">.</i><i style="color:#303030">.</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+ <i style="color:#3c3c38">:</i><i style="color:#a0a4a0">2</i><i style="color:#a0a09c">]</i>
+ <i style="color:#787848">i</i><i style="color:#f0f098">@</i><i style="color:#ecec98">&amp;</i>
+  <i style="color:#b0b068">q</i><i style="color:#a8a864">E</i></pre></div><div class="pane"><div class="name">média · 6×14 · âncora 3,7</div><pre>      
+   <i style="color:#242424">,</i><i style="color:#202020">_</i> 
+   <i style="color:#707478">I</i><i style="color:#6c7074">}</i> 
+   <i style="color:#646870">i</i><i style="color:#60646c">F</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#606870">F</i><i style="color:#60646c">|</i> 
+   <i style="color:#6c7074">}</i><i style="color:#686870">{</i> 
+ <i style="color:#e4e4d0">g</i><i style="color:#a8a898">w</i><i style="color:#d0d0c4">X</i><i style="color:#ccd0c0">K</i><i style="color:#a8a898">w</i>
+ <i style="color:#f8f8e0">@</i><i style="color:#c4c474">p</i><i style="color:#d8d070">A</i><i style="color:#d4d070">U</i><i style="color:#c4c478">p</i>
+ <i style="color:#0c0c08">.</i> <i style="color:#7c704c">}</i><i style="color:#786c48">C</i> </pre></div><div class="pane"><div class="name">grande · 8×18 · âncora 4,9</div><pre>        
+    <i style="color:#242424">.</i><i style="color:#202020">.</i>  
+    <i style="color:#84888c">[</i><i style="color:#808084">l</i>  
+    <i style="color:#808088">l</i><i style="color:#787c84">1</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#747884">I</i><i style="color:#707480">}</i>  
+    <i style="color:#80848c">u</i><i style="color:#7c8088">1</i>  
+ <i style="color:#e4e4d0">N</i><i style="color:#b4b4a0">9</i><i style="color:#b0b098">P</i><i style="color:#d8d8c8">$$</i><i style="color:#b0b098">P</i><i style="color:#b4b4a0">9</i>
+ <i style="color:#e8e8d4">&amp;</i><i style="color:#c0c07c">V</i><i style="color:#b8b864">9</i><i style="color:#e8d878">$</i><i style="color:#d8d070">H</i><i style="color:#b8b864">9</i><i style="color:#c0c080">p</i>
+    <i style="color:#583c28">&lt;</i><i style="color:#503424">=</i>  
+    <i style="color:#9c9060">Z</i><i style="color:#908058">l</i>  </pre></div></div>
+</section>
+<section class="card" id="weapon-sword-great">
+  <div class="cap"><span><b>Montante</b> · weapon.sword.great</span><span>footprint 2×4 slots</span><span>pequena 9×11 · média 14×16 · grande 18×22</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×11 · âncora 4,5</div><pre>   <i style="color:#0c0c0c">.</i><i style="color:#747474">}</i><i style="color:#0c0c0c">.</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+<i style="color:#181814">'</i><i style="color:#dcdca0">HH</i><i style="color:#e4e4ac">R</i><i style="color:#ffffc4">&amp;</i><i style="color:#e4e4ac">R</i><i style="color:#dcdca0">HH</i><i style="color:#181814">'</i>
+ <i style="color:#282818">^^</i><i style="color:#807840">f</i><i style="color:#f8e8a4">#</i><i style="color:#787040">C</i><i style="color:#282818">^^</i> 
+   <i style="color:#808044">3</i><i style="color:#ffffa4">Q</i><i style="color:#808044">3</i>   </pre></div><div class="pane"><div class="name">média · 14×16 · âncora 7,8</div><pre>              
+       <i style="color:#505050">s</i><i style="color:#484848">z</i>     
+      <i style="color:#2c3038">;</i><i style="color:#f8f8fc">&amp;&amp;</i><i style="color:#24282c">,</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#e4e8f0">B</i><i style="color:#e8e8f0">g</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#dce0e8">D</i><i style="color:#e0e4ec">#</i><i style="color:#282c30">^</i>    
+      <i style="color:#30303c">&gt;</i><i style="color:#e0e4ec">$</i><i style="color:#e4e8f0">$</i><i style="color:#282c30">^</i>    
+ <i style="color:#0c0c0c">.</i><i style="color:#6c6c60">i</i><i style="color:#303028">===</i><i style="color:#54585c">v</i><i style="color:#f8f8f8">%%</i><i style="color:#505054">L</i><i style="color:#303028">===</i><i style="color:#686860">i</i>
+ <i style="color:#505048">s</i><i style="color:#ffffe8">@</i><i style="color:#ffffbc">&amp;</i><i style="color:#ffffb8">&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;</i><i style="color:#ffffbc">&amp;</i><i style="color:#ffffe8">@</i>
+ <i style="color:#101010">.</i><i style="color:#7c7c70">3</i><i style="color:#404020">rrr</i><i style="color:#58502c">s</i><i style="color:#ac9054">Z</i><i style="color:#a48850">n</i><i style="color:#504c28">z</i><i style="color:#404020">rrr</i><i style="color:#7c7c70">3</i>
+      <i style="color:#787840">}</i><i style="color:#fcfcb4">%</i><i style="color:#fcfcb0">%</i><i style="color:#74703c">{</i>    </pre></div><div class="pane"><div class="name">grande · 18×22 · âncora 9,11</div><pre>                  
+         <i style="color:#484848">_</i><i style="color:#444444">:</i>       
+        <i style="color:#64686c">/</i><i style="color:#ffffff">@@</i><i style="color:#606068">c</i>      
+        <i style="color:#848890">{</i><i style="color:#ffffff">@@</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8e0e8">H</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#d8dce8">X</i><i style="color:#dce0e8">H</i><i style="color:#788088">|</i>      
+        <i style="color:#848890">{</i><i style="color:#f4f4f8">N</i><i style="color:#f4f8f8">W</i><i style="color:#788088">|</i>      
+  <i style="color:#ccccbc">4</i><i style="color:#c8c8b4">d</i><i style="color:#b8b8a4">EEEE</i><i style="color:#dce0c8">X</i><i style="color:#ffffe8">@@</i><i style="color:#dcdcc8">K</i><i style="color:#b8b8a4">EEEE</i><i style="color:#ccccb8">d</i><i style="color:#c4c4b4">6</i>
+  <i style="color:#c8c8b8">h</i><i style="color:#c0c08c">w</i><i style="color:#b0b05c">YYYY</i><i style="color:#dcd070">4</i><i style="color:#f8e07c">H</i><i style="color:#e8d478">O</i><i style="color:#ccc068">k</i><i style="color:#b0b05c">YYYY</i><i style="color:#c0c08c">q</i><i style="color:#c0c0b0">k</i>
+        <i style="color:#604428">,</i><i style="color:#a47048">J</i><i style="color:#906040">z</i><i style="color:#4c3020">.</i>      
+        <i style="color:#645030">=</i><i style="color:#bca45c">Z</i><i style="color:#b8a05c">e</i><i style="color:#544028">:</i>      
+       <i style="color:#202010">.</i><i style="color:#f0f084">$</i><i style="color:#ffffcc">&amp;</i><i style="color:#ffffc8">&amp;</i><i style="color:#f0f080">D</i><i style="color:#1c1c10">.</i>     </pre></div></div>
+</section>
+<section class="card" id="weapon-mace">
+  <div class="cap"><span><b>Maça</b> · weapon.mace</span><span>footprint 1×3 slots</span><span>pequena 5×9 · média 8×14 · grande 10×18</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 5×9 · âncora 2,4</div><pre>  <i style="color:#383840">&gt;</i>  
+ <i style="color:#889098">Z</i><i style="color:#c4c8d0">A</i><i style="color:#848898">e</i> 
+ <i style="color:#b8bcc8">p</i><i style="color:#989ca8">a</i><i style="color:#8890a0">Z</i> 
+ <i style="color:#44484c">*</i><i style="color:#b0b8c8">4</i><i style="color:#40444c">c</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4b070">d</i><i style="color:#201810">.</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4a458">P</i><i style="color:#20140c">.</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4a458">P</i><i style="color:#20140c">.</i> 
+ <i style="color:#201810">.</i><i style="color:#e8c094">U</i><i style="color:#201814">.</i> 
+ <i style="color:#48484c">/</i><i style="color:#e8f0ff">@</i><i style="color:#48484c">/</i> </pre></div><div class="pane"><div class="name">média · 8×14 · âncora 4,7</div><pre>        
+   <i style="color:#2c3034">=</i><i style="color:#444448">c</i><i style="color:#c4c4c4">O</i>  
+ <i style="color:#101418">.</i><i style="color:#888890">n</i><i style="color:#ccd0d8">K</i><i style="color:#ccd4e0">X</i><i style="color:#989ca4">y</i><i style="color:#0c1010">.</i> 
+ <i style="color:#303038">;</i><i style="color:#c4c8d0">b</i><i style="color:#f8f8f8">@</i><i style="color:#b8c0cc">V</i><i style="color:#9ca4b4">2</i><i style="color:#606060">J</i><i style="color:#181818">.</i>
+ <i style="color:#303034">;</i><i style="color:#c8ccd8">U</i><i style="color:#b8bcc8">4</i><i style="color:#7c8494">u</i><i style="color:#808898">u</i><i style="color:#6c6c70">i</i><i style="color:#202020">'</i>
+ <i style="color:#141418">.</i><i style="color:#88909c">Z</i><i style="color:#d4dce8">R</i><i style="color:#acb4c0">6</i><i style="color:#848894">n</i><i style="color:#141418">.</i> 
+   <i style="color:#807060">}</i><i style="color:#807468">f</i><i style="color:#d0d0d0">X</i>  
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>   
+   <i style="color:#988060">u</i><i style="color:#846c54">{</i>   </pre></div><div class="pane"><div class="name">grande · 10×18 · âncora 5,9</div><pre>          
+    <i style="color:#34383c">=</i><i style="color:#303438">^</i><i style="color:#b0b0b0">w</i><i style="color:#4c4c4c">*</i>  
+  <i style="color:#18181c">.</i><i style="color:#bcc0c4">9</i><i style="color:#bcc0c8">d</i><i style="color:#bcc4d0">4</i><i style="color:#e4e8f0">$</i><i style="color:#181818">.</i>  
+  <i style="color:#848894">l</i><i style="color:#d0d0d8">U</i><i style="color:#ffffff">@</i><i style="color:#f4f8ff">Q</i><i style="color:#bcc4d0">4</i><i style="color:#808894">t</i>  
+  <i style="color:#d0d4e0">K</i><i style="color:#ffffff">@</i><i style="color:#dce0e4">8</i><i style="color:#888c9c">[</i><i style="color:#848c9c">[</i><i style="color:#c4ccd4">O</i><i style="color:#989898">Z</i><i style="color:#303030">_</i>
+  <i style="color:#9ca0ac">j</i><i style="color:#c4ccd8">O</i><i style="color:#a0a8b4">a</i><i style="color:#7c8494">11</i><i style="color:#6c7480">i</i>  
+  <i style="color:#484850">c</i><i style="color:#e0e8f4">#</i><i style="color:#d4dce8">m</i><i style="color:#a8b0c0">w</i><i style="color:#8890a0">n</i><i style="color:#505460">?</i>  
+   <i style="color:#242828">-</i><i style="color:#989494">o</i><i style="color:#787478">{</i><i style="color:#d8d8d8">K</i><i style="color:#282828">-</i>  
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i><i style="color:#383838">=</i><i style="color:#343434">^</i>  
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b88848">n</i><i style="color:#906034">7</i>    
+    <i style="color:#b89c70">x</i><i style="color:#987c64">3</i>    </pre></div></div>
+</section>
+<section class="card" id="weapon-warhammer">
+  <div class="cap"><span><b>Marreta</b> · weapon.warhammer</span><span>footprint 2×3 slots</span><span>pequena 9×8 · média 14×12 · grande 18×16</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×8 · âncora 4,4</div><pre>         
+<i style="color:#101010">.</i><i style="color:#343434">&lt;&lt;</i><i style="color:#242428">,</i><i style="color:#202028">_</i><i style="color:#202428">,</i><i style="color:#343434">&lt;&lt;</i><i style="color:#101010">.</i>
+<i style="color:#404040">c</i><i style="color:#e8ecf0">%%</i><i style="color:#a8b0c8">9</i><i style="color:#98a4c0">w</i><i style="color:#a4b0c8">6</i><i style="color:#e8ecf0">%%</i><i style="color:#484848">z</i>
+ <i style="color:#202028">__</i><i style="color:#3c3834">!</i><i style="color:#d0a06c">k</i><i style="color:#383030">&lt;</i><i style="color:#202028">__</i><i style="color:#08080c">.</i>
+   <i style="color:#24201c">_</i><i style="color:#e8d0b8">R</i><i style="color:#20201c">:</i>   
+   <i style="color:#281c10">:</i><i style="color:#e0a058">P</i><i style="color:#20140c">'</i>   
+   <i style="color:#281c10">:</i><i style="color:#e0a058">P</i><i style="color:#20140c">'</i>   
+   <i style="color:#282018">_</i><i style="color:#e4c094">U</i><i style="color:#241c14">-</i>   </pre></div><div class="pane"><div class="name">média · 14×12 · âncora 7,6</div><pre>              
+  <i style="color:#303030">:</i><i style="color:#343434">__</i><i style="color:#303034">:</i><i style="color:#202028">....</i><i style="color:#343434">_</i><i style="color:#3c3c3c">=</i><i style="color:#68686c">7</i><i style="color:#545868">s</i>
+  <i style="color:#d8d8e0">#</i><i style="color:#e8ecf0">%%</i><i style="color:#e0e4ec">M</i><i style="color:#98a4c0">2222</i><i style="color:#e8e8f0">Q</i><i style="color:#ecf0f4">@</i><i style="color:#f0f0f4">@</i><i style="color:#8890ac">o</i>
+  <i style="color:#1c2024">.</i><i style="color:#202028">....</i><i style="color:#e4b874">4</i><i style="color:#c49064">x</i><i style="color:#202028">..</i><i style="color:#282c30">'</i><i style="color:#68686c">7</i><i style="color:#545868">s</i>
+       <i style="color:#f0dcc0">B</i><i style="color:#e0c8b8">K</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f8bc60">O</i><i style="color:#d08c4c">5</i>     
+       <i style="color:#f4d098">m</i><i style="color:#d8b088">h</i>     </pre></div><div class="pane"><div class="name">grande · 18×16 · âncora 9,8</div><pre>                  
+  <i style="color:#202020">.</i><i style="color:#343434">____</i><i style="color:#28282c">.</i><i style="color:#202028">....</i><i style="color:#28282c">.</i><i style="color:#343434">_</i><i style="color:#383838">_</i><i style="color:#686868">)</i><i style="color:#606874">v</i><i style="color:#343840">,</i>
+  <i style="color:#949494">n</i><i style="color:#ffffff">@@@@</i><i style="color:#b8c0d4">9</i><i style="color:#98a4c0">jjjj</i><i style="color:#bcc4d8">d</i><i style="color:#ffffff">@@@</i><i style="color:#acb4cc">w</i><i style="color:#545c6c">?</i>
+  <i style="color:#343840">,</i><i style="color:#5c6070">LLLL</i><i style="color:#586070">s</i><i style="color:#78787c">i</i><i style="color:#c0ac98">E</i><i style="color:#b09890">5</i><i style="color:#706c78">7</i><i style="color:#586070">s</i><i style="color:#5c6070">L</i><i style="color:#606474">v</i><i style="color:#c4c4c4">4</i><i style="color:#a0a8c0">a</i><i style="color:#505868">z</i>
+        <i style="color:#4c4030">;</i><i style="color:#f0c894">G</i><i style="color:#d8ac84">S</i><i style="color:#382c24">-</i>      
+        <i style="color:#4c402c">;</i><i style="color:#f0c88c">O</i><i style="color:#d8a87c">E</i><i style="color:#382c20">'</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#503c20">=</i><i style="color:#f4b860">6</i><i style="color:#d08c4c">e</i><i style="color:#382414">.</i>      
+        <i style="color:#504430">&lt;</i><i style="color:#f0cc98">b</i><i style="color:#d8b08c">q</i><i style="color:#403024">:</i>      </pre></div></div>
+</section>
+<section class="card" id="weapon-axe">
+  <div class="cap"><span><b>Machado</b> · weapon.axe</span><span>footprint 2×3 slots</span><span>pequena 9×8 · média 14×12 · grande 18×16</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×8 · âncora 4,4</div><pre>         
+  <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i> <i style="color:#181818">-</i>  
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#bcb0a8">P</i><i style="color:#ececec">0</i><i style="color:#d8dce4">8</i><i style="color:#2c2c30">;</i> 
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#f4ece8">0</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i> 
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#2c2418">^</i><i style="color:#606060">|</i><i style="color:#585c60">7</i>  
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>    
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>    
+  <i style="color:#201c14">:</i><i style="color:#e4c094">p</i><i style="color:#241c14">:</i>    </pre></div><div class="pane"><div class="name">média · 14×12 · âncora 7,6</div><pre>              
+    <i style="color:#504020">!</i><i style="color:#402c18">^</i>        
+    <i style="color:#c4b08c">q</i><i style="color:#b8a088">y</i><i style="color:#505050">z</i><i style="color:#787878">}</i><i style="color:#a0a0a0">j</i><i style="color:#b4b4b8">k</i><i style="color:#202020">'</i>   
+    <i style="color:#c8a060">a</i><i style="color:#e0b48c">6</i><i style="color:#ffffff">@@@</i><i style="color:#e4e8f0">$</i><i style="color:#9098a8">5</i><i style="color:#0c0c0c">.</i>  
+    <i style="color:#c89850">j</i><i style="color:#dcac7c">q</i><i style="color:#ffffff">@@@</i><i style="color:#ecf0f4">0</i><i style="color:#98a4c0">a</i><i style="color:#343840">&lt;</i>  
+    <i style="color:#c89850">j</i><i style="color:#cc9c6c">a</i><i style="color:#e0e0e0">D</i><i style="color:#ffffff">@@</i><i style="color:#d4d8e4">H</i><i style="color:#404854">c</i>   
+    <i style="color:#c8a064">a</i><i style="color:#a07850">3</i> <i style="color:#1c1c1c">.</i><i style="color:#545454">s</i><i style="color:#444848">c</i>    
+    <i style="color:#c4ac88">w</i><i style="color:#a89078">o</i>        
+    <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>        
+    <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>        
+    <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>        
+    <i style="color:#ccb080">q</i><i style="color:#ac8c70">o</i>        </pre></div><div class="pane"><div class="name">grande · 18×16 · âncora 9,8</div><pre>                  
+     <i style="color:#644c28">*</i><i style="color:#543820">&gt;</i>           
+     <i style="color:#f0d4ac">X</i><i style="color:#dcbca0">d</i>  <i style="color:#181818">.</i><i style="color:#383838">=</i><i style="color:#545454">z</i><i style="color:#1c1c1c">.</i>     
+     <i style="color:#f4c074">V</i><i style="color:#d49c68">y</i><i style="color:#e0e0e0">8</i><i style="color:#f8f8f8">%</i><i style="color:#ffffff">@@</i><i style="color:#fcfcff">@</i><i style="color:#a0a8b4">a</i><i style="color:#0c0c0c">.</i>    
+     <i style="color:#f8bc60">d</i><i style="color:#d09054">5</i><i style="color:#ffffff">@@@@@</i><i style="color:#a8b0c8">S</i><i style="color:#7c8090">3</i>    
+     <i style="color:#f8bc60">d</i><i style="color:#d09054">5</i><i style="color:#ffffff">@@@@@</i><i style="color:#b0b8d0">P</i><i style="color:#98a4c0">y</i><i style="color:#2c3038">_</i>   
+     <i style="color:#f8bc60">d</i><i style="color:#d09054">5</i><i style="color:#ffffff">@@@@</i><i style="color:#fcfcff">@</i><i style="color:#9ca8c4">]</i><i style="color:#48505c">/</i>    
+     <i style="color:#f8bc60">d</i><i style="color:#d09050">Z</i><i style="color:#a4a4a4">a</i><i style="color:#d0d0d0">U</i><i style="color:#f8f8f8">%</i><i style="color:#ffffff">@</i><i style="color:#e8ecf0">g</i><i style="color:#48505c">/</i>     
+     <i style="color:#f0cc94">b</i><i style="color:#d8ac84">q</i>   <i style="color:#282828">:</i><i style="color:#383c3c">;</i>      
+     <i style="color:#f4c88c">b</i><i style="color:#d8a87c">S</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+     <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>           
+    <i style="color:#080808">.</i><i style="color:#f0d098">U</i><i style="color:#d8b088">k</i>           </pre></div></div>
+</section>
+<section class="card" id="weapon-battleaxe">
+  <div class="cap"><span><b>Machado de guerra</b> · weapon.battleaxe</span><span>footprint 2×4 slots</span><span>pequena 9×11 · média 14×16 · grande 18×22</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×11 · âncora 4,5</div><pre>   <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i>   
+ <i style="color:#acb0b0">q</i><i style="color:#a4a4a4">2</i><i style="color:#7c786c">I</i><i style="color:#e0a058">S</i><i style="color:#787068">f</i><i style="color:#a4a4a4">2</i><i style="color:#acb0b0">q</i> 
+<i style="color:#4c5058">L</i><i style="color:#d4d8e4">H</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d4d8e4">H</i><i style="color:#50545c">v</i>
+<i style="color:#444c58">?</i><i style="color:#d0d8e4">X</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i>
+ <i style="color:#9498a4">j</i><i style="color:#c4c4c4">p</i><i style="color:#807870">1</i><i style="color:#e0a058">S</i><i style="color:#7c746c">I</i><i style="color:#c4c4c4">p</i><i style="color:#989ca4">j</i> 
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#201c10">:</i><i style="color:#ecc468">O</i><i style="color:#241c10">:</i>   
+   <i style="color:#585830">T</i><i style="color:#ffff88">Q</i><i style="color:#585830">T</i>   </pre></div><div class="pane"><div class="name">média · 14×16 · âncora 7,8</div><pre>              
+       <i style="color:#504020">r</i><i style="color:#402c18">=</i>     
+   <i style="color:#505050">s</i><i style="color:#343434">&gt;</i><i style="color:#101010">.</i> <i style="color:#ccb460">k</i><i style="color:#b09850">5</i> <i style="color:#101010">.</i><i style="color:#383838">&lt;</i><i style="color:#505050">s</i> 
+  <i style="color:#505054">s</i><i style="color:#e8e8f0">B</i><i style="color:#ffffff">@@</i><i style="color:#e8e8e8">B</i><i style="color:#f0c880">G</i><i style="color:#d8a878">q</i><i style="color:#ececec">g</i><i style="color:#ffffff">@@</i><i style="color:#e4e8f0">$</i><i style="color:#4c4c50">z</i>
+ <i style="color:#141418">.</i><i style="color:#98a0b8">a</i><i style="color:#e8ecf0">g</i><i style="color:#ffffff">@@@</i><i style="color:#f8c884">U</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#e8e8f0">B</i><i style="color:#94a0b4">y</i>
+ <i style="color:#4c5060">s</i><i style="color:#98a4c0">]</i><i style="color:#f0f0f8">N</i><i style="color:#ffffff">@@@</i><i style="color:#f8c884">U</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#f0f0f4">M</i><i style="color:#98a4c0">]</i>
+  <i style="color:#8088a0">u</i><i style="color:#e0e4ec">#</i><i style="color:#ffffff">@@@</i><i style="color:#f8c884">U</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#e0e4ec">D</i><i style="color:#788098">t</i>
+  <i style="color:#14181c">.</i><i style="color:#c4c8d4">O</i><i style="color:#ffffff">@</i><i style="color:#f0f0f0">0</i><i style="color:#b8b8b8">6</i><i style="color:#e4b870">h</i><i style="color:#c49060">Y</i><i style="color:#b8b8b8">6</i><i style="color:#f0f0f0">M</i><i style="color:#ffffff">@</i><i style="color:#c0c8d0">p</i><i style="color:#141418">.</i>
+   <i style="color:#282828">,,</i>  <i style="color:#cca858">S</i><i style="color:#ac8848">n</i>  <i style="color:#282828">,_</i> 
+       <i style="color:#cca858">E</i><i style="color:#a88448">u</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#c89850">j</i><i style="color:#a06c38">C</i>     
+       <i style="color:#d0b060">k</i><i style="color:#b0904c">Z</i>     </pre></div><div class="pane"><div class="name">grande · 18×22 · âncora 9,11</div><pre>                  
+         <i style="color:#644c28">s</i><i style="color:#543820">r</i>       
+         <i style="color:#f8dc74">m</i><i style="color:#e8c468">V</i>       
+   <i style="color:#505054">L</i><i style="color:#b8b8b8">h</i><i style="color:#9c9c9c">j</i><i style="color:#808080">1</i><i style="color:#606060">7</i><i style="color:#404040">c</i><i style="color:#f8c468">O</i><i style="color:#d49854">a</i><i style="color:#404040">c</i><i style="color:#606060">7</i><i style="color:#808080">t</i><i style="color:#9c9c9c">y</i><i style="color:#b8b8bc">h</i><i style="color:#484848">/</i> 
+  <i style="color:#0c0c0c">.</i><i style="color:#a8b0c0">q</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#a0a8b8">E</i><i style="color:#080808">.</i>
+  <i style="color:#687078">C</i><i style="color:#a8b0c8">q</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#a4b0c8">w</i><i style="color:#60646c">(</i>
+ <i style="color:#202024">_</i><i style="color:#98a4c0">2</i><i style="color:#b0b8d0">h</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#acb8cc">6</i><i style="color:#98a0bc">a</i>
+ <i style="color:#303038">&gt;</i><i style="color:#98a4c0">]</i><i style="color:#b0b8d0">h</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#b0b8cc">6</i><i style="color:#98a4c0">]</i>
+  <i style="color:#586070">7</i><i style="color:#a0a8c4">S</i><i style="color:#ffffff">@@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@@</i><i style="color:#9ca8c4">E</i><i style="color:#505868">v</i>
+   <i style="color:#7c849c">u</i><i style="color:#f4f8f8">Q</i><i style="color:#ffffff">@@@@</i><i style="color:#f8bc68">V</i><i style="color:#d09054">x</i><i style="color:#ffffff">@@@@</i><i style="color:#f0f4f8">N</i><i style="color:#788098">l</i> 
+   <i style="color:#181820">-</i><i style="color:#dce0e8">R</i><i style="color:#f0f0f0">0</i><i style="color:#c4c4c4">V</i><i style="color:#989898">Y</i><i style="color:#6c6c6c">i</i><i style="color:#f8bc64">V</i><i style="color:#d08c50">Y</i><i style="color:#6c6c6c">{</i><i style="color:#989898">x</i><i style="color:#c4c4c4">V</i><i style="color:#f0f0f0">M</i><i style="color:#d8d8e0">m</i><i style="color:#141818">'</i> 
+    <i style="color:#0c0c10">.</i>    <i style="color:#fce078">R</i><i style="color:#e8cc70">b</i>    <i style="color:#0c0c0c">.</i>  
+         <i style="color:#f8bc64">V</i><i style="color:#d0904c">x</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+         <i style="color:#f8bc60">4</i><i style="color:#d08c4c">Y</i>       
+        <i style="color:#080804">.</i><i style="color:#f8d470">K</i><i style="color:#e0b460">6</i>       </pre></div></div>
+</section>
+<section class="card" id="weapon-spear">
+  <div class="cap"><span><b>Lança</b> · weapon.spear</span><span>footprint 1×4 slots</span><span>pequena 4×11 · média 6×16 · grande 8×22</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 4×11 · âncora 2,5</div><pre>  <i style="color:#545454">r</i><i style="color:#505050">+</i>
+ <i style="color:#646464">s</i><i style="color:#ffffff">@@</i>
+  <i style="color:#bcc0c0">P</i><i style="color:#b4b8b8">w</i>
+  <i style="color:#8c7450">|</i><i style="color:#745c40">z</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#48341c">:</i><i style="color:#382814">.</i></pre></div><div class="pane"><div class="name">média · 6×16 · âncora 3,8</div><pre>      
+   <i style="color:#484848">?z</i> 
+ <i style="color:#383838">+</i><i style="color:#d8d8d8">H</i><i style="color:#ffffff">@@</i><i style="color:#d8d8d8">X</i>
+  <i style="color:#b8b8b8">6</i><i style="color:#ffffff">@@</i><i style="color:#b0b0b0">k</i>
+  <i style="color:#080808">.</i><i style="color:#ccc8c4">G</i><i style="color:#c8c4c0">p</i><i style="color:#080808">.</i>
+   <i style="color:#908070">u</i><i style="color:#807468">I</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#7c7060">}</i><i style="color:#70645c">F</i> 
+   <i style="color:#585040">L</i><i style="color:#50443c">/</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> 
+   <i style="color:#806030">|</i><i style="color:#684828">?</i> </pre></div><div class="pane"><div class="name">grande · 8×22 · âncora 4,11</div><pre>        
+    <i style="color:#404040">;</i><i style="color:#3c3c3c">^</i>  
+  <i style="color:#404040">=</i><i style="color:#c0c0c0">h</i><i style="color:#ffffff">@@</i><i style="color:#b8b8b8">k</i><i style="color:#383838">_</i>
+ <i style="color:#242424">.</i><i style="color:#f0f0f0">M</i><i style="color:#ffffff">@@@@</i><i style="color:#ececec">g</i>
+  <i style="color:#404040">;</i><i style="color:#f8f8f8">Q</i><i style="color:#ffffff">@@</i><i style="color:#f8f8f8">Q</i><i style="color:#3c3c3c">^</i>
+   <i style="color:#585858">*</i><i style="color:#fcfcfc">@&amp;</i><i style="color:#505050">r</i> 
+    <i style="color:#b4b0a8">E</i><i style="color:#a8a0a0">x</i>  
+    <i style="color:#9c7c4c">}</i><i style="color:#806040">T</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#948068">I</i><i style="color:#80705c">(</i>  
+    <i style="color:#90744c">F</i><i style="color:#785c40">s</i>  
+    <i style="color:#74644c">T</i><i style="color:#645040">*</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  
+    <i style="color:#98743c">F</i><i style="color:#7c542c">z</i>  </pre></div></div>
+</section>
+<section class="card" id="weapon-halberd">
+  <div class="cap"><span><b>Alabarda</b> · weapon.halberd</span><span>footprint 1×4 slots</span><span>pequena 5×11 · média 8×16 · grande 10×22</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 5×11 · âncora 2,5</div><pre><i style="color:#141414">.</i><i style="color:#4c4c4c">z</i><i style="color:#707070">C</i><i style="color:#4c4c4c">?</i><i style="color:#141414">.</i>
+<i style="color:#181818">-</i><i style="color:#c8c8c8">O</i><i style="color:#ffffff">@</i><i style="color:#c8c8c8">O</i><i style="color:#181818">-</i>
+ <i style="color:#100c0c">.</i><i style="color:#e8b878">d</i><i style="color:#848484">u</i><i style="color:#101010">.</i>
+  <i style="color:#e4a458">w</i><i style="color:#d8d8d8">H</i><i style="color:#848484">u</i>
+  <i style="color:#f4d874">H</i><i style="color:#101008">.</i> 
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#78582c">)</i>  </pre></div><div class="pane"><div class="name">média · 8×16 · âncora 4,8</div><pre>        
+   <i style="color:#202020">:</i><i style="color:#606060">7</i><i style="color:#5c5c5c">)</i><i style="color:#1c1c1c">-</i> 
+ <i style="color:#141414">.</i><i style="color:#c4c4c4">V</i><i style="color:#ffffff">@@@@</i><i style="color:#b8b8b8">h</i>
+  <i style="color:#101010">.</i><i style="color:#9c9c9c">j</i><i style="color:#ffffff">@@</i><i style="color:#989898">Y</i><i style="color:#0c0c0c">.</i>
+    <i style="color:#a08458">u</i><i style="color:#c8a88c">w</i><i style="color:#6c6c6c">{</i><i style="color:#282828">^</i>
+    <i style="color:#98743c">f</i><i style="color:#e4c09c">p</i><i style="color:#ffffff">@</i><i style="color:#fcfcfc">&amp;</i>
+    <i style="color:#98743c">f</i><i style="color:#b08864">o</i><i style="color:#c0c0c0">4d</i>
+    <i style="color:#9c8c48">n</i><i style="color:#8c7c40">3</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#9c8c48">n</i><i style="color:#8c7c40">3</i>  
+    <i style="color:#907030">}</i><i style="color:#846028">(</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  
+    <i style="color:#98743c">f</i><i style="color:#7c542c">v</i>  </pre></div><div class="pane"><div class="name">grande · 10×22 · âncora 5,11</div><pre>          
+   <i style="color:#0c0c0c">.</i><i style="color:#585858">v</i><i style="color:#545454">T</i><i style="color:#0c0c0c">.</i>   
+ <i style="color:#606060">7</i><i style="color:#b0b0b0">k</i><i style="color:#f8f8f8">Q</i><i style="color:#ffffff">@@</i><i style="color:#f8f8f8">Q</i><i style="color:#b0b0b0">q</i><i style="color:#606060">7</i> 
+ <i style="color:#606060">(</i><i style="color:#f4f4f4">W</i><i style="color:#ffffff">@@@@</i><i style="color:#f4f4f4">W</i><i style="color:#606060">7</i> 
+  <i style="color:#282828">=</i><i style="color:#d4d4d4">K</i><i style="color:#ffffff">@@</i><i style="color:#d0d0d0">A</i><i style="color:#282828">^</i>  
+   <i style="color:#080808">.</i><i style="color:#d4b890">9</i><i style="color:#d8b89c">d</i><i style="color:#444444">*</i><i style="color:#080808">.</i>  
+    <i style="color:#c0904c">Y</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#a0a0a0">y</i> 
+    <i style="color:#c0904c">Y</i><i style="color:#dcac7c">k</i><i style="color:#ffffff">@@@</i><i style="color:#646464">(</i>
+    <i style="color:#c0904c">Y</i><i style="color:#cc9868">a</i><i style="color:#e4e4e4">#</i><i style="color:#ffffff">@</i><i style="color:#909090">Z</i> 
+    <i style="color:#c4ac5c">w</i><i style="color:#b09854">j</i> <i style="color:#282828">^</i>  
+    <i style="color:#c09450">x</i><i style="color:#a0703c">I</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0a858">E</i><i style="color:#b09450">Y</i>    
+    <i style="color:#c0984c">j</i><i style="color:#a87c40">t</i>    
+    <i style="color:#b88c40">Z</i><i style="color:#a87834">t</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    
+    <i style="color:#c0904c">Y</i><i style="color:#a06c38">f</i>    </pre></div></div>
+</section>
+<section class="card" id="weapon-bow">
+  <div class="cap"><span><b>Arco</b> · weapon.bow</span><span>footprint 2×4 slots</span><span>pequena 9×11 · média 14×16 · grande 18×22</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×11 · âncora 4,5</div><pre>     <i style="color:#20140c">.</i><i style="color:#201810">.</i>  
+    <i style="color:#382814">^</i><i style="color:#a87044">y</i><i style="color:#885c38">t</i>  
+   <i style="color:#483018">+</i><i style="color:#a87040">y</i><i style="color:#98643c">e</i><i style="color:#583c28">z</i>  
+  <i style="color:#402818">;</i><i style="color:#b87c44">w</i><i style="color:#50381c">c</i><i style="color:#70503c">i</i><i style="color:#604838">)</i>  
+  <i style="color:#b47840">w</i><i style="color:#845830">I</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#d08c4c">O</i><i style="color:#3c2818">=</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#d08c4c">O</i><i style="color:#443018">&lt;</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#a87040">y</i><i style="color:#986838">o</i> <i style="color:#70503c">i</i><i style="color:#604838">)</i>  
+  <i style="color:#302010">_</i><i style="color:#b07840">2</i><i style="color:#684828">J</i><i style="color:#64442c">v</i><i style="color:#583c28">z</i>  
+   <i style="color:#342414">_</i><i style="color:#a8703c">y</i><i style="color:#a87044">j</i><i style="color:#583c28">z</i>  
+    <i style="color:#20140c">.</i><i style="color:#a4703c">j</i><i style="color:#a06c3c">5</i>  </pre></div><div class="pane"><div class="name">média · 14×16 · âncora 7,8</div><pre>              
+         <i style="color:#48381c">c</i><i style="color:#342414">=</i>   
+        <i style="color:#2c1c10">_</i><i style="color:#906038">1</i><i style="color:#b07848">j</i>   
+       <i style="color:#382814">;</i><i style="color:#986838">u</i><i style="color:#906038">t</i><i style="color:#805838">C</i>   
+      <i style="color:#846434">1</i><i style="color:#a8703c">5</i><i style="color:#583c20">?</i><i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+     <i style="color:#443018">+</i><i style="color:#b47840">y</i><i style="color:#4c341c">c</i> <i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+    <i style="color:#342414">=</i><i style="color:#b07840">x</i><i style="color:#704c28">7</i>  <i style="color:#38281c">;</i><i style="color:#78583c">C</i>   
+    <i style="color:#ac7c40">a</i><i style="color:#b47840">a</i><i style="color:#100804">.</i>  <i style="color:#54585c">F</i><i style="color:#707884">Z</i>   
+    <i style="color:#c88848">k</i><i style="color:#704c28">7</i>   <i style="color:#949494">P</i><i style="color:#c8d0d8">@</i>   
+    <i style="color:#dc9c54">G</i><i style="color:#583820">z</i>   <i style="color:#949494">P</i><i style="color:#c8d0d8">@</i>   
+    <i style="color:#d0904c">h</i><i style="color:#78502c">i</i>   <i style="color:#54585c">F</i><i style="color:#747884">5</i>   
+    <i style="color:#7c542c">i</i><i style="color:#b87c44">]</i><i style="color:#141008">.</i>  <i style="color:#38281c">;</i><i style="color:#78583c">C</i>   
+    <i style="color:#20140c">.</i><i style="color:#bc8848">q</i><i style="color:#886034">3</i>  <i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+     <i style="color:#382814">;</i><i style="color:#b07840">x</i><i style="color:#644424">T</i> <i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+      <i style="color:#382814">;</i><i style="color:#a06c3c">o</i><i style="color:#6c4828">J</i><i style="color:#3c2818">;</i><i style="color:#805838">C</i>   
+       <i style="color:#302010">,</i><i style="color:#b48448">S</i><i style="color:#a87040">5</i><i style="color:#805838">C</i>   </pre></div><div class="pane"><div class="name">grande · 18×22 · âncora 9,11</div><pre>                  
+            <i style="color:#604828">)</i><i style="color:#281c10">:</i>    
+           <i style="color:#342414">=</i><i style="color:#c88850">P</i><i style="color:#a06c40">o</i>    
+          <i style="color:#48301c">r</i><i style="color:#c88848">P</i><i style="color:#a87044">5</i><i style="color:#503420">*</i>    
+         <i style="color:#9c7440">Y</i><i style="color:#cc8848">6</i><i style="color:#704c28">7</i><i style="color:#704830">7</i><i style="color:#503420">*</i>    
+        <i style="color:#583c20">?</i><i style="color:#cc8848">6</i><i style="color:#684828">)</i> <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+       <i style="color:#503820">/</i><i style="color:#c48448">q</i><i style="color:#704c28">(</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+      <i style="color:#503c20">z</i><i style="color:#d89c54">b</i><i style="color:#8c6034">1</i><i style="color:#140c08">.</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+     <i style="color:#0c0804">.</i><i style="color:#ac7440">x</i><i style="color:#bc8048">E</i><i style="color:#1c140c">.</i>   <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+     <i style="color:#684828">J</i><i style="color:#d08c4c">h</i><i style="color:#684828">)</i>    <i style="color:#684834">7</i><i style="color:#4c3424">*</i>    
+     <i style="color:#c48c4c">6</i><i style="color:#d08c4c">h</i><i style="color:#181008">.</i>    <i style="color:#707480">e</i><i style="color:#585c64">{</i>    
+     <i style="color:#cc884c">6</i><i style="color:#b07840">y</i>     <i style="color:#c8cccc">@</i><i style="color:#9498a0">d</i>    
+     <i style="color:#dc9c54">U</i><i style="color:#a06c38">o</i>     <i style="color:#ccccd0">@</i><i style="color:#9498a0">d</i>    
+     <i style="color:#d09050">4</i><i style="color:#b87c44">]</i>     <i style="color:#707480">o</i><i style="color:#585c64">C</i>    
+     <i style="color:#b07840">j</i><i style="color:#cc884c">6</i><i style="color:#1c1408">.</i>    <i style="color:#684834">7</i><i style="color:#4c3424">*</i>    
+     <i style="color:#583c20">?</i><i style="color:#e4a858">m</i><i style="color:#704c28">(</i>    <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+      <i style="color:#a4703c">Z</i><i style="color:#bc8044">E</i><i style="color:#281810">:</i>   <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+      <i style="color:#342414">^</i><i style="color:#b87c44">]</i><i style="color:#986838">n</i><i style="color:#141008">.</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+       <i style="color:#4c341c">c</i><i style="color:#dca054">U</i><i style="color:#886034">3</i>  <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+        <i style="color:#503820">/</i><i style="color:#c88848">P</i><i style="color:#805830">}</i> <i style="color:#704830">7</i><i style="color:#503420">*</i>    
+         <i style="color:#503820">*</i><i style="color:#c88848">P</i><i style="color:#805830">C</i><i style="color:#704830">7</i><i style="color:#503420">*</i>    
+          <i style="color:#402818">&gt;</i><i style="color:#dca054">A</i><i style="color:#b07848">j</i><i style="color:#503420">*</i>    </pre></div></div>
+</section>
+<section class="card" id="weapon-staff">
+  <div class="cap"><span><b>Cajado</b> · weapon.staff</span><span>footprint 1×4 slots</span><span>pequena 5×11 · média 8×16 · grande 10×22</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 5×11 · âncora 2,5</div><pre><i style="color:#1c1c10">:</i><i style="color:#6c7060">t</i><i style="color:#8c94d4">q</i><i style="color:#646460">f</i><i style="color:#1c1c10">:</i>
+<i style="color:#101008">.</i><i style="color:#e0e480">@</i><i style="color:#b0b4cc">K</i><i style="color:#dcdc80">%</i><i style="color:#101008">.</i>
+ <i style="color:#383424">!</i><i style="color:#b8a094">9</i><i style="color:#3c382c">c</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#100c08">.</i><i style="color:#78582c">F</i><i style="color:#100c08">.</i> </pre></div><div class="pane"><div class="name">média · 8×16 · âncora 4,8</div><pre>        
+  <i style="color:#4c4c44">r</i><i style="color:#d0d0c8">D</i><i style="color:#747898">3</i><i style="color:#585c8c">v</i><i style="color:#c8c8bc">X</i><i style="color:#404038">&gt;</i>
+  <i style="color:#585830">z</i><i style="color:#e8eca0">@</i><i style="color:#c4d0fc">D</i><i style="color:#98a0f8">w</i><i style="color:#e0e4a0">W</i><i style="color:#4c4c28">r</i>
+   <i style="color:#a8a87c">w</i><i style="color:#c4c8b8">X</i><i style="color:#b8bc94">p</i><i style="color:#989870">j</i> 
+   <i style="color:#202034">.</i><i style="color:#9090dc">y</i><i style="color:#6c6ca0">{</i><i style="color:#141420">.</i> 
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  
+    <i style="color:#c0904c">j</i><i style="color:#906434">|</i>  </pre></div><div class="pane"><div class="name">grande · 10×22 · âncora 5,11</div><pre>          
+   <i style="color:#bcbcac">m</i><i style="color:#707070">l</i><i style="color:#404458">?</i><i style="color:#242840">^</i><i style="color:#5c5c58">i</i><i style="color:#b4b4a4">K</i> 
+  <i style="color:#444430">z</i><i style="color:#c0c080">8</i><i style="color:#b4c0e8">R</i><i style="color:#c4d0ff">Q</i><i style="color:#9ca4ff">p</i><i style="color:#7074bc">n</i><i style="color:#c8c888">$</i><i style="color:#3c3c28">c</i>
+   <i style="color:#989858">S</i><i style="color:#e4e8bc">@</i><i style="color:#b4c0ff">#</i><i style="color:#8088dc">a</i><i style="color:#ccd0b0">M</i><i style="color:#909058">2</i> 
+   <i style="color:#3c4064">/</i><i style="color:#d8dcb0">@</i><i style="color:#acb0bc">U</i><i style="color:#989c98">P</i><i style="color:#c4c490">D</i><i style="color:#303050">+</i> 
+   <i style="color:#0c0c14">.</i><i style="color:#848ce4">E</i><i style="color:#9094f8">P</i><i style="color:#686cb0">t</i><i style="color:#585c98">C</i>  
+    <i style="color:#101018">.</i><i style="color:#bca4a8">p</i><i style="color:#a88c9c">w</i><i style="color:#101018">.</i>  
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   
+     <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i>   </pre></div></div>
+</section>
+<section class="card" id="armor-shield">
+  <div class="cap"><span><b>Escudo</b> · armor.shield</span><span>footprint 2×2 slots</span><span>pequena 9×5 · média 14×8 · grande 18×10</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×5 · âncora 4,2</div><pre>         
+<i style="color:#1c1c1c">'</i><i style="color:#f4f8ff">@@@@@@@</i><i style="color:#1c1c1c">'</i>
+<i style="color:#181008">.</i><i style="color:#f8bc68">O</i><i style="color:#ffb464">V</i><i style="color:#ffcc80">H</i><i style="color:#ffff98">@</i><i style="color:#e8bc6c">p</i><i style="color:#905038">J</i><i style="color:#885c38">(</i><i style="color:#181008">.</i>
+ <i style="color:#483018">&gt;</i><i style="color:#7c4428">?</i><i style="color:#bc6040">}</i><i style="color:#e0a860">P</i><i style="color:#bc6440">f</i><i style="color:#7c4428">?</i><i style="color:#443018">;</i> 
+         </pre></div><div class="pane"><div class="name">média · 14×8 · âncora 7,4</div><pre>              
+  <i style="color:#94989c">x</i><i style="color:#f4f8ff">@@@@@@@@@@</i><i style="color:#909098">5</i>
+  <i style="color:#886038">|</i><i style="color:#ecf0f8">Q</i><i style="color:#fcd084">H</i><i style="color:#ffc868">AA</i><i style="color:#ffa060">kP</i><i style="color:#fcc468">U</i><i style="color:#886038">(</i><i style="color:#90705c">I</i><i style="color:#e0e0ec">B</i><i style="color:#704c2c">s</i>
+  <i style="color:#886034">|</i><i style="color:#f8d088">m</i><i style="color:#ffc868">A</i><i style="color:#ff8858">a</i><i style="color:#ffd880">R</i><i style="color:#fffca4">@</i><i style="color:#fffc88">&amp;</i><i style="color:#f8cc70">K</i><i style="color:#b84c3c">7</i><i style="color:#785030">T</i><i style="color:#90705c">f</i><i style="color:#6c4828">?</i>
+  <i style="color:#886034">|</i><i style="color:#ececf0">W</i><i style="color:#fccc80">H</i><i style="color:#ff9c5c">q</i><i style="color:#ffac64">d</i><i style="color:#ffb86c">OO</i><i style="color:#c07448">l</i><i style="color:#a44c38">)</i><i style="color:#8c6c54">C</i><i style="color:#d8dce4">D</i><i style="color:#6c4828">?</i>
+  <i style="color:#705840">)</i><i style="color:#d0b490">9</i><i style="color:#e8b060">h</i><i style="color:#f0b860">4</i><i style="color:#f8bc64">O</i><i style="color:#fca860">h</i><i style="color:#f09c58">w</i><i style="color:#885834">7</i><i style="color:#906038">|</i><i style="color:#9c6c44">}</i><i style="color:#b09888">a</i><i style="color:#645038">s</i>
+  <i style="color:#141818">.</i><i style="color:#b8c0d0">p</i><i style="color:#686874">i</i><i style="color:#786c68">C</i><i style="color:#9c8474">n</i><i style="color:#b08868">Z</i><i style="color:#a08064">u</i><i style="color:#988474">[</i><i style="color:#706868">i</i><i style="color:#686c74">i</i><i style="color:#b4bcc8">4</i><i style="color:#101418">.</i>
+   <i style="color:#54585c">T</i><i style="color:#080808">.</i>  <i style="color:#18181c">..</i>  <i style="color:#0c0c0c">.</i><i style="color:#505458">L</i> </pre></div><div class="pane"><div class="name">grande · 18×10 · âncora 9,5</div><pre>                  
+  <i style="color:#38383c">;</i><i style="color:#f4f8ff">@@@@@@@@@@@@@@</i><i style="color:#2c3030">,</i>
+  <i style="color:#302014">'</i><i style="color:#ecbc80">p</i><i style="color:#ecf0f8">Q</i><i style="color:#ffc868">AAAA</i><i style="color:#ffa060">kk</i><i style="color:#ffc868">A</i><i style="color:#ecb864">d</i><i style="color:#785034">LL</i><i style="color:#e4e8f4">M</i><i style="color:#a88058">u</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#f0b460">d</i><i style="color:#f8d088">H</i><i style="color:#ffc868">UUU</i><i style="color:#ffd87c">8</i><i style="color:#ffc080">b</i><i style="color:#ffc070">b</i><i style="color:#ffd870">8</i><i style="color:#b88848">e</i><i style="color:#785030">ss</i><i style="color:#90705c">}</i><i style="color:#98683c">i</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#f0b460">9</i><i style="color:#fccc78">K</i><i style="color:#ffc868">U</i><i style="color:#ff7454">o</i><i style="color:#ff7458">o</i><i style="color:#fffc94">@</i><i style="color:#ffff98">@</i><i style="color:#ffff88">@</i><i style="color:#fffc88">@</i><i style="color:#ff7058">e</i><i style="color:#c84840">7</i><i style="color:#785030">s</i><i style="color:#846048">(</i><i style="color:#986838">i</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#ecbc7c">p</i><i style="color:#ecf0f8">Q</i><i style="color:#ffc868">U</i><i style="color:#ffc468">Ub</i><i style="color:#ffcc68">K</i><i style="color:#ffa868">h</i><i style="color:#ffac68">9</i><i style="color:#dcac5c">P</i><i style="color:#785030">sss</i><i style="color:#e4e8f4">M</i><i style="color:#a87c58">t</i><i style="color:#281810">.</i>
+  <i style="color:#302010">'</i><i style="color:#f0b460">9</i><i style="color:#fccc7c">X</i><i style="color:#ffc868">UUUU</i><i style="color:#ff8458">j</i><i style="color:#ff8858">y</i><i style="color:#ac7c44">t</i><i style="color:#785030">sss</i><i style="color:#88644c">|</i><i style="color:#986838">i</i><i style="color:#281810">.</i>
+  <i style="color:#24201c">.</i><i style="color:#a48874">e</i><i style="color:#bc9468">x</i><i style="color:#d4a060">2</i><i style="color:#e8a858">k</i><i style="color:#f0b05c">9</i><i style="color:#f4b860">V</i><i style="color:#fca860">6</i><i style="color:#f4a45c">k</i><i style="color:#906038">|</i><i style="color:#986438">F</i><i style="color:#a47040">}</i><i style="color:#a47850">3</i><i style="color:#a08060">l</i><i style="color:#9c8470">u</i><i style="color:#1c1818">.</i>
+   <i style="color:#303438">^</i><i style="color:#c4ccd8">A</i><i style="color:#383840">&gt;</i><i style="color:#54545c">s</i><i style="color:#7c7068">{</i><i style="color:#a08874">[</i><i style="color:#b08868">o</i><i style="color:#9c7c64">t</i><i style="color:#9c8474">u</i><i style="color:#746c68">i</i><i style="color:#505058">z</i><i style="color:#34383c">=</i><i style="color:#c8d0e0">K</i><i style="color:#202424">'</i> 
+    <i style="color:#101010">.</i>    <i style="color:#18181c">..</i>    <i style="color:#101010">.</i>  </pre></div></div>
+</section>
+<section class="card" id="armor-helm">
+  <div class="cap"><span><b>Elmo</b> · armor.helm</span><span>footprint 2×2 slots</span><span>pequena 9×6 · média 14×9 · grande 18×12</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×6 · âncora 4,3</div><pre>         
+         
+ <i style="color:#101010">.</i><i style="color:#909090">o</i><i style="color:#d4d4d4">K</i><i style="color:#f4f4f4">N</i><i style="color:#d0d0d0">A</i><i style="color:#909090">o</i><i style="color:#101010">.</i> 
+<i style="color:#101010">.</i><i style="color:#e8e8e8">B</i><i style="color:#ffffff">@</i><i style="color:#ecf0f4">0</i><i style="color:#f0f4f8">N</i><i style="color:#c0c8d8">p</i><i style="color:#b0b8cc">6</i><i style="color:#c8ccd4">G</i><i style="color:#101010">.</i>
+<i style="color:#0c0c10">.</i><i style="color:#b8c0d0">d</i><i style="color:#b0acb0">w</i><i style="color:#a8a8b4">S</i><i style="color:#f0f0f4">M</i><i style="color:#a0a0ac">a</i><i style="color:#9494a0">Y</i><i style="color:#a8b0c8">k</i><i style="color:#0c0c10">.</i>
+ <i style="color:#586070">7</i><i style="color:#5c4028">*</i><i style="color:#604c40">s</i><i style="color:#b8b8b4">6</i><i style="color:#604c40">s</i><i style="color:#5c4028">*</i><i style="color:#5c6474">(</i> </pre></div><div class="pane"><div class="name">média · 14×9 · âncora 7,4</div><pre>              
+    <i style="color:#303030">'</i><i style="color:#b8b8b8">q</i><i style="color:#d4d4d4">U</i><i style="color:#f0f0f0">00</i><i style="color:#d0d0d0">b</i><i style="color:#b4b4b8">w</i><i style="color:#2c2c2c">'</i>  
+  <i style="color:#808044">C</i><i style="color:#d0d070">p</i><i style="color:#f4f494">g</i><i style="color:#ffffa0">QQQQ</i><i style="color:#f8f898">M</i><i style="color:#f4f898">0</i><i style="color:#f4f490">g</i><i style="color:#d0d070">p</i><i style="color:#7c7c40">i</i>
+  <i style="color:#686868">)</i><i style="color:#fffffc">@@@@</i><i style="color:#e8e8f0">$$</i><i style="color:#d8e0e8">m</i><i style="color:#98a8c0">jj</i><i style="color:#acb8c8">q</i><i style="color:#646464">T</i>
+  <i style="color:#9c9c9c">5</i><i style="color:#ffffff">@@@@</i><i style="color:#e0e4ec">DR</i><i style="color:#e0e0ec">R</i><i style="color:#a8b0c8">EE</i><i style="color:#b8c0d4">h</i><i style="color:#989898">e</i>
+  <i style="color:#4c5060">r</i><i style="color:#98a8c0">j</i><i style="color:#807470">F</i><i style="color:#7c706c">((</i><i style="color:#c0c0c8">h</i><i style="color:#b8b8c0">q</i><i style="color:#7c706c">((</i><i style="color:#807474">i</i><i style="color:#98a8c0">j</i><i style="color:#484c58">!</i>
+  <i style="color:#202428">.</i><i style="color:#a0acbc">]</i><i style="color:#8c7c70">}</i><i style="color:#887c70">CC</i><i style="color:#c4c4c0">d</i><i style="color:#c0bcb8">6</i><i style="color:#887c70">CC</i><i style="color:#8c8074">f</i><i style="color:#a0acbc">]</i><i style="color:#1c2024">.</i>
+  <i style="color:#080804">.</i><i style="color:#a8b078">a</i><i style="color:#b0b480">EEE</i><i style="color:#b8bc88">qq</i><i style="color:#b0b480">EEE</i><i style="color:#a8ac78">y</i> 
+              </pre></div><div class="pane"><div class="name">grande · 18×12 · âncora 9,6</div><pre>                  
+                  
+     <i style="color:#101010">.</i><i style="color:#a8a8a8">2</i><i style="color:#c8c8c8">O</i><i style="color:#e0e0e0">8</i><i style="color:#f0f0f0">NN</i><i style="color:#dcdcdc">8</i><i style="color:#c4c4c8">V</i><i style="color:#a0a0a0">y</i><i style="color:#0c0c0c">.</i>   
+  <i style="color:#303018">^</i><i style="color:#d0d070">OO</i><i style="color:#e8e884">8</i><i style="color:#ffffa0">QQQQQQ</i><i style="color:#f0f094">B</i><i style="color:#f8f898">N</i><i style="color:#e4e480">m</i><i style="color:#d0d070">OO</i><i style="color:#282814">:</i>
+   <i style="color:#1c1c18">'</i><i style="color:#d4d4d0">K</i><i style="color:#fffffc">@@@@@@@</i><i style="color:#a8b0c8">w</i><i style="color:#98a8c0">]]]</i><i style="color:#242828">_</i> 
+  <i style="color:#101010">.</i><i style="color:#d4d4d4">A</i><i style="color:#ffffff">@@@@@</i><i style="color:#e8ecf0">gg</i><i style="color:#ffffff">@</i><i style="color:#a4b0c8">w</i><i style="color:#98a4c0">aaa</i><i style="color:#b8b8c0">h</i><i style="color:#0c0c0c">.</i>
+  <i style="color:#3c3c3c">+</i><i style="color:#ffffff">@@@@@@</i><i style="color:#e0e4ec">#D</i><i style="color:#ffffff">@</i><i style="color:#a4b0c8">w</i><i style="color:#98a4c0">aaa</i><i style="color:#ececf4">0</i><i style="color:#303030">=</i>
+  <i style="color:#303434">;</i><i style="color:#e0e4ec">######</i><i style="color:#d8dce8">8m</i><i style="color:#e0e4ec">#</i><i style="color:#b4bcd0">h</i><i style="color:#acb8cc">PPP</i><i style="color:#d8dce8">m</i><i style="color:#282828">_</i>
+   <i style="color:#94a0bc">y</i><i style="color:#94a0b8">j</i><i style="color:#705040">T</i><i style="color:#6c5040">sss</i><i style="color:#b8b8b8">6</i><i style="color:#b0acb0">w</i><i style="color:#6c5040">sss</i><i style="color:#705040">T</i><i style="color:#98a0bc">y</i><i style="color:#94a0b8">j</i> 
+   <i style="color:#788098">1</i><i style="color:#98a0bc">a</i><i style="color:#9090a0">oooo</i><i style="color:#c4c8d4">p</i><i style="color:#bcc0d0">4</i><i style="color:#9090a0">oooo</i><i style="color:#98a4c0">a</i><i style="color:#747c90">I</i> 
+   <i style="color:#586068">)</i><i style="color:#a0acbc">EEEEE</i><i style="color:#ccd0d4">U</i><i style="color:#c8ccd0">G</i><i style="color:#a0acbc">EEEEE</i><i style="color:#545860">T</i> 
+   <i style="color:#505034">z</i><i style="color:#b0b480">wwwww</i><i style="color:#b8bc88">6P</i><i style="color:#b0b480">wwwww</i><i style="color:#48482c">c</i> </pre></div></div>
+</section>
+<section class="card" id="armor-breastplate">
+  <div class="cap"><span><b>Peitoral</b> · armor.breastplate</span><span>footprint 2×3 slots</span><span>pequena 9×8 · média 14×12 · grande 18×16</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 9×8 · âncora 4,4</div><pre>         
+<i style="color:#282828">^</i><i style="color:#1c1c1c">-</i> <i style="color:#303030">&gt;</i><i style="color:#343434">&gt;</i><i style="color:#303030">&gt;</i> <i style="color:#1c1c1c">-</i><i style="color:#303030">=</i>
+<i style="color:#f0f0f0">M</i><i style="color:#ececec">g</i><i style="color:#f4f4f4">N</i><i style="color:#ffffff">@@</i><i style="color:#e4e8f0">$</i><i style="color:#b0b8cc">h</i><i style="color:#e4e4e8">#</i><i style="color:#f8f8f8">%</i>
+<i style="color:#585858">)</i><i style="color:#ffffff">@@</i><i style="color:#f4f4f8">W</i><i style="color:#f0f4f8">N</i><i style="color:#c8d0e0">U</i><i style="color:#98a4c0">]</i><i style="color:#b8c0d4">4</i><i style="color:#646464">(</i>
+ <i style="color:#d0d0d0">U</i><i style="color:#ffffff">@</i><i style="color:#e4e8f0">$</i><i style="color:#fcfcff">@</i><i style="color:#ccd0e0">A</i><i style="color:#98a4c0">]</i><i style="color:#949cac">j</i> 
+ <i style="color:#888888">u</i><i style="color:#ffffff">@</i><i style="color:#dce0e8">R</i><i style="color:#e8ecf0">g</i><i style="color:#c0c8d8">O</i><i style="color:#98a4c0">]</i><i style="color:#6c7078">{</i> 
+ <i style="color:#684c30">s</i><i style="color:#f0b074">hhh</i><i style="color:#e4a870">k</i><i style="color:#e0a86c">q</i><i style="color:#705034">T</i> 
+ <i style="color:#583824">r</i><i style="color:#c08050">nnnnn</i><i style="color:#5c4028">c</i> </pre></div><div class="pane"><div class="name">média · 14×12 · âncora 7,6</div><pre>              
+ <i style="color:#282828">:</i><i style="color:#4c4c4c">/</i>  <i style="color:#101010">.</i><i style="color:#343434">;;;;</i><i style="color:#101010">.</i>  <i style="color:#4c4c4c">/</i>
+ <i style="color:#f8f8f8">W</i><i style="color:#ffffff">@</i><i style="color:#c0c0c0">9</i><i style="color:#c4c4c4">4</i><i style="color:#fcfcfc">&amp;</i><i style="color:#ffffff">@@@</i><i style="color:#f8f8fc">%</i><i style="color:#c0c8d8">O</i><i style="color:#a8acb4">S</i><i style="color:#c0c0c4">4</i><i style="color:#ffffd8">&amp;</i>
+ <i style="color:#f8f8f8">W</i><i style="color:#ffffff">@@@@@@@</i><i style="color:#e8ecf0">g</i><i style="color:#98a4c0">aa</i><i style="color:#d8dce8">m</i><i style="color:#ffffd8">&amp;</i>
+ <i style="color:#282828">:</i><i style="color:#cccccc">G</i><i style="color:#ffffff">@@@</i><i style="color:#f8f8f8">Q</i><i style="color:#fcfcec">&amp;</i><i style="color:#fcfcf0">%</i><i style="color:#d8dce8">m</i><i style="color:#98a4c0">aa</i><i style="color:#98a8c0">]</i><i style="color:#a8acb4">S</i>
+  <i style="color:#747474">C</i><i style="color:#ffffff">@@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#d0d8e0">K</i><i style="color:#f8f8ac">W</i><i style="color:#f8f8b0">W</i><i style="color:#ccd0e0">U</i><i style="color:#98a4c0">aaa</i><i style="color:#646468">7</i>
+  <i style="color:#282828">_</i><i style="color:#ffffff">@@</i><i style="color:#fcfcf0">&amp;</i><i style="color:#e8ecc0">B</i><i style="color:#ffffc8">&amp;</i><i style="color:#ffffcc">&amp;</i><i style="color:#e8e8c0">#</i><i style="color:#a4b0b8">S</i><i style="color:#98a4c0">a</i><i style="color:#acb4cc">k</i><i style="color:#282828">:</i>
+   <i style="color:#dcdcdc">m</i><i style="color:#ffffff">@</i><i style="color:#fcfcf0">&amp;</i><i style="color:#e8e8c8">#</i><i style="color:#ffffd8">&amp;&amp;</i><i style="color:#e0e8c8">D</i><i style="color:#a0acbc">E</i><i style="color:#98a4c0">a</i><i style="color:#a8b0bc">w</i> 
+   <i style="color:#949494">o</i><i style="color:#ffffff">@</i><i style="color:#ffffe4">@</i><i style="color:#f0f0a0">g</i><i style="color:#f0f4a0">gg</i><i style="color:#e4e898">D</i><i style="color:#acb4b4">k</i><i style="color:#98a4c0">a</i><i style="color:#808084">1</i> 
+   <i style="color:#a07448">f</i><i style="color:#ecac6c">k</i><i style="color:#f0bc74">4</i><i style="color:#ffe084">RRR</i><i style="color:#f8dc80">m</i><i style="color:#e8b470">h</i><i style="color:#e4a868">w</i><i style="color:#a07048">f</i> 
+   <i style="color:#885c38">J</i><i style="color:#c08050">[</i><i style="color:#c48854">e</i><i style="color:#cc985c">jjjj</i><i style="color:#c48854">e</i><i style="color:#c08050">[</i><i style="color:#885838">)</i> 
+   <i style="color:#885c38">J</i><i style="color:#c08050">[[[[[[[[</i><i style="color:#885838">)</i> </pre></div><div class="pane"><div class="name">grande · 18×16 · âncora 9,8</div><pre>                  
+ <i style="color:#1c1c1c">-</i><i style="color:#585858">v</i><i style="color:#202020">:</i>   <i style="color:#303030">=</i><i style="color:#343434">&gt;&gt;&gt;&gt;</i><i style="color:#2c2c2c">=</i>   <i style="color:#202020">:</i><i style="color:#585858">T</i>
+ <i style="color:#f0f0f0">M</i><i style="color:#ffffff">@</i><i style="color:#f4f4f4">N</i><i style="color:#6c6c6c">i</i><i style="color:#a4a4a4">]</i><i style="color:#ececec">g</i><i style="color:#ffffff">@@@@@</i><i style="color:#e8e8f0">B</i><i style="color:#d0d4d8">K</i><i style="color:#a0a0a0">a</i><i style="color:#707070">C</i><i style="color:#f8f8f8">Q</i><i style="color:#ffffe8">@</i>
+ <i style="color:#ffffff">@@@@@@@@@@@</i><i style="color:#c8ccdc">b</i><i style="color:#98a4c0">]</i><i style="color:#a0acc4">S</i><i style="color:#d8dce8">m</i><i style="color:#ffffec">@</i><i style="color:#ffff8c">Q</i>
+ <i style="color:#d8d8d8">H</i><i style="color:#ffffff">@@@@@@@@@@</i><i style="color:#b8c0d4">4</i><i style="color:#98a4c0">]]</i><i style="color:#a4b0c8">w</i><i style="color:#f4f4f8">W</i><i style="color:#fffffc">@</i>
+  <i style="color:#848484">l</i><i style="color:#ffffff">@@@@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#f8fcfc">&amp;</i><i style="color:#fcfcf8">&amp;&amp;</i><i style="color:#f8fcfc">&amp;</i><i style="color:#acb4cc">P</i><i style="color:#98a4c0">]]]</i><i style="color:#9ca8c4">2</i><i style="color:#7c7c7c">3</i>
+  <i style="color:#2c2c2c">^</i><i style="color:#ffffff">@@@@</i><i style="color:#c8ccdc">b</i><i style="color:#e4e8f0">$</i><i style="color:#f4f4a8">0</i><i style="color:#f0f4ac">0</i><i style="color:#e4e8f0">$</i><i style="color:#a0a8c4">E</i><i style="color:#98a4c0">]]]</i><i style="color:#b0b8d0">h</i><i style="color:#282828">^</i>
+   <i style="color:#e0e0e0">D</i><i style="color:#ffffff">@@@</i><i style="color:#c8d0e0">U</i><i style="color:#ffffff">@</i><i style="color:#fffff0">@@</i><i style="color:#ffffff">@</i><i style="color:#a0acc4">S</i><i style="color:#98a4c0">]]]</i><i style="color:#b4b8c4">6</i> 
+   <i style="color:#9c9c9c">j</i><i style="color:#ffffff">@@@</i><i style="color:#f0f0a0">g</i><i style="color:#ffffa8">%%%%</i><i style="color:#e0e498">R</i><i style="color:#98a4c0">]]]</i><i style="color:#888c90">n</i> 
+   <i style="color:#585858">v</i><i style="color:#ffffff">@@@</i><i style="color:#c8d0e0">U</i><i style="color:#ffffff">@@@@</i><i style="color:#a0acc4">S</i><i style="color:#98a4c0">]]</i><i style="color:#a8b0c8">q</i><i style="color:#505050">s</i> 
+   <i style="color:#141414">.</i><i style="color:#fcfcfc">@</i><i style="color:#ffffff">@@</i><i style="color:#f0f0a0">g</i><i style="color:#ffffa8">%%%%</i><i style="color:#e0e498">R</i><i style="color:#98a4c0">]]</i><i style="color:#c0c8d8">p</i><i style="color:#101010">.</i> 
+    <i style="color:#cccccc">G</i><i style="color:#ffffff">@@</i><i style="color:#d0d8e0">X</i><i style="color:#ecf0f4">000</i><i style="color:#e0e8ec">$</i><i style="color:#9ca8c4">E</i><i style="color:#98a4c0">]]</i><i style="color:#a8a8b0">E</i>  
+   <i style="color:#18100c">.</i><i style="color:#e8a464">w</i><i style="color:#e8a864">qq</i><i style="color:#f0e07c">mmmmm</i><i style="color:#ecdc7c">H</i><i style="color:#e8a464">ww</i><i style="color:#e8a460">w</i><i style="color:#100c08">.</i> 
+   <i style="color:#141008">.</i><i style="color:#c08050">nnnnnnnnnnnn</i><i style="color:#100808">.</i> 
+   <i style="color:#141008">.</i><i style="color:#c08050">nnnnnnnnnnnn</i><i style="color:#100808">.</i> 
+   <i style="color:#141008">.</i><i style="color:#c08050">nnnnnnnnnnnn</i><i style="color:#100808">.</i> </pre></div></div>
+</section>
+<section class="card" id="jewelry-ring">
+  <div class="cap"><span><b>Anel</b> · jewelry.ring</span><span>footprint 1×1 slots</span><span>pequena 4×3 · média 6×4 · grande 8×6</span></div>
+  <div class="arts"><div class="pane"><div class="name">pequena · 4×3 · âncora 2,1</div><pre>  <i style="color:#c44044">|</i><i style="color:#c0383c">v</i>
+ <i style="color:#3c3c20">-</i><i style="color:#b0a070">@</i><i style="color:#807440">j</i>
+  <i style="color:#505028">/</i><i style="color:#4c4c28">c</i></pre></div><div class="pane"><div class="name">média · 6×4 · âncora 3,2</div><pre>      
+  <i style="color:#200808">.</i><i style="color:#ec4c50">a</i><i style="color:#ec4448">5</i><i style="color:#200808">.</i>
+  <i style="color:#b09440">H</i><i style="color:#e8a088">@</i><i style="color:#88402c">C</i><i style="color:#a8903c">b</i>
+  <i style="color:#b09440">H</i><i style="color:#6c602c">[</i><i style="color:#6c6030">n</i><i style="color:#a8903c">b</i></pre></div><div class="pane"><div class="name">grande · 8×6 · âncora 4,3</div><pre>        
+   <i style="color:#581418">:</i><i style="color:#f8485c">3</i><i style="color:#f43c4c">C</i><i style="color:#501418">-</i> 
+   <i style="color:#b04c34">F</i><i style="color:#f85850">n</i><i style="color:#f85048">u</i><i style="color:#b04c34">i</i> 
+  <i style="color:#6c6430">{</i><i style="color:#e8dc8c">@</i><i style="color:#ecc0b0">B</i><i style="color:#502020">^</i><i style="color:#c8bc60">X</i><i style="color:#686030">F</i>
+  <i style="color:#6c6430">{</i><i style="color:#c0b85c">A</i><i style="color:#18180c">..</i><i style="color:#c8bc60">X</i><i style="color:#686030">F</i>
+   <i style="color:#70602c">i</i><i style="color:#c0b85c">AU</i><i style="color:#6c6028">|</i> </pre></div></div>
+</section>
+<h2>Reduzir em tempo real</h2>
+<p class="lede">O mesmo item, duas vezes na grade da pequena: à esquerda a pequena <b>desenhada</b>, à direita a grande <b>reduzida em tempo real</b> (média de blocos 2×2, o mesmo <code>shrink</code> do Python rodando no navegador). A tabela abaixo mede as duas.</p>
+<section class="card" id="shrink-weapon-dagger">
+  <div class="cap"><span><b>Adaga</b> · weapon.dagger</span><span>mesma grade: 4×5</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 12 células de tinta</div><pre>  <i style="color:#383c40">.</i><i style="color:#383838">.</i>
+  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i>
+  <i style="color:#70747c">t</i><i style="color:#6c7078">f</i>
+ <i style="color:#585850">z</i><i style="color:#b8b8a0">&amp;%</i>
+ <i style="color:#606030">s</i><i style="color:#c0c070">@</i><i style="color:#bcbc70">&amp;</i></pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 9 células de tinta</div><pre>  <i style="color:#383838">.</i> 
+  <i style="color:#787884">7</i> 
+  <i style="color:#707880">)</i> 
+<i style="color:#3c3c38">.</i> <i style="color:#788088">|</i> 
+<i style="color:#ccccb8">V</i><i style="color:#b4b488">]</i><i style="color:#e8e4a0">8</i><i style="color:#b4b488">]</i></pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-sword-short">
+  <div class="cap"><span><b>Espada curta</b> · weapon.sword.short</span><span>mesma grade: 4×8</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 16 células de tinta</div><pre>    
+  <i style="color:#343438">&gt;</i><i style="color:#303030">;</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+  <i style="color:#70747c">}</i><i style="color:#6c7078">C</i>
+ <i style="color:#101010">.</i><i style="color:#808088">t</i><i style="color:#787c80">1</i>
+ <i style="color:#a8a8a8">E</i><i style="color:#fcfcfc">@@</i></pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 14 células de tinta</div><pre>  <i style="color:#242424">.</i> 
+  <i style="color:#808088">}</i> 
+  <i style="color:#707880">|</i> 
+  <i style="color:#707880">|</i> 
+  <i style="color:#707880">|</i> 
+  <i style="color:#747884">F</i> 
+<i style="color:#b0b0b0">2</i><i style="color:#989898">e</i><i style="color:#ccccd0">O</i><i style="color:#989898">e</i>
+<i style="color:#747474">(</i><i style="color:#404040">=</i><i style="color:#8c786c">{</i><i style="color:#404040">=</i></pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-sword-long">
+  <div class="cap"><span><b>Espada longa</b> · weapon.sword.long</span><span>mesma grade: 4×9</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 20 células de tinta</div><pre>  <i style="color:#303034">.</i><i style="color:#303030">.</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+  <i style="color:#70747c">F</i><i style="color:#6c7078">(</i>
+ <i style="color:#3c3c38">:</i><i style="color:#a0a4a0">2</i><i style="color:#a0a09c">]</i>
+ <i style="color:#787848">i</i><i style="color:#f0f098">@</i><i style="color:#ecec98">&amp;</i>
+  <i style="color:#b0b068">q</i><i style="color:#a8a864">E</i></pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 12 células de tinta</div><pre>  <i style="color:#202020">.</i> 
+  <i style="color:#808088">l</i> 
+  <i style="color:#707880">f</i> 
+  <i style="color:#707880">f</i> 
+  <i style="color:#707880">f</i> 
+  <i style="color:#707880">f</i> 
+  <i style="color:#787c88">3</i> 
+<i style="color:#e8e8d0">Q</i><i style="color:#b8b888">d</i><i style="color:#dcd8a0">D</i><i style="color:#b8b888">d</i>
+  <i style="color:#746040">J</i> </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-sword-great">
+  <div class="cap"><span><b>Montante</b> · weapon.sword.great</span><span>mesma grade: 9×11</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 43 células de tinta</div><pre>   <i style="color:#0c0c0c">.</i><i style="color:#747474">}</i><i style="color:#0c0c0c">.</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+   <i style="color:#383c44">r</i><i style="color:#ffffff">@</i><i style="color:#383c44">r</i>   
+<i style="color:#181814">'</i><i style="color:#dcdca0">HH</i><i style="color:#e4e4ac">R</i><i style="color:#ffffc4">&amp;</i><i style="color:#e4e4ac">R</i><i style="color:#dcdca0">HH</i><i style="color:#181814">'</i>
+ <i style="color:#282818">^^</i><i style="color:#807840">f</i><i style="color:#f8e8a4">#</i><i style="color:#787040">C</i><i style="color:#282818">^^</i> 
+   <i style="color:#808044">3</i><i style="color:#ffffa4">Q</i><i style="color:#808044">3</i>   </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 36 células de tinta</div><pre>    <i style="color:#484848">_</i><i style="color:#444444">:</i>   
+    <i style="color:#b8bcc0">w</i><i style="color:#b4b8bc">E</i>   
+    <i style="color:#b0b4bc">]</i><i style="color:#a8b0b8">y</i>   
+    <i style="color:#b0b0bc">]</i><i style="color:#a8b0b8">y</i>   
+    <i style="color:#b0b0bc">]</i><i style="color:#a8b0b8">y</i>   
+    <i style="color:#b0b0bc">]</i><i style="color:#a8b0b8">y</i>   
+    <i style="color:#b0b0bc">]</i><i style="color:#a8b0b8">y</i>   
+    <i style="color:#b0b0bc">]</i><i style="color:#a8b0b8">y</i>   
+ <i style="color:#c8c8b8">d</i><i style="color:#b8b8a4">EE</i><i style="color:#d4d8d0">b</i><i style="color:#d0d4cc">G</i><i style="color:#b8b8a4">EE</i><i style="color:#c8c8b8">9</i>
+ <i style="color:#c4c4a0">P</i><i style="color:#b0b05c">xx</i><i style="color:#b89858">u</i><i style="color:#a48850">}</i><i style="color:#b0b05c">xx</i><i style="color:#c0c0a0">q</i>
+   <i style="color:#202010">.</i><i style="color:#c4b878">2</i><i style="color:#c0b474">a</i><i style="color:#1c1c10">.</i>  </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-mace">
+  <div class="cap"><span><b>Maça</b> · weapon.mace</span><span>mesma grade: 5×9</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 25 células de tinta</div><pre>  <i style="color:#383840">&gt;</i>  
+ <i style="color:#889098">Z</i><i style="color:#c4c8d0">A</i><i style="color:#848898">e</i> 
+ <i style="color:#b8bcc8">p</i><i style="color:#989ca8">a</i><i style="color:#8890a0">Z</i> 
+ <i style="color:#44484c">*</i><i style="color:#b0b8c8">4</i><i style="color:#40444c">c</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4b070">d</i><i style="color:#201810">.</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4a458">P</i><i style="color:#20140c">.</i> 
+ <i style="color:#1c180c">.</i><i style="color:#e4a458">P</i><i style="color:#20140c">.</i> 
+ <i style="color:#201810">.</i><i style="color:#e8c094">U</i><i style="color:#201814">.</i> 
+ <i style="color:#48484c">/</i><i style="color:#e8f0ff">@</i><i style="color:#48484c">/</i> </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 18 células de tinta</div><pre>  <i style="color:#303838">^</i><i style="color:#808080">I</i> 
+ <i style="color:#888c94">[</i><i style="color:#d8e0e4">8</i><i style="color:#90949c">e</i> 
+ <i style="color:#ccd0d8">b</i><i style="color:#a0a8b0">a</i><i style="color:#8c94a0">o</i><i style="color:#646464">)</i>
+ <i style="color:#707078">i</i><i style="color:#a4a4ac">a</i><i style="color:#787880">}</i> 
+  <i style="color:#a47440">}</i><i style="color:#383838">=</i> 
+  <i style="color:#a47440">}</i>  
+  <i style="color:#a47440">}</i>  
+  <i style="color:#a47440">}</i>  
+  <i style="color:#a88054">t</i>  </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-warhammer">
+  <div class="cap"><span><b>Marreta</b> · weapon.warhammer</span><span>mesma grade: 9×8</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 38 células de tinta</div><pre>         
+<i style="color:#101010">.</i><i style="color:#343434">&lt;&lt;</i><i style="color:#242428">,</i><i style="color:#202028">_</i><i style="color:#202428">,</i><i style="color:#343434">&lt;&lt;</i><i style="color:#101010">.</i>
+<i style="color:#404040">c</i><i style="color:#e8ecf0">%%</i><i style="color:#a8b0c8">9</i><i style="color:#98a4c0">w</i><i style="color:#a4b0c8">6</i><i style="color:#e8ecf0">%%</i><i style="color:#484848">z</i>
+ <i style="color:#202028">__</i><i style="color:#3c3834">!</i><i style="color:#d0a06c">k</i><i style="color:#383030">&lt;</i><i style="color:#202028">__</i><i style="color:#08080c">.</i>
+   <i style="color:#24201c">_</i><i style="color:#e8d0b8">R</i><i style="color:#20201c">:</i>   
+   <i style="color:#281c10">:</i><i style="color:#e0a058">P</i><i style="color:#20140c">'</i>   
+   <i style="color:#281c10">:</i><i style="color:#e0a058">P</i><i style="color:#20140c">'</i>   
+   <i style="color:#282018">_</i><i style="color:#e4c094">U</i><i style="color:#241c14">-</i>   </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 28 células de tinta</div><pre> <i style="color:#282828">'</i><i style="color:#343434">_</i><i style="color:#303030">-</i><i style="color:#202028">..</i><i style="color:#303030">-</i><i style="color:#505050">c</i><i style="color:#485058">r</i>
+ <i style="color:#888890">t</i><i style="color:#acb0b8">E</i><i style="color:#98a0ac">Y</i><i style="color:#989ca4">Z</i><i style="color:#9494a0">n</i><i style="color:#9ca0ac">Y</i><i style="color:#c8c8cc">p</i><i style="color:#7c8498">I</i>
+    <i style="color:#a08460">3</i><i style="color:#886c50">(</i>   
+    <i style="color:#a07840">}</i><i style="color:#845830">s</i>   
+    <i style="color:#a07840">}</i><i style="color:#845830">s</i>   
+    <i style="color:#a07840">}</i><i style="color:#845830">s</i>   
+    <i style="color:#a07840">}</i><i style="color:#845830">s</i>   
+    <i style="color:#a08050">I</i><i style="color:#886444">)</i>   </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-axe">
+  <div class="cap"><span><b>Machado</b> · weapon.axe</span><span>mesma grade: 9×8</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 30 células de tinta</div><pre>         
+  <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i> <i style="color:#181818">-</i>  
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#bcb0a8">P</i><i style="color:#ececec">0</i><i style="color:#d8dce4">8</i><i style="color:#2c2c30">;</i> 
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#f4ece8">0</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i> 
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#2c2418">^</i><i style="color:#606060">|</i><i style="color:#585c60">7</i>  
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>    
+  <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>    
+  <i style="color:#201c14">:</i><i style="color:#e4c094">p</i><i style="color:#241c14">:</i>    </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 27 células de tinta</div><pre>  <i style="color:#644c28">*</i><i style="color:#543820">&gt;</i>     
+  <i style="color:#f0c890">b</i><i style="color:#d8bca0">d</i><i style="color:#b0b0b0">S</i><i style="color:#a0a0a0">j</i><i style="color:#404448">!</i>  
+  <i style="color:#f8bc60">d</i><i style="color:#e8c8a8">O</i><i style="color:#ffffff">@@</i><i style="color:#9ca4b8">y</i><i style="color:#2c3038">,</i> 
+  <i style="color:#f8bc60">d</i><i style="color:#d0b090">q</i><i style="color:#f0f0f0">M</i><i style="color:#f8f8fc">%</i><i style="color:#646c80">|</i>  
+  <i style="color:#f0c890">b</i><i style="color:#d8a880">w</i> <i style="color:#303030">,</i>   
+  <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>     
+  <i style="color:#f8bc60">d</i><i style="color:#d08c4c">o</i>     
+  <i style="color:#a48854">l</i><i style="color:#d4a068">a</i>     </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-battleaxe">
+  <div class="cap"><span><b>Machado de guerra</b> · weapon.battleaxe</span><span>mesma grade: 9×11</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 53 células de tinta</div><pre>   <i style="color:#0c0804">.</i><i style="color:#5c4024">/</i><i style="color:#0c0804">.</i>   
+ <i style="color:#acb0b0">q</i><i style="color:#a4a4a4">2</i><i style="color:#7c786c">I</i><i style="color:#e0a058">S</i><i style="color:#787068">f</i><i style="color:#a4a4a4">2</i><i style="color:#acb0b0">q</i> 
+<i style="color:#4c5058">L</i><i style="color:#d4d8e4">H</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d4d8e4">H</i><i style="color:#50545c">v</i>
+<i style="color:#444c58">?</i><i style="color:#d0d8e4">X</i><i style="color:#ffffff">@</i><i style="color:#fffcf4">&amp;</i><i style="color:#e0a058">S</i><i style="color:#f8f0ec">N</i><i style="color:#ffffff">@</i><i style="color:#d0d8e4">X</i><i style="color:#48505c">L</i>
+ <i style="color:#9498a4">j</i><i style="color:#c4c4c4">p</i><i style="color:#807870">1</i><i style="color:#e0a058">S</i><i style="color:#7c746c">I</i><i style="color:#c4c4c4">p</i><i style="color:#989ca4">j</i> 
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#1c180c">-</i><i style="color:#e0a058">S</i><i style="color:#20140c">-</i>   
+   <i style="color:#201c10">:</i><i style="color:#ecc468">O</i><i style="color:#241c10">:</i>   
+   <i style="color:#585830">T</i><i style="color:#ffff88">Q</i><i style="color:#585830">T</i>   </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 53 células de tinta</div><pre>    <i style="color:#644c28">s</i><i style="color:#543820">!</i>   
+ <i style="color:#505054">s</i><i style="color:#a8a8a8">S</i><i style="color:#707070">C</i><i style="color:#b8a060">a</i><i style="color:#a88854">e</i><i style="color:#707070">C</i><i style="color:#a8a8ac">S</i><i style="color:#484848">/</i>
+ <i style="color:#707884">I</i><i style="color:#ffffff">@@</i><i style="color:#fcdcb4">R</i><i style="color:#e8c8a8">b</i><i style="color:#ffffff">@@</i><i style="color:#6c707c">C</i>
+<i style="color:#282830">^</i><i style="color:#a4b0c8">w</i><i style="color:#ffffff">@@</i><i style="color:#fcdcb4">R</i><i style="color:#e8c8a8">b</i><i style="color:#ffffff">@@</i><i style="color:#a4acc4">w</i>
+ <i style="color:#7c8498">u</i><i style="color:#fcfcfc">@</i><i style="color:#ffffff">@</i><i style="color:#fcdcb4">R</i><i style="color:#e8c8a8">b</i><i style="color:#ffffff">@</i><i style="color:#fcfcfc">&amp;</i><i style="color:#788098">t</i>
+ <i style="color:#181820">'</i><i style="color:#9ca0a0">y</i><i style="color:#b0b0b0">w</i><i style="color:#c8ac6c">q</i><i style="color:#b89864">x</i><i style="color:#b0b0b0">w</i><i style="color:#9c9ca0">j</i><i style="color:#141818">'</i>
+    <i style="color:#f8bc60">V</i><i style="color:#d0904c">Y</i>   
+    <i style="color:#f8bc60">V</i><i style="color:#d08c4c">Y</i>   
+    <i style="color:#f8bc60">V</i><i style="color:#d08c4c">Y</i>   
+    <i style="color:#f8bc60">V</i><i style="color:#d08c4c">Y</i>   
+    <i style="color:#a88848">n</i><i style="color:#d8a058">2</i>   </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-spear">
+  <div class="cap"><span><b>Lança</b> · weapon.spear</span><span>mesma grade: 4×11</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 23 células de tinta</div><pre>  <i style="color:#545454">r</i><i style="color:#505050">+</i>
+ <i style="color:#646464">s</i><i style="color:#ffffff">@@</i>
+  <i style="color:#bcc0c0">P</i><i style="color:#b4b8b8">w</i>
+  <i style="color:#8c7450">|</i><i style="color:#745c40">z</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#886834">T</i><i style="color:#6c4828">+</i>
+  <i style="color:#48341c">:</i><i style="color:#382814">.</i></pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 16 células de tinta</div><pre>  <i style="color:#404040">=</i> 
+<i style="color:#242424">.</i><i style="color:#bcbcbc">P</i><i style="color:#ffffff">@</i><i style="color:#b8b8b8">q</i>
+ <i style="color:#848484">I</i><i style="color:#fcfcfc">@</i><i style="color:#808080">f</i>
+  <i style="color:#a08c74">l</i> 
+  <i style="color:#886434">)</i> 
+  <i style="color:#886434">)</i> 
+  <i style="color:#886434">)</i> 
+  <i style="color:#886434">)</i> 
+  <i style="color:#887054">|</i> 
+  <i style="color:#7c603c">L</i> 
+  <i style="color:#886434">)</i> </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-halberd">
+  <div class="cap"><span><b>Alabarda</b> · weapon.halberd</span><span>mesma grade: 5×11</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 25 células de tinta</div><pre><i style="color:#141414">.</i><i style="color:#4c4c4c">z</i><i style="color:#707070">C</i><i style="color:#4c4c4c">?</i><i style="color:#141414">.</i>
+<i style="color:#181818">-</i><i style="color:#c8c8c8">O</i><i style="color:#ffffff">@</i><i style="color:#c8c8c8">O</i><i style="color:#181818">-</i>
+ <i style="color:#100c0c">.</i><i style="color:#e8b878">d</i><i style="color:#848484">u</i><i style="color:#101010">.</i>
+  <i style="color:#e4a458">w</i><i style="color:#d8d8d8">H</i><i style="color:#848484">u</i>
+  <i style="color:#f4d874">H</i><i style="color:#101008">.</i> 
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#e4a458">w</i>  
+  <i style="color:#78582c">)</i>  </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 23 células de tinta</div><pre> <i style="color:#0c0c0c">.</i><i style="color:#585858">v</i><i style="color:#0c0c0c">.</i> 
+<i style="color:#606060">7</i><i style="color:#e8e8e8">$</i><i style="color:#ffffff">@</i><i style="color:#e8e8e8">$</i><i style="color:#606060">7</i>
+ <i style="color:#585858">v</i><i style="color:#e8dcc8">8</i><i style="color:#505050">L</i> 
+  <i style="color:#d0a064">2</i><i style="color:#ffffff">@</i><i style="color:#acacac">S</i>
+  <i style="color:#c09c58">y</i><i style="color:#b0b0b0">q</i><i style="color:#909090">Z</i>
+  <i style="color:#b08044">[</i>  
+  <i style="color:#b08040">u</i>  
+  <i style="color:#b08040">u</i>  
+  <i style="color:#b8944c">Y</i>  
+  <i style="color:#b08040">u</i>  
+  <i style="color:#b08040">u</i>  </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-bow">
+  <div class="cap"><span><b>Arco</b> · weapon.bow</span><span>mesma grade: 9×11</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 42 células de tinta</div><pre>     <i style="color:#20140c">.</i><i style="color:#201810">.</i>  
+    <i style="color:#382814">^</i><i style="color:#a87044">y</i><i style="color:#885c38">t</i>  
+   <i style="color:#483018">+</i><i style="color:#a87040">y</i><i style="color:#98643c">e</i><i style="color:#583c28">z</i>  
+  <i style="color:#402818">;</i><i style="color:#b87c44">w</i><i style="color:#50381c">c</i><i style="color:#70503c">i</i><i style="color:#604838">)</i>  
+  <i style="color:#b47840">w</i><i style="color:#845830">I</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#d08c4c">O</i><i style="color:#3c2818">=</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#d08c4c">O</i><i style="color:#443018">&lt;</i> <i style="color:#bcbcbc">@</i><i style="color:#a0a8b0">D</i>  
+  <i style="color:#a87040">y</i><i style="color:#986838">o</i> <i style="color:#70503c">i</i><i style="color:#604838">)</i>  
+  <i style="color:#302010">_</i><i style="color:#b07840">2</i><i style="color:#684828">J</i><i style="color:#64442c">v</i><i style="color:#583c28">z</i>  
+   <i style="color:#342414">_</i><i style="color:#a8703c">y</i><i style="color:#a87044">j</i><i style="color:#583c28">z</i>  
+    <i style="color:#20140c">.</i><i style="color:#a4703c">j</i><i style="color:#a06c3c">5</i>  </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 32 células de tinta</div><pre>      <i style="color:#44301c">r</i>  
+     <i style="color:#6c4828">J</i><i style="color:#98683c">[</i>  
+    <i style="color:#946838">[</i><i style="color:#8c6030">3</i><i style="color:#604028">L</i>  
+   <i style="color:#7c5830">}</i><i style="color:#74502c">|</i> <i style="color:#604028">L</i>  
+  <i style="color:#382818">;</i><i style="color:#a87040">Y</i><i style="color:#1c140c">.</i> <i style="color:#5c4028">s</i>  
+  <i style="color:#c8884c">6</i><i style="color:#885c30">I</i>  <i style="color:#888c94">q</i>  
+  <i style="color:#d89850">p</i><i style="color:#ac7440">x</i>  <i style="color:#888c94">q</i>  
+  <i style="color:#845830">f</i><i style="color:#906434">l</i>  <i style="color:#5c4028">s</i>  
+   <i style="color:#946438">l</i><i style="color:#483018">!</i> <i style="color:#604028">L</i>  
+   <i style="color:#4c341c">c</i><i style="color:#a0703c">Z</i><i style="color:#805830">}</i><i style="color:#604028">L</i>  
+    <i style="color:#503820">/</i><i style="color:#986838">n</i><i style="color:#704830">7</i>  </pre></div></div>
+</section>
+<section class="card" id="shrink-weapon-staff">
+  <div class="cap"><span><b>Cajado</b> · weapon.staff</span><span>mesma grade: 5×11</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 37 células de tinta</div><pre><i style="color:#1c1c10">:</i><i style="color:#6c7060">t</i><i style="color:#8c94d4">q</i><i style="color:#646460">f</i><i style="color:#1c1c10">:</i>
+<i style="color:#101008">.</i><i style="color:#e0e480">@</i><i style="color:#b0b4cc">K</i><i style="color:#dcdc80">%</i><i style="color:#101008">.</i>
+ <i style="color:#383424">!</i><i style="color:#b8a094">9</i><i style="color:#3c382c">c</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#1c180c">-</i><i style="color:#e4a458">O</i><i style="color:#20140c">-</i> 
+ <i style="color:#100c08">.</i><i style="color:#78582c">F</i><i style="color:#100c08">.</i> </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 28 células de tinta</div><pre> <i style="color:#bcbcac">m</i><i style="color:#585864">F</i><i style="color:#40404c">z</i><i style="color:#b4b4a4">A</i>
+ <i style="color:#888858">j</i><i style="color:#c4d0e8">N</i><i style="color:#989cd0">h</i><i style="color:#888858">x</i>
+ <i style="color:#24283c">^</i><i style="color:#a8acd0">G</i><i style="color:#88889c">a</i><i style="color:#303050">+</i>
+  <i style="color:#90745c">e</i><i style="color:#7c6054">}</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> 
+  <i style="color:#e4ac58">A</i><i style="color:#c08048">a</i> </pre></div></div>
+</section>
+<section class="card" id="shrink-armor-shield">
+  <div class="cap"><span><b>Escudo</b> · armor.shield</span><span>mesma grade: 9×5</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 25 células de tinta</div><pre>         
+<i style="color:#1c1c1c">'</i><i style="color:#f4f8ff">@@@@@@@</i><i style="color:#1c1c1c">'</i>
+<i style="color:#181008">.</i><i style="color:#f8bc68">O</i><i style="color:#ffb464">V</i><i style="color:#ffcc80">H</i><i style="color:#ffff98">@</i><i style="color:#e8bc6c">p</i><i style="color:#905038">J</i><i style="color:#885c38">(</i><i style="color:#181008">.</i>
+ <i style="color:#483018">&gt;</i><i style="color:#7c4428">?</i><i style="color:#bc6040">}</i><i style="color:#e0a860">P</i><i style="color:#bc6440">f</i><i style="color:#7c4428">?</i><i style="color:#443018">;</i> 
+         </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 40 células de tinta</div><pre> <i style="color:#98989c">Y</i><i style="color:#f4f8ff">@@@@@@</i><i style="color:#909498">5</i>
+ <i style="color:#906c40">{</i><i style="color:#f8d494">8</i><i style="color:#ffc868">A</i><i style="color:#ffc070">b</i><i style="color:#ffc068">G</i><i style="color:#a47844">3</i><i style="color:#98806c">t</i><i style="color:#64482c">*</i>
+ <i style="color:#906c40">{</i><i style="color:#f8d490">m</i><i style="color:#ff9c60">q</i><i style="color:#ffdc80">D</i><i style="color:#f8d474">m</i><i style="color:#ac5840">(</i><i style="color:#987868">1</i><i style="color:#64442c">*</i>
+ <i style="color:#786040">J</i><i style="color:#e0b06c">h</i><i style="color:#f4b860">V</i><i style="color:#fcac60">h</i><i style="color:#cc804c">e</i><i style="color:#8c5c38">7</i><i style="color:#906c4c">{</i><i style="color:#604834">*</i>
+ <i style="color:#303438">^</i><i style="color:#585c60">T</i><i style="color:#686060">J</i><i style="color:#786050">7</i><i style="color:#705c50">)</i><i style="color:#606060">)</i><i style="color:#585c64">v</i><i style="color:#202424">'</i></pre></div></div>
+</section>
+<section class="card" id="shrink-armor-helm">
+  <div class="cap"><span><b>Elmo</b> · armor.helm</span><span>mesma grade: 9×6</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 32 células de tinta</div><pre>         
+         
+ <i style="color:#101010">.</i><i style="color:#909090">o</i><i style="color:#d4d4d4">K</i><i style="color:#f4f4f4">N</i><i style="color:#d0d0d0">A</i><i style="color:#909090">o</i><i style="color:#101010">.</i> 
+<i style="color:#101010">.</i><i style="color:#e8e8e8">B</i><i style="color:#ffffff">@</i><i style="color:#ecf0f4">0</i><i style="color:#f0f4f8">N</i><i style="color:#c0c8d8">p</i><i style="color:#b0b8cc">6</i><i style="color:#c8ccd4">G</i><i style="color:#101010">.</i>
+<i style="color:#0c0c10">.</i><i style="color:#b8c0d0">d</i><i style="color:#b0acb0">w</i><i style="color:#a8a8b4">S</i><i style="color:#f0f0f4">M</i><i style="color:#a0a0ac">a</i><i style="color:#9494a0">Y</i><i style="color:#a8b0c8">k</i><i style="color:#0c0c10">.</i>
+ <i style="color:#586070">7</i><i style="color:#5c4028">*</i><i style="color:#604c40">s</i><i style="color:#b8b8b4">6</i><i style="color:#604c40">s</i><i style="color:#5c4028">*</i><i style="color:#5c6474">(</i> </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 40 células de tinta</div><pre>         
+ <i style="color:#808044">I</i><i style="color:#989858">Z</i><i style="color:#dcdcac">X</i><i style="color:#f4f4c4">M</i><i style="color:#f0f0c4">0</i><i style="color:#d4d4a4">U</i><i style="color:#949454">o</i><i style="color:#7c7c40">f</i>
+ <i style="color:#545454">L</i><i style="color:#f4f4f0">W</i><i style="color:#fffffc">@</i><i style="color:#f8f8f8">%%</i><i style="color:#a0acc4">E</i><i style="color:#98a8c0">]</i><i style="color:#4c5050">z</i>
+ <i style="color:#909498">Z</i><i style="color:#f0f0f4">MM</i><i style="color:#e4e8f0">$$</i><i style="color:#a8b0c8">q</i><i style="color:#a0b0c8">S</i><i style="color:#88888c">u</i>
+ <i style="color:#8890a8">e</i><i style="color:#8c8894">[</i><i style="color:#807070">C</i><i style="color:#a0989c">Y</i><i style="color:#989498">Z</i><i style="color:#807070">C</i><i style="color:#8c8898">[</i><i style="color:#8490a4">n</i>
+ <i style="color:#545850">L</i><i style="color:#a8b0a0">SS</i><i style="color:#b4bca8">6</i><i style="color:#b4b8a4">6</i><i style="color:#a8b0a0">SS</i><i style="color:#505048">?</i></pre></div></div>
+</section>
+<section class="card" id="shrink-armor-breastplate">
+  <div class="cap"><span><b>Peitoral</b> · armor.breastplate</span><span>mesma grade: 9×8</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 53 células de tinta</div><pre>         
+<i style="color:#282828">^</i><i style="color:#1c1c1c">-</i> <i style="color:#303030">&gt;</i><i style="color:#343434">&gt;</i><i style="color:#303030">&gt;</i> <i style="color:#1c1c1c">-</i><i style="color:#303030">=</i>
+<i style="color:#f0f0f0">M</i><i style="color:#ececec">g</i><i style="color:#f4f4f4">N</i><i style="color:#ffffff">@@</i><i style="color:#e4e8f0">$</i><i style="color:#b0b8cc">h</i><i style="color:#e4e4e8">#</i><i style="color:#f8f8f8">%</i>
+<i style="color:#585858">)</i><i style="color:#ffffff">@@</i><i style="color:#f4f4f8">W</i><i style="color:#f0f4f8">N</i><i style="color:#c8d0e0">U</i><i style="color:#98a4c0">]</i><i style="color:#b8c0d4">4</i><i style="color:#646464">(</i>
+ <i style="color:#d0d0d0">U</i><i style="color:#ffffff">@</i><i style="color:#e4e8f0">$</i><i style="color:#fcfcff">@</i><i style="color:#ccd0e0">A</i><i style="color:#98a4c0">]</i><i style="color:#949cac">j</i> 
+ <i style="color:#888888">u</i><i style="color:#ffffff">@</i><i style="color:#dce0e8">R</i><i style="color:#e8ecf0">g</i><i style="color:#c0c8d8">O</i><i style="color:#98a4c0">]</i><i style="color:#6c7078">{</i> 
+ <i style="color:#684c30">s</i><i style="color:#f0b074">hhh</i><i style="color:#e4a870">k</i><i style="color:#e0a86c">q</i><i style="color:#705034">T</i> 
+ <i style="color:#583824">r</i><i style="color:#c08050">nnnnn</i><i style="color:#5c4028">c</i> </pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 65 células de tinta</div><pre><i style="color:#1c1c1c">-</i><i style="color:#3c3c3c">!</i> <i style="color:#303030">;</i><i style="color:#343434">&gt;&gt;</i><i style="color:#2c2c2c">^</i> <i style="color:#3c3c3c">!</i>
+<i style="color:#f8f8f8">Q</i><i style="color:#fcfcfc">&amp;</i><i style="color:#c4c4c4">V</i><i style="color:#f8f8f8">%</i><i style="color:#ffffff">@@</i><i style="color:#c8ccd8">G</i><i style="color:#a0a8b0">2</i><i style="color:#fcfcd8">%</i>
+<i style="color:#d8d8d8">H</i><i style="color:#e0e0e0">R</i><i style="color:#ffffff">@@</i><i style="color:#fcfcfc">@@</i><i style="color:#a4b0c8">w</i><i style="color:#9ca8c0">2</i><i style="color:#c0c4cc">p</i>
+ <i style="color:#b0b0b0">w</i><i style="color:#ffffff">@</i><i style="color:#e4e8f0">$</i><i style="color:#f4f8e0">WW</i><i style="color:#9ca8c0">2</i><i style="color:#98a4c0">]</i><i style="color:#848894">[</i>
+ <i style="color:#787878">I</i><i style="color:#ffffff">@</i><i style="color:#ecf0e0">0</i><i style="color:#ffffd4">&amp;&amp;</i><i style="color:#acb8b8">P</i><i style="color:#9ca8c0">2</i><i style="color:#6c7070">{</i>
+ <i style="color:#141414">.</i><i style="color:#f0f0f0">M</i><i style="color:#f0f0e0">M</i><i style="color:#f4f8d0">W</i><i style="color:#f0f4cc">N</i><i style="color:#acb4b8">k</i><i style="color:#a8b0c0">w</i><i style="color:#101010">.</i>
+ <i style="color:#181008">.</i><i style="color:#d49458">j</i><i style="color:#d8a060">E</i><i style="color:#d8b068">kk</i><i style="color:#d4a060">2</i><i style="color:#d49058">j</i><i style="color:#100808">.</i>
+ <i style="color:#141008">.</i><i style="color:#c08050">nnnnnn</i><i style="color:#100808">.</i></pre></div></div>
+</section>
+<section class="card" id="shrink-jewelry-ring">
+  <div class="cap"><span><b>Anel</b> · jewelry.ring</span><span>mesma grade: 4×3</span></div>
+  <div class="arts"><div class="pane"><div class="name">desenhada pequena · 7 células de tinta</div><pre>  <i style="color:#c44044">|</i><i style="color:#c0383c">v</i>
+ <i style="color:#3c3c20">-</i><i style="color:#b0a070">@</i><i style="color:#807440">j</i>
+  <i style="color:#505028">/</i><i style="color:#4c4c28">c</i></pre></div><div class="pane"><div class="name">grande reduzida ÷2 · 9 células de tinta</div><pre> <i style="color:#581418">:</i><i style="color:#f84054">f</i><i style="color:#501418">-</i>
+ <i style="color:#ac8450">j</i><i style="color:#cc6058">[</i><i style="color:#a07840">e</i>
+ <i style="color:#88803c">e</i><i style="color:#6c6834">C</i><i style="color:#88803c">e</i></pre></div></div>
+</section>
+<div class="gridbox"><table><tr><th>item</th><th>pequena desenhada</th><th>grande reduzida ÷2</th><th>tinta p.</th><th>tinta red.</th><th>perda</th></tr>
+<tr><td class="id">weapon.dagger</td><td>12</td><td>9</td><td>60%</td><td>45%</td><td>-25%</td></tr>
+<tr><td class="id">weapon.sword.short</td><td>16</td><td>14</td><td>50%</td><td>43%</td><td>-12%</td></tr>
+<tr><td class="id">weapon.sword.long</td><td>20</td><td>12</td><td>55%</td><td>33%</td><td>-40%</td></tr>
+<tr><td class="id">weapon.sword.great</td><td>43</td><td>36</td><td>43%</td><td>36%</td><td>-16%</td></tr>
+<tr><td class="id">weapon.mace</td><td>25</td><td>18</td><td>55%</td><td>40%</td><td>-28%</td></tr>
+<tr><td class="id">weapon.warhammer</td><td>38</td><td>28</td><td>52%</td><td>38%</td><td>-26%</td></tr>
+<tr><td class="id">weapon.axe</td><td>30</td><td>27</td><td>41%</td><td>37%</td><td>-10%</td></tr>
+<tr><td class="id">weapon.battleaxe</td><td>53</td><td>53</td><td>53%</td><td>53%</td><td>+0%</td></tr>
+<tr><td class="id">weapon.spear</td><td>23</td><td>16</td><td>52%</td><td>36%</td><td>-30%</td></tr>
+<tr><td class="id">weapon.halberd</td><td>25</td><td>23</td><td>45%</td><td>41%</td><td>-8%</td></tr>
+<tr><td class="id">weapon.bow</td><td>42</td><td>32</td><td>42%</td><td>32%</td><td>-24%</td></tr>
+<tr><td class="id">weapon.staff</td><td>37</td><td>28</td><td>67%</td><td>50%</td><td>-24%</td></tr>
+<tr><td class="id">armor.shield</td><td>25</td><td>40</td><td>55%</td><td>88%</td><td>+60%</td></tr>
+<tr><td class="id">armor.helm</td><td>32</td><td>40</td><td>59%</td><td>74%</td><td>+25%</td></tr>
+<tr><td class="id">armor.breastplate</td><td>53</td><td>65</td><td>73%</td><td>90%</td><td>+23%</td></tr>
+<tr><td class="id">jewelry.ring</td><td>7</td><td>9</td><td>58%</td><td>75%</td><td>+29%</td></tr>
+</table></div>
+<h2>O algoritmo, ao vivo</h2>
+<p class="lede">O algoritmo ao vivo, no navegador: escolha o item e o fator. É o <code>tools/shrink.js</code> embutido na página (a página é um arquivo só, sem dependência), e ele decide glifo e cor com as <b>mesmas regras do Python</b> — inclusive gama e quantização — para os dois lados darem a mesma grade.</p>
+<div class="bar" id="liveItems"></div>
+<div class="bar" id="liveFactors"></div>
+<div class="card"><div class="gridbox"><div class="slots"><pre id="liveOut"></pre></div></div></div>
+<p class="lede" id="liveInfo"></p>
+<footer>Gerado por <code>weapons.py</code> · conjunto em <code>assets/weapons.json</code> · peças em <code>bank.py ingest assets/weapons.json</code></footer>
+</div>
+<script id="labdata" type="application/json">{"ramp": " .'-:_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@", "gamma": 1.15, "quant": 4, "pieces": [{"id": "weapon.dagger.large", "label": "Adaga", "w": 8, "h": 10, "levels": [55.1, 251.8], "cells": [{"g": "        ", "c": ["", "", "", "", "", "", "", ""]}, {"g": "    ..  ", "c": ["", "", "", "", "#383838", "#343434", "", ""]}, {"g": "    F(  ", "c": ["", "", "", "", "#808088", "#787c84", "", ""]}, {"g": "    7)  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    7)  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    7)  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    7)  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": " .  Ci  ", "c": ["", "#3c3c38", "", "", "#848890", "#808488", "", ""]}, {"g": " &@@@@@@", "c": ["", "#f8f8e4", "#ffffd0", "#ffffc8", "#ffffc8", "#ffffc8", "#ffffc8", "#ffffd4"]}, {"g": " e?/46*s", "c": ["", "#a0a090", "#6c6c48", "#686838", "#d4d080", "#ccc878", "#686838", "#707048"]}]}, {"id": "weapon.sword.short.large", "label": "Espada curta", "w": 8, "h": 16, "levels": [39.0, 255.0], "cells": [{"g": "        ", "c": ["", "", "", "", "", "", "", ""]}, {"g": "    ..  ", "c": ["", "", "", "", "#282828", "#202020", "", ""]}, {"g": "    3f  ", "c": ["", "", "", "", "#88888c", "#808488", "", ""]}, {"g": "    {F  ", "c": ["", "", "", "", "#788088", "#787884", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    i|  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    {|  ", "c": ["", "", "", "", "#787c88", "#747880", "", ""]}, {"g": " s-.Ze.-", "c": ["", "#606060", "#343434", "#303030", "#9ca0a4", "#9898a0", "#303030", "#343434"]}, {"g": " @@@@@@@", "c": ["", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"]}, {"g": " (;^|)^;", "c": ["", "#747474", "#444444", "#404040", "#887060", "#806858", "#404040", "#444444"]}, {"g": "    t}  ", "c": ["", "", "", "", "#988c80", "#8c8078", "", ""]}]}, {"id": "weapon.sword.long.large", "label": "Espada longa", "w": 8, "h": 18, "levels": [30.0, 235.5], "cells": [{"g": "        ", "c": ["", "", "", "", "", "", "", ""]}, {"g": "    ..  ", "c": ["", "", "", "", "#242424", "#202020", "", ""]}, {"g": "    [l  ", "c": ["", "", "", "", "#84888c", "#808084", "", ""]}, {"g": "    l1  ", "c": ["", "", "", "", "#808088", "#787c84", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    I}  ", "c": ["", "", "", "", "#747884", "#707480", "", ""]}, {"g": "    u1  ", "c": ["", "", "", "", "#80848c", "#7c8088", "", ""]}, {"g": " N9P$$P9", "c": ["", "#e4e4d0", "#b4b4a0", "#b0b098", "#d8d8c8", "#d8d8c8", "#b0b098", "#b4b4a0"]}, {"g": " &V9$H9p", "c": ["", "#e8e8d4", "#c0c07c", "#b8b864", "#e8d878", "#d8d070", "#b8b864", "#c0c080"]}, {"g": "    <=  ", "c": ["", "", "", "", "#583c28", "#503424", "", ""]}, {"g": "    Zl  ", "c": ["", "", "", "", "#9c9060", "#908058", "", ""]}]}, {"id": "weapon.sword.great.large", "label": "Montante", "w": 18, "h": 22, "levels": [54.1, 255.0], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "         _:       ", "c": ["", "", "", "", "", "", "", "", "", "#484848", "#444444", "", "", "", "", "", "", ""]}, {"g": "        /@@c      ", "c": ["", "", "", "", "", "", "", "", "#64686c", "#ffffff", "#ffffff", "#606068", "", "", "", "", "", ""]}, {"g": "        {@@|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#ffffff", "#ffffff", "#788088", "", "", "", "", "", ""]}, {"g": "        {HH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8e0e8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {XH|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#d8dce8", "#dce0e8", "#788088", "", "", "", "", "", ""]}, {"g": "        {NW|      ", "c": ["", "", "", "", "", "", "", "", "#848890", "#f4f4f8", "#f4f8f8", "#788088", "", "", "", "", "", ""]}, {"g": "  4dEEEEX@@KEEEEd6", "c": ["", "", "#ccccbc", "#c8c8b4", "#b8b8a4", "#b8b8a4", "#b8b8a4", "#b8b8a4", "#dce0c8", "#ffffe8", "#ffffe8", "#dcdcc8", "#b8b8a4", "#b8b8a4", "#b8b8a4", "#b8b8a4", "#ccccb8", "#c4c4b4"]}, {"g": "  hwYYYY4HOkYYYYqk", "c": ["", "", "#c8c8b8", "#c0c08c", "#b0b05c", "#b0b05c", "#b0b05c", "#b0b05c", "#dcd070", "#f8e07c", "#e8d478", "#ccc068", "#b0b05c", "#b0b05c", "#b0b05c", "#b0b05c", "#c0c08c", "#c0c0b0"]}, {"g": "        ,Jz.      ", "c": ["", "", "", "", "", "", "", "", "#604428", "#a47048", "#906040", "#4c3020", "", "", "", "", "", ""]}, {"g": "        =Ze:      ", "c": ["", "", "", "", "", "", "", "", "#645030", "#bca45c", "#b8a05c", "#544028", "", "", "", "", "", ""]}, {"g": "       .$&&D.     ", "c": ["", "", "", "", "", "", "", "#202010", "#f0f084", "#ffffcc", "#ffffc8", "#f0f080", "#1c1c10", "", "", "", "", ""]}]}, {"id": "weapon.mace.large", "label": "Maça", "w": 10, "h": 18, "levels": [25.9, 254.1], "cells": [{"g": "          ", "c": ["", "", "", "", "", "", "", "", "", ""]}, {"g": "    =^w*  ", "c": ["", "", "", "", "#34383c", "#303438", "#b0b0b0", "#4c4c4c", "", ""]}, {"g": "  .9d4$.  ", "c": ["", "", "#18181c", "#bcc0c4", "#bcc0c8", "#bcc4d0", "#e4e8f0", "#181818", "", ""]}, {"g": "  lU@Q4t  ", "c": ["", "", "#848894", "#d0d0d8", "#ffffff", "#f4f8ff", "#bcc4d0", "#808894", "", ""]}, {"g": "  K@8[[OZ_", "c": ["", "", "#d0d4e0", "#ffffff", "#dce0e4", "#888c9c", "#848c9c", "#c4ccd4", "#989898", "#303030"]}, {"g": "  jOa11i  ", "c": ["", "", "#9ca0ac", "#c4ccd8", "#a0a8b4", "#7c8494", "#7c8494", "#6c7480", "", ""]}, {"g": "  c#mwn?  ", "c": ["", "", "#484850", "#e0e8f4", "#d4dce8", "#a8b0c0", "#8890a0", "#505460", "", ""]}, {"g": "   -o{K-  ", "c": ["", "", "", "#242828", "#989494", "#787478", "#d8d8d8", "#282828", "", ""]}, {"g": "    n7=^  ", "c": ["", "", "", "", "#b88848", "#906034", "#383838", "#343434", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    n7    ", "c": ["", "", "", "", "#b88848", "#906034", "", "", "", ""]}, {"g": "    x3    ", "c": ["", "", "", "", "#b89c70", "#987c64", "", "", "", ""]}]}, {"id": "weapon.warhammer.large", "label": "Marreta", "w": 18, "h": 16, "levels": [33.7, 255.0], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "  .____......__)v,", "c": ["", "", "#202020", "#343434", "#343434", "#343434", "#343434", "#28282c", "#202028", "#202028", "#202028", "#202028", "#28282c", "#343434", "#383838", "#686868", "#606874", "#343840"]}, {"g": "  n@@@@9jjjjd@@@w?", "c": ["", "", "#949494", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#b8c0d4", "#98a4c0", "#98a4c0", "#98a4c0", "#98a4c0", "#bcc4d8", "#ffffff", "#ffffff", "#ffffff", "#acb4cc", "#545c6c"]}, {"g": "  ,LLLLsiE57sLv4az", "c": ["", "", "#343840", "#5c6070", "#5c6070", "#5c6070", "#5c6070", "#586070", "#78787c", "#c0ac98", "#b09890", "#706c78", "#586070", "#5c6070", "#606474", "#c4c4c4", "#a0a8c0", "#505868"]}, {"g": "        ;GS-      ", "c": ["", "", "", "", "", "", "", "", "#4c4030", "#f0c894", "#d8ac84", "#382c24", "", "", "", "", "", ""]}, {"g": "        ;OE'      ", "c": ["", "", "", "", "", "", "", "", "#4c402c", "#f0c88c", "#d8a87c", "#382c20", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        =6e.      ", "c": ["", "", "", "", "", "", "", "", "#503c20", "#f4b860", "#d08c4c", "#382414", "", "", "", "", "", ""]}, {"g": "        <bq:      ", "c": ["", "", "", "", "", "", "", "", "#504430", "#f0cc98", "#d8b08c", "#403024", "", "", "", "", "", ""]}]}, {"id": "weapon.axe.large", "label": "Machado", "w": 18, "h": 16, "levels": [26.0, 255.0], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     *>           ", "c": ["", "", "", "", "", "#644c28", "#543820", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     Xd  .=z.     ", "c": ["", "", "", "", "", "#f0d4ac", "#dcbca0", "", "", "#181818", "#383838", "#545454", "#1c1c1c", "", "", "", "", ""]}, {"g": "     Vy8%@@@a.    ", "c": ["", "", "", "", "", "#f4c074", "#d49c68", "#e0e0e0", "#f8f8f8", "#ffffff", "#ffffff", "#fcfcff", "#a0a8b4", "#0c0c0c", "", "", "", ""]}, {"g": "     d5@@@@@S3    ", "c": ["", "", "", "", "", "#f8bc60", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#a8b0c8", "#7c8090", "", "", "", ""]}, {"g": "     d5@@@@@Py_   ", "c": ["", "", "", "", "", "#f8bc60", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#b0b8d0", "#98a4c0", "#2c3038", "", "", ""]}, {"g": "     d5@@@@@]/    ", "c": ["", "", "", "", "", "#f8bc60", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#fcfcff", "#9ca8c4", "#48505c", "", "", "", ""]}, {"g": "     dZaU%@g/     ", "c": ["", "", "", "", "", "#f8bc60", "#d09050", "#a4a4a4", "#d0d0d0", "#f8f8f8", "#ffffff", "#e8ecf0", "#48505c", "", "", "", "", ""]}, {"g": "     bq   :;      ", "c": ["", "", "", "", "", "#f0cc94", "#d8ac84", "", "", "", "#282828", "#383c3c", "", "", "", "", "", ""]}, {"g": "     bS           ", "c": ["", "", "", "", "", "#f4c88c", "#d8a87c", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     do           ", "c": ["", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     do           ", "c": ["", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     do           ", "c": ["", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     do           ", "c": ["", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     do           ", "c": ["", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "    .Uk           ", "c": ["", "", "", "", "#080808", "#f0d098", "#d8b088", "", "", "", "", "", "", "", "", "", "", ""]}]}, {"id": "weapon.battleaxe.large", "label": "Machado de guerra", "w": 18, "h": 22, "levels": [13.0, 255.0], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "         sr       ", "c": ["", "", "", "", "", "", "", "", "", "#644c28", "#543820", "", "", "", "", "", "", ""]}, {"g": "         mV       ", "c": ["", "", "", "", "", "", "", "", "", "#f8dc74", "#e8c468", "", "", "", "", "", "", ""]}, {"g": "   Lhj17cOac7tyh/ ", "c": ["", "", "", "#505054", "#b8b8b8", "#9c9c9c", "#808080", "#606060", "#404040", "#f8c468", "#d49854", "#404040", "#606060", "#808080", "#9c9c9c", "#b8b8bc", "#484848", ""]}, {"g": "  .q@@@@@Vx@@@@@E.", "c": ["", "", "#0c0c0c", "#a8b0c0", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f8bc68", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#a0a8b8", "#080808"]}, {"g": "  Cq@@@@@Vx@@@@@w(", "c": ["", "", "#687078", "#a8b0c8", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f8bc68", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#a4b0c8", "#60646c"]}, {"g": " _2h@@@@@Vx@@@@@6a", "c": ["", "#202024", "#98a4c0", "#b0b8d0", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f8bc68", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#acb8cc", "#98a0bc"]}, {"g": " >]h@@@@@Vx@@@@@6]", "c": ["", "#303038", "#98a4c0", "#b0b8d0", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f8bc68", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#b0b8cc", "#98a4c0"]}, {"g": "  7S@@@@@Vx@@@@@Ev", "c": ["", "", "#586070", "#a0a8c4", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f8bc68", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#9ca8c4", "#505868"]}, {"g": "   uQ@@@@Vx@@@@Nl ", "c": ["", "", "", "#7c849c", "#f4f8f8", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f8bc68", "#d09054", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f0f4f8", "#788098", ""]}, {"g": "   -R0VYiVY{xVMm' ", "c": ["", "", "", "#181820", "#dce0e8", "#f0f0f0", "#c4c4c4", "#989898", "#6c6c6c", "#f8bc64", "#d08c50", "#6c6c6c", "#989898", "#c4c4c4", "#f0f0f0", "#d8d8e0", "#141818", ""]}, {"g": "    .    Rb    .  ", "c": ["", "", "", "", "#0c0c10", "", "", "", "", "#fce078", "#e8cc70", "", "", "", "", "#0c0c0c", "", ""]}, {"g": "         Vx       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc64", "#d0904c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "         4Y       ", "c": ["", "", "", "", "", "", "", "", "", "#f8bc60", "#d08c4c", "", "", "", "", "", "", ""]}, {"g": "        .K6       ", "c": ["", "", "", "", "", "", "", "", "#080804", "#f8d470", "#e0b460", "", "", "", "", "", "", ""]}]}, {"id": "weapon.spear.large", "label": "Lança", "w": 8, "h": 22, "levels": [35.0, 255.0], "cells": [{"g": "        ", "c": ["", "", "", "", "", "", "", ""]}, {"g": "    ;^  ", "c": ["", "", "", "", "#404040", "#3c3c3c", "", ""]}, {"g": "  =h@@k_", "c": ["", "", "#404040", "#c0c0c0", "#ffffff", "#ffffff", "#b8b8b8", "#383838"]}, {"g": " .M@@@@g", "c": ["", "#242424", "#f0f0f0", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ececec"]}, {"g": "  ;Q@@Q^", "c": ["", "", "#404040", "#f8f8f8", "#ffffff", "#ffffff", "#f8f8f8", "#3c3c3c"]}, {"g": "   *@&r ", "c": ["", "", "", "#585858", "#fcfcfc", "#fcfcfc", "#505050", ""]}, {"g": "    Ex  ", "c": ["", "", "", "", "#b4b0a8", "#a8a0a0", "", ""]}, {"g": "    }T  ", "c": ["", "", "", "", "#9c7c4c", "#806040", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    I(  ", "c": ["", "", "", "", "#948068", "#80705c", "", ""]}, {"g": "    Fs  ", "c": ["", "", "", "", "#90744c", "#785c40", "", ""]}, {"g": "    T*  ", "c": ["", "", "", "", "#74644c", "#645040", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}, {"g": "    Fz  ", "c": ["", "", "", "", "#98743c", "#7c542c", "", ""]}]}, {"id": "weapon.halberd.large", "label": "Alabarda", "w": 10, "h": 22, "levels": [12.0, 255.0], "cells": [{"g": "          ", "c": ["", "", "", "", "", "", "", "", "", ""]}, {"g": "   .vT.   ", "c": ["", "", "", "#0c0c0c", "#585858", "#545454", "#0c0c0c", "", "", ""]}, {"g": " 7kQ@@Qq7 ", "c": ["", "#606060", "#b0b0b0", "#f8f8f8", "#ffffff", "#ffffff", "#f8f8f8", "#b0b0b0", "#606060", ""]}, {"g": " (W@@@@W7 ", "c": ["", "#606060", "#f4f4f4", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#f4f4f4", "#606060", ""]}, {"g": "  =K@@A^  ", "c": ["", "", "#282828", "#d4d4d4", "#ffffff", "#ffffff", "#d0d0d0", "#282828", "", ""]}, {"g": "   .9d*.  ", "c": ["", "", "", "#080808", "#d4b890", "#d8b89c", "#444444", "#080808", "", ""]}, {"g": "    Yk@&y ", "c": ["", "", "", "", "#c0904c", "#dcac7c", "#ffffff", "#fcfcfc", "#a0a0a0", ""]}, {"g": "    Yk@@@(", "c": ["", "", "", "", "#c0904c", "#dcac7c", "#ffffff", "#ffffff", "#ffffff", "#646464"]}, {"g": "    Ya#@Z ", "c": ["", "", "", "", "#c0904c", "#cc9868", "#e4e4e4", "#ffffff", "#909090", ""]}, {"g": "    wj ^  ", "c": ["", "", "", "", "#c4ac5c", "#b09854", "", "#282828", "", ""]}, {"g": "    xI    ", "c": ["", "", "", "", "#c09450", "#a0703c", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    EY    ", "c": ["", "", "", "", "#c0a858", "#b09450", "", "", "", ""]}, {"g": "    jt    ", "c": ["", "", "", "", "#c0984c", "#a87c40", "", "", "", ""]}, {"g": "    Zt    ", "c": ["", "", "", "", "#b88c40", "#a87834", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}, {"g": "    Yf    ", "c": ["", "", "", "", "#c0904c", "#a06c38", "", "", "", ""]}]}, {"id": "weapon.bow.large", "label": "Arco", "w": 18, "h": 22, "levels": [15.1, 202.9], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "            ):    ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "#604828", "#281c10", "", "", "", ""]}, {"g": "           =Po    ", "c": ["", "", "", "", "", "", "", "", "", "", "", "#342414", "#c88850", "#a06c40", "", "", "", ""]}, {"g": "          rP5*    ", "c": ["", "", "", "", "", "", "", "", "", "", "#48301c", "#c88848", "#a87044", "#503420", "", "", "", ""]}, {"g": "         Y677*    ", "c": ["", "", "", "", "", "", "", "", "", "#9c7440", "#cc8848", "#704c28", "#704830", "#503420", "", "", "", ""]}, {"g": "        ?6) 7*    ", "c": ["", "", "", "", "", "", "", "", "#583c20", "#cc8848", "#684828", "", "#704830", "#503420", "", "", "", ""]}, {"g": "       /q(  7*    ", "c": ["", "", "", "", "", "", "", "#503820", "#c48448", "#704c28", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "      zb1.  7*    ", "c": ["", "", "", "", "", "", "#503c20", "#d89c54", "#8c6034", "#140c08", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "     .xE.   7*    ", "c": ["", "", "", "", "", "#0c0804", "#ac7440", "#bc8048", "#1c140c", "", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "     Jh)    7*    ", "c": ["", "", "", "", "", "#684828", "#d08c4c", "#684828", "", "", "", "", "#684834", "#4c3424", "", "", "", ""]}, {"g": "     6h.    e{    ", "c": ["", "", "", "", "", "#c48c4c", "#d08c4c", "#181008", "", "", "", "", "#707480", "#585c64", "", "", "", ""]}, {"g": "     6y     @d    ", "c": ["", "", "", "", "", "#cc884c", "#b07840", "", "", "", "", "", "#c8cccc", "#9498a0", "", "", "", ""]}, {"g": "     Uo     @d    ", "c": ["", "", "", "", "", "#dc9c54", "#a06c38", "", "", "", "", "", "#ccccd0", "#9498a0", "", "", "", ""]}, {"g": "     4]     oC    ", "c": ["", "", "", "", "", "#d09050", "#b87c44", "", "", "", "", "", "#707480", "#585c64", "", "", "", ""]}, {"g": "     j6.    7*    ", "c": ["", "", "", "", "", "#b07840", "#cc884c", "#1c1408", "", "", "", "", "#684834", "#4c3424", "", "", "", ""]}, {"g": "     ?m(    7*    ", "c": ["", "", "", "", "", "#583c20", "#e4a858", "#704c28", "", "", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "      ZE:   7*    ", "c": ["", "", "", "", "", "", "#a4703c", "#bc8044", "#281810", "", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "      ^]n.  7*    ", "c": ["", "", "", "", "", "", "#342414", "#b87c44", "#986838", "#141008", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "       cU3  7*    ", "c": ["", "", "", "", "", "", "", "#4c341c", "#dca054", "#886034", "", "", "#704830", "#503420", "", "", "", ""]}, {"g": "        /P} 7*    ", "c": ["", "", "", "", "", "", "", "", "#503820", "#c88848", "#805830", "", "#704830", "#503420", "", "", "", ""]}, {"g": "         *PC7*    ", "c": ["", "", "", "", "", "", "", "", "", "#503820", "#c88848", "#805830", "#704830", "#503420", "", "", "", ""]}, {"g": "          >Aj*    ", "c": ["", "", "", "", "", "", "", "", "", "", "#402818", "#dca054", "#b07848", "#503420", "", "", "", ""]}]}, {"id": "weapon.staff.large", "label": "Cajado", "w": 10, "h": 22, "levels": [15.4, 216.3], "cells": [{"g": "          ", "c": ["", "", "", "", "", "", "", "", "", ""]}, {"g": "   ml?^iK ", "c": ["", "", "", "#bcbcac", "#707070", "#404458", "#242840", "#5c5c58", "#b4b4a4", ""]}, {"g": "  z8RQpn$c", "c": ["", "", "#444430", "#c0c080", "#b4c0e8", "#c4d0ff", "#9ca4ff", "#7074bc", "#c8c888", "#3c3c28"]}, {"g": "   S@#aM2 ", "c": ["", "", "", "#989858", "#e4e8bc", "#b4c0ff", "#8088dc", "#ccd0b0", "#909058", ""]}, {"g": "   /@UPD+ ", "c": ["", "", "", "#3c4064", "#d8dcb0", "#acb0bc", "#989c98", "#c4c490", "#303050", ""]}, {"g": "   .EPtC  ", "c": ["", "", "", "#0c0c14", "#848ce4", "#9094f8", "#686cb0", "#585c98", "", ""]}, {"g": "    .pw.  ", "c": ["", "", "", "", "#101018", "#bca4a8", "#a88c9c", "#101018", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}, {"g": "     Aa   ", "c": ["", "", "", "", "", "#e4ac58", "#c08048", "", "", ""]}]}, {"id": "armor.shield.large", "label": "Escudo", "w": 18, "h": 10, "levels": [24.7, 246.7], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "  ;@@@@@@@@@@@@@@,", "c": ["", "", "#38383c", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#f4f8ff", "#2c3030"]}, {"g": "  'pQAAAAkkAdLLMu.", "c": ["", "", "#302014", "#ecbc80", "#ecf0f8", "#ffc868", "#ffc868", "#ffc868", "#ffc868", "#ffa060", "#ffa060", "#ffc868", "#ecb864", "#785034", "#785034", "#e4e8f4", "#a88058", "#281810"]}, {"g": "  'dHUUU8bb8ess}i.", "c": ["", "", "#302010", "#f0b460", "#f8d088", "#ffc868", "#ffc868", "#ffc868", "#ffd87c", "#ffc080", "#ffc070", "#ffd870", "#b88848", "#785030", "#785030", "#90705c", "#98683c", "#281810"]}, {"g": "  '9KUoo@@@@e7s(i.", "c": ["", "", "#302010", "#f0b460", "#fccc78", "#ffc868", "#ff7454", "#ff7458", "#fffc94", "#ffff98", "#ffff88", "#fffc88", "#ff7058", "#c84840", "#785030", "#846048", "#986838", "#281810"]}, {"g": "  'pQUUbKh9PsssMt.", "c": ["", "", "#302010", "#ecbc7c", "#ecf0f8", "#ffc868", "#ffc468", "#ffc468", "#ffcc68", "#ffa868", "#ffac68", "#dcac5c", "#785030", "#785030", "#785030", "#e4e8f4", "#a87c58", "#281810"]}, {"g": "  '9XUUUUjytsss|i.", "c": ["", "", "#302010", "#f0b460", "#fccc7c", "#ffc868", "#ffc868", "#ffc868", "#ffc868", "#ff8458", "#ff8858", "#ac7c44", "#785030", "#785030", "#785030", "#88644c", "#986838", "#281810"]}, {"g": "  .ex2k9V6k|F}3lu.", "c": ["", "", "#24201c", "#a48874", "#bc9468", "#d4a060", "#e8a858", "#f0b05c", "#f4b860", "#fca860", "#f4a45c", "#906038", "#986438", "#a47040", "#a47850", "#a08060", "#9c8470", "#1c1818"]}, {"g": "   ^A>s{[otuiz=K' ", "c": ["", "", "", "#303438", "#c4ccd8", "#383840", "#54545c", "#7c7068", "#a08874", "#b08868", "#9c7c64", "#9c8474", "#746c68", "#505058", "#34383c", "#c8d0e0", "#202424", ""]}, {"g": "    .    ..    .  ", "c": ["", "", "", "", "#101010", "", "", "", "", "#18181c", "#18181c", "", "", "", "", "#101010", "", ""]}]}, {"id": "armor.helm.large", "label": "Elmo", "w": 18, "h": 12, "levels": [18.0, 255.0], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": "     .2O8NN8Vy.   ", "c": ["", "", "", "", "", "#101010", "#a8a8a8", "#c8c8c8", "#e0e0e0", "#f0f0f0", "#f0f0f0", "#dcdcdc", "#c4c4c8", "#a0a0a0", "#0c0c0c", "", "", ""]}, {"g": "  ^OO8QQQQQQBNmOO:", "c": ["", "", "#303018", "#d0d070", "#d0d070", "#e8e884", "#ffffa0", "#ffffa0", "#ffffa0", "#ffffa0", "#ffffa0", "#ffffa0", "#f0f094", "#f8f898", "#e4e480", "#d0d070", "#d0d070", "#282814"]}, {"g": "   'K@@@@@@@w]]]_ ", "c": ["", "", "", "#1c1c18", "#d4d4d0", "#fffffc", "#fffffc", "#fffffc", "#fffffc", "#fffffc", "#fffffc", "#fffffc", "#a8b0c8", "#98a8c0", "#98a8c0", "#98a8c0", "#242828", ""]}, {"g": "  .A@@@@@gg@waaah.", "c": ["", "", "#101010", "#d4d4d4", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#e8ecf0", "#e8ecf0", "#ffffff", "#a4b0c8", "#98a4c0", "#98a4c0", "#98a4c0", "#b8b8c0", "#0c0c0c"]}, {"g": "  +@@@@@@#D@waaa0=", "c": ["", "", "#3c3c3c", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#e0e4ec", "#e0e4ec", "#ffffff", "#a4b0c8", "#98a4c0", "#98a4c0", "#98a4c0", "#ececf4", "#303030"]}, {"g": "  ;######8m#hPPPm_", "c": ["", "", "#303434", "#e0e4ec", "#e0e4ec", "#e0e4ec", "#e0e4ec", "#e0e4ec", "#e0e4ec", "#d8dce8", "#d8dce8", "#e0e4ec", "#b4bcd0", "#acb8cc", "#acb8cc", "#acb8cc", "#d8dce8", "#282828"]}, {"g": "   yjTsss6wsssTyj ", "c": ["", "", "", "#94a0bc", "#94a0b8", "#705040", "#6c5040", "#6c5040", "#6c5040", "#b8b8b8", "#b0acb0", "#6c5040", "#6c5040", "#6c5040", "#705040", "#98a0bc", "#94a0b8", ""]}, {"g": "   1aoooop4ooooaI ", "c": ["", "", "", "#788098", "#98a0bc", "#9090a0", "#9090a0", "#9090a0", "#9090a0", "#c4c8d4", "#bcc0d0", "#9090a0", "#9090a0", "#9090a0", "#9090a0", "#98a4c0", "#747c90", ""]}, {"g": "   )EEEEEUGEEEEET ", "c": ["", "", "", "#586068", "#a0acbc", "#a0acbc", "#a0acbc", "#a0acbc", "#a0acbc", "#ccd0d4", "#c8ccd0", "#a0acbc", "#a0acbc", "#a0acbc", "#a0acbc", "#a0acbc", "#545860", ""]}, {"g": "   zwwwww6Pwwwwwc ", "c": ["", "", "", "#505034", "#b0b480", "#b0b480", "#b0b480", "#b0b480", "#b0b480", "#b8bc88", "#b8bc88", "#b0b480", "#b0b480", "#b0b480", "#b0b480", "#b0b480", "#48482c", ""]}]}, {"id": "armor.breastplate.large", "label": "Peitoral", "w": 18, "h": 16, "levels": [15.1, 255.0], "cells": [{"g": "                  ", "c": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"g": " -v:   =>>>>=   :T", "c": ["", "#1c1c1c", "#585858", "#202020", "", "", "", "#303030", "#343434", "#343434", "#343434", "#343434", "#2c2c2c", "", "", "", "#202020", "#585858"]}, {"g": " M@Ni]g@@@@@BKaCQ@", "c": ["", "#f0f0f0", "#ffffff", "#f4f4f4", "#6c6c6c", "#a4a4a4", "#ececec", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#e8e8f0", "#d0d4d8", "#a0a0a0", "#707070", "#f8f8f8", "#ffffe8"]}, {"g": " @@@@@@@@@@@b]Sm@Q", "c": ["", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#c8ccdc", "#98a4c0", "#a0acc4", "#d8dce8", "#ffffec", "#ffff8c"]}, {"g": " H@@@@@@@@@@4]]wW@", "c": ["", "#d8d8d8", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#b8c0d4", "#98a4c0", "#98a4c0", "#a4b0c8", "#f4f4f8", "#fffffc"]}, {"g": "  l@@@@&&&&&P]]]23", "c": ["", "", "#848484", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#fcfcfc", "#f8fcfc", "#fcfcf8", "#fcfcf8", "#f8fcfc", "#acb4cc", "#98a4c0", "#98a4c0", "#98a4c0", "#9ca8c4", "#7c7c7c"]}, {"g": "  ^@@@@b$00$E]]]h^", "c": ["", "", "#2c2c2c", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#c8ccdc", "#e4e8f0", "#f4f4a8", "#f0f4ac", "#e4e8f0", "#a0a8c4", "#98a4c0", "#98a4c0", "#98a4c0", "#b0b8d0", "#282828"]}, {"g": "   D@@@U@@@@S]]]6 ", "c": ["", "", "", "#e0e0e0", "#ffffff", "#ffffff", "#ffffff", "#c8d0e0", "#ffffff", "#fffff0", "#fffff0", "#ffffff", "#a0acc4", "#98a4c0", "#98a4c0", "#98a4c0", "#b4b8c4", ""]}, {"g": "   j@@@g%%%%R]]]n ", "c": ["", "", "", "#9c9c9c", "#ffffff", "#ffffff", "#ffffff", "#f0f0a0", "#ffffa8", "#ffffa8", "#ffffa8", "#ffffa8", "#e0e498", "#98a4c0", "#98a4c0", "#98a4c0", "#888c90", ""]}, {"g": "   v@@@U@@@@S]]qs ", "c": ["", "", "", "#585858", "#ffffff", "#ffffff", "#ffffff", "#c8d0e0", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#a0acc4", "#98a4c0", "#98a4c0", "#a8b0c8", "#505050", ""]}, {"g": "   .@@@g%%%%R]]p. ", "c": ["", "", "", "#141414", "#fcfcfc", "#ffffff", "#ffffff", "#f0f0a0", "#ffffa8", "#ffffa8", "#ffffa8", "#ffffa8", "#e0e498", "#98a4c0", "#98a4c0", "#c0c8d8", "#101010", ""]}, {"g": "    G@@X000$E]]E  ", "c": ["", "", "", "", "#cccccc", "#ffffff", "#ffffff", "#d0d8e0", "#ecf0f4", "#ecf0f4", "#ecf0f4", "#e0e8ec", "#9ca8c4", "#98a4c0", "#98a4c0", "#a8a8b0", "", ""]}, {"g": "   .wqqmmmmmHwww. ", "c": ["", "", "", "#18100c", "#e8a464", "#e8a864", "#e8a864", "#f0e07c", "#f0e07c", "#f0e07c", "#f0e07c", "#f0e07c", "#ecdc7c", "#e8a464", "#e8a464", "#e8a460", "#100c08", ""]}, {"g": "   .nnnnnnnnnnnn. ", "c": ["", "", "", "#141008", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#100808", ""]}, {"g": "   .nnnnnnnnnnnn. ", "c": ["", "", "", "#141008", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#100808", ""]}, {"g": "   .nnnnnnnnnnnn. ", "c": ["", "", "", "#141008", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#c08050", "#100808", ""]}]}, {"id": "jewelry.ring.large", "label": "Anel", "w": 8, "h": 6, "levels": [21.3, 216.6], "cells": [{"g": "        ", "c": ["", "", "", "", "", "", "", ""]}, {"g": "   :3C- ", "c": ["", "", "", "#581418", "#f8485c", "#f43c4c", "#501418", ""]}, {"g": "   Fnui ", "c": ["", "", "", "#b04c34", "#f85850", "#f85048", "#b04c34", ""]}, {"g": "  {@B^XF", "c": ["", "", "#6c6430", "#e8dc8c", "#ecc0b0", "#502020", "#c8bc60", "#686030"]}, {"g": "  {A..XF", "c": ["", "", "#6c6430", "#c0b85c", "#18180c", "#18180c", "#c8bc60", "#686030"]}, {"g": "   iAU| ", "c": ["", "", "", "#70602c", "#c0b85c", "#c0b85c", "#6c6028", ""]}]}]}</script>
+<script>
+// artforge -- runtime piece shrink, the mirror of weapons.shrink() in Python.
+//
+// An inventory slot will not always match an authored size, so the engine needs a
+// fallback: average a block of cells into one. It is cheap (one pass over the grid)
+// and it loses the signature first -- a 1-cell crossguard averaged into the blade
+// stops being a crossguard. That is why the authored sizes exist; this is the bridge.
+//
+// The glyph and the colour are chosen with the SAME rules as the Python side, down
+// to the gamma and the quantisation, so the two can be compared cell by cell.
+
+var SHRINK_KIT = (function () {
+  function luminance(c) { return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+
+  function hexToRgb(hex) {
+    return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)];
+  }
+
+  function rgbToHex(rgb) {
+    return "#" + rgb.map(function (v) {
+      var s = Math.max(0, Math.min(255, Math.round(v))).toString(16);
+      return s.length === 1 ? "0" + s : s;
+    }).join("");
+  }
+
+  function quantise(rgb, q) {
+    // Python's round() is half-to-even and int() truncates; JS rounds half up and
+    // has no trunc-vs-round distinction at 0.5. Mirroring both keeps the glyph the
+    // same on the two sides instead of "almost the same".
+    return rgb.map(function (v) {
+      var x = v / q, f = Math.floor(x), d = x - f;
+      var r = d > 0.5 ? f + 1 : (d < 0.5 ? f : (f % 2 === 0 ? f : f + 1));
+      return Math.min(255, r * q);
+    });
+  }
+
+  function glyphFor(lum, lo, hi, ramp, gamma) {
+    var span = Math.max(1, hi - lo);
+    var t = Math.min(1, Math.max(0, (lum - lo) / span));
+    var k = Math.max(1, Math.min(ramp.length - 1, Math.floor(Math.pow(t, gamma) * ramp.length)));
+    return ramp[k];
+  }
+
+  function shrink(piece, factor, ramp, gamma, quant) {
+    var src = piece.cells, w = piece.w, h = piece.h;
+    var lo = piece.levels[0], hi = piece.levels[1];
+    var ow = Math.max(1, Math.floor(w / factor));
+    var oh = Math.max(1, Math.floor(h / factor));
+    var rows = [];
+    for (var by = 0; by < oh; by++) {
+      var glyphs = "", colors = [];
+      for (var bx = 0; bx < ow; bx++) {
+        var sum = [0, 0, 0], n = 0;
+        for (var y = by * factor; y < Math.min(h, (by + 1) * factor); y++) {
+          for (var x = bx * factor; x < Math.min(w, (bx + 1) * factor); x++) {
+            var hex = src[y].c[x];
+            if (src[y].g[x] === " " || !hex) continue;
+            var rgb = hexToRgb(hex);
+            sum[0] += rgb[0]; sum[1] += rgb[1]; sum[2] += rgb[2];
+            n++;
+          }
+        }
+        if (!n) { glyphs += " "; colors.push(""); continue; }
+        // Truncate the channels BEFORE measuring the luminance: Python does
+        // (int(tot/n)) and a float average here flips the glyph on borderline cells.
+        var avg = [Math.trunc(sum[0] / n), Math.trunc(sum[1] / n), Math.trunc(sum[2] / n)];
+        glyphs += glyphFor(luminance(avg), lo, hi, ramp, gamma);
+        colors.push(rgbToHex(quantise(avg, quant)));
+      }
+      rows.push({ g: glyphs, c: colors });
+    }
+    return { w: ow, h: oh, cells: rows, levels: piece.levels };
+  }
+
+  // One span per run of equal colour, empty cells left bare -- the same rule the
+  // generator uses, so the page costs what the art costs.
+  function toHtml(piece, escape) {
+    var out = [];
+    for (var y = 0; y < piece.h; y++) {
+      var glyphs = piece.cells[y].g, colors = piece.cells[y].c;
+      var parts = "", start = 0, key = null;
+      for (var x = 0; x <= glyphs.length; x++) {
+        var col = x < glyphs.length ? colors[x] : "\u0000";
+        if (col !== key) {
+          if (key !== null && x > start) {
+            var text = escape ? escape(glyphs.slice(start, x)) : glyphs.slice(start, x);
+            parts += (key === "" || !text.trim()) ? text
+              : '<i style="color:' + key + '">' + text + "</i>";
+          }
+          start = x; key = col;
+        }
+      }
+      out.push(parts);
+    }
+    return out.join("\n");
+  }
+
+  return { shrink: shrink, toHtml: toHtml, luminance: luminance, glyphFor: glyphFor };
+})();
+
+// The live panel: pick an item, pick a factor, watch the large piece adapt.
+function mountShrinkLab(data) {
+  var out = document.getElementById("liveOut");
+  var info = document.getElementById("liveInfo");
+  if (!out || !data || !data.pieces) return;
+  var state = { item: data.pieces[0].id, factor: 2 };
+
+  function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function render() {
+    var piece = null;
+    for (var i = 0; i < data.pieces.length; i++) if (data.pieces[i].id === state.item) piece = data.pieces[i];
+    if (!piece) return;
+    var shrunk = SHRINK_KIT.shrink(piece, state.factor, data.ramp, data.gamma, data.quant);
+    out.innerHTML = SHRINK_KIT.toHtml(shrunk, escapeHtml);
+    var before = piece.w * piece.h, after = shrunk.w * shrunk.h;
+    info.textContent = piece.id + " · " + piece.w + "×" + piece.h + " → " + shrunk.w + "×" + shrunk.h
+      + " células (÷" + state.factor + "), " + before + " → " + after + " células"
+      + " · o glifo e a cor saem da média do bloco, com as mesmas regras do Python.";
+  }
+
+  function button(label, kind, value) {
+    var b = document.createElement("button");
+    b.className = "f";
+    b.textContent = label;
+    b.setAttribute("data-" + kind, value);
+    b.addEventListener("click", function () { state[kind] = value; sync(); });
+    return b;
+  }
+
+  var bar = document.getElementById("liveItems");
+  data.pieces.forEach(function (p) { bar.appendChild(button(p.label || p.id, "item", p.id)); });
+  var factors = document.getElementById("liveFactors");
+  [2, 3, 4].forEach(function (f) { factors.appendChild(button("÷" + f, "factor", f)); });
+
+  function sync() {
+    Array.prototype.forEach.call(document.querySelectorAll(".f"), function (b) {
+      var on = (b.dataset.item && b.dataset.item === state.item)
+        || (b.dataset.factor && Number(b.dataset.factor) === state.factor);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    render();
+  }
+  sync();
+}
+
+mountShrinkLab(JSON.parse(document.getElementById("labdata").textContent));
+</script>
+</body></html>
