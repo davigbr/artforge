@@ -558,7 +558,7 @@ def build_page(index):
                 {"slots": index["slots"], "tags": index["tags"]}, ensure_ascii=False)))
     with open(PAGE, "w", encoding="utf-8") as fh:
         fh.write(html)
-    return len(index["pieces"])
+    return sum(len(v) for v in cards_by_section.values())
 
 
 # --- commands -----------------------------------------------------------------
