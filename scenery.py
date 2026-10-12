@@ -601,26 +601,45 @@ def a_skeleton(d, w, h):
 
 
 def a_ghoul(d, w, h):
-    """The other thing down here: hunched, olive, both arms out."""
+    """The other thing down here: hunched, olive, both arms out.
+
+    Two things this piece paid for. The legs are drawn in the material's MID tone: in
+    moss_dark they came out as black glyphs on a black background and the figure read as a
+    blob with no bottom. And the legs are SEPARATED by a gap of a whole cell, with the
+    trunk ending above them -- a mass that reaches the ground reads as a puddle, however
+    well the head is drawn.
+    """
     cx = w / 2.0
     feet = h - 1.0
-    top = feet - h * 0.62
-    cellipse(d, cx - w * 0.02, top + h * 0.30, w * 0.30, h * 0.30,
+    leg_top = feet - h * 0.30
+    # the legs: two columns with an empty column between them, feet a cell wider
+    crect(d, cx - w * 0.34, leg_top, cx - w * 0.12, feet, g("moss")["metal"])
+    crect(d, cx - w * 0.34, leg_top, cx - w * 0.28, feet, g("moss")["metal_light"])
+    crect(d, cx - w * 0.18, leg_top, cx - w * 0.12, feet, g("moss")["metal_dark"])
+    crect(d, cx + w * 0.12, leg_top, cx + w * 0.34, feet, g("moss")["metal"])
+    crect(d, cx + w * 0.28, leg_top, cx + w * 0.34, feet, g("moss")["metal_dark"])
+    crect(d, cx - w * 0.40, feet - h * 0.06, cx - w * 0.06, feet, g("moss")["metal_dark"])
+    crect(d, cx + w * 0.06, feet - h * 0.06, cx + w * 0.40, feet, g("moss")["metal_dark"])
+    # the trunk, which stops above the legs
+    top = leg_top - h * 0.34
+    cellipse(d, cx - w * 0.02, top + h * 0.26, w * 0.34, h * 0.28,
              g("moss")["metal_dark"])
-    cellipse(d, cx - w * 0.06, top + h * 0.26, w * 0.22, h * 0.22, g("moss")["metal"])
-    crect(d, cx - w * 0.24, feet - h * 0.26, cx - w * 0.06, feet, g("moss")["metal_dark"])
-    crect(d, cx + w * 0.06, feet - h * 0.26, cx + w * 0.24, feet, g("moss")["metal_dark"])
-    cline(d, cx + w * 0.14, top + h * 0.22, cx + w * 0.40, top + h * 0.06,
+    cellipse(d, cx - w * 0.06, top + h * 0.22, w * 0.24, h * 0.20, g("moss")["metal"])
+    cellipse(d, cx - w * 0.10, top + h * 0.18, w * 0.14, h * 0.12, g("moss")["metal_light"])
+    # both arms out to the right, and a claw on the near one
+    cline(d, cx + w * 0.16, top + h * 0.16, cx + w * 0.44, top - h * 0.02,
+          g("moss")["metal"], 1.1)
+    cline(d, cx + w * 0.14, top + h * 0.30, cx + w * 0.42, top + h * 0.18,
           g("moss")["metal"], 1.0)
-    cline(d, cx + w * 0.12, top + h * 0.34, cx + w * 0.38, top + h * 0.24,
-          g("moss")["metal_dark"], 0.9)
-    circle(d, cx - w * 0.22, top + h * 0.44, w * 0.08, g("moss")["metal"])
-    crect(d, cx - w * 0.26, top + h * 0.16, cx + w * 0.02, top + h * 0.30,
-          g("moss")["metal"])
-    circle(d, cx - w * 0.06, top + h * 0.06, w * 0.19, g("moss")["metal_dark"])
-    circle(d, cx - w * 0.06, top + h * 0.02, w * 0.16, g("moss")["metal"])
-    circle(d, cx - w * 0.02, top + h * 0.00, w * 0.05, g("flame")["metal_light"])
-    crect(d, cx - w * 0.12, top + h * 0.10, cx + w * 0.02, top + h * 0.14,
+    circle(d, cx + w * 0.46, top - h * 0.02, w * 0.07, g("moss")["metal_light"])
+    circle(d, cx + w * 0.44, top + h * 0.18, w * 0.07, g("moss")["metal_light"])
+    # a head, on a neck, so it is not fused to the trunk
+    crect(d, cx - w * 0.16, top + h * 0.04, cx + w * 0.04, top + h * 0.12,
+          g("moss")["metal_dark"])
+    circle(d, cx - w * 0.06, top - h * 0.02, w * 0.20, g("moss")["metal_dark"])
+    circle(d, cx - w * 0.06, top - h * 0.05, w * 0.17, g("moss")["metal"])
+    circle(d, cx - w * 0.02, top - h * 0.07, w * 0.05, g("flame")["metal_light"])
+    crect(d, cx - w * 0.12, top + h * 0.05, cx + w * 0.02, top + h * 0.09,
           g("bone")["metal_light"])
 
 
@@ -628,7 +647,7 @@ def a_ghoul(d, w, h):
 ACTORS = [
     ("ator.heroi", "Herói", "hero", (9, 14), a_hero, 3.0, "cloak", "dirt"),
     ("ator.esqueleto", "Esqueleto", "skeleton", (9, 13), a_skeleton, 2.8, "bone", "dirt"),
-    ("ator.ghoul", "Carniçal", "ghoul", (10, 13), a_ghoul, 3.0, "moss", "dirt"),
+    ("ator.ghoul", "Carniçal", "ghoul", (10, 15), a_ghoul, 3.0, "moss", "dirt"),
 ]
 
 
@@ -969,8 +988,11 @@ SCENES = {
                  [("bloco.brick", 8, j) for j in range(7)],
         "standing": [("prop.torch", 0, 6), ("prop.torch", 8, 2), ("prop.brazier", 6, 4),
                      ("prop.column", 1, 1), ("prop.column", 7, 0), ("prop.barrel", 5, 1),
-                     ("prop.crate", 4, 6), ("prop.bones", 0, 3), ("prop.cauldron", 6, 5),
-                     ("prop.anvil", 2, 0), ("prop.table", 8, 5),
+                     ("prop.crate", 4, 6), ("prop.bones", 0, 3),
+                     # the furniture goes to the corners, AWAY from the actors: with it
+                     # beside them the composed scene stopped reading as figures standing,
+                     # which is the one thing the actors are there for
+                     ("prop.cauldron", 7, 1), ("prop.anvil", 0, 1), ("prop.table", 2, 6),
                      ("ator.heroi", 3, 5), ("ator.esqueleto", 5, 3),
                      ("ator.esqueleto", 1, 4), ("ator.ghoul", 6, 2)],
     },
